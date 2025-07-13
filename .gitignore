@@ -1,0 +1,7 @@
+# Jetbrains IDE files
+backend/.idea/
+frontend/.idea/
+
+# Webapi build tools
+backend/bin/
+backend/obj/
