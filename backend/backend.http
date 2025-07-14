@@ -1,6 +1,19 @@
 @backend_HostAddress = http://localhost:5127
-
-GET {{backend_HostAddress}}/weatherforecast/
+###
+GET {{backend_HostAddress}}/stat/viewer
 Accept: application/json
+###
+###
+POST {{backend_HostAddress}}/canvas/draw
+Content-Type: application/json
+
+{
+  "pixels": [
+    { "x": 1, "y": 2, "color": "red" },
+    { "x": 3, "y": 4, "color": "blue" }
+  ]
+}
 
 ###
+GET {{backend_HostAddress}}/canvas/data
+Accept: application/json
