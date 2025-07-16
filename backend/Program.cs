@@ -20,6 +20,10 @@ builder.Services.AddCors(options =>
 // {
 //     
 // });
+builder.Services.AddSingleton<CanvasService>();
+builder.Services.AddSingleton<ChatService>();
+builder.Services.AddSingleton<RedisClient>();
+
 
 var app = builder.Build();
 
@@ -32,49 +36,73 @@ app.UseHttpsRedirection();
 app.UseCors();
 app.UseWebSockets();
 
+
+// app.Map("/sse", async context =>
+// {
+//     
+// });
+
+
 //Counter increase and get
 app.MapGet("/stat/viewer", async () =>
 {
-    using var client = new RedisClient("localhost", 6379);
+    using var client = new RedisClient();
     var resp = await client.Command("INCR viewcounter");
     return Parser.IntParser(resp);
-})
-.WithName("IncrViewCounter");
+});
+
+
+//Get canvas update
+app.MapGet("/canvas/data", async (CanvasService cs) =>
+{
+    return await cs.GetCanvas();
+});
 
 //Make change to canvas
-app.MapPost("/canvas/draw", async (HttpRequest req) =>
+app.MapPost("/canvas/draw", async (CanvasService cs, HttpRequest req) => //TODO make separate put and post req
 {
     using var reader = new StreamReader(req.Body);
     var body = await reader.ReadToEndAsync();
-    
-    var canvas = System.Text.Json.JsonSerializer.Deserialize<Canvas>(body);
-    if (canvas == null) return Results.BadRequest("Null canvas data");
-    
-    Console.WriteLine($"hit to loop");
-    
-    var cmd = "HSET canvas ";
-    foreach(var i in canvas.Pixels)
-    {
-        cmd += $"{i.X}X{i.Y} {i.Color} ";
-        Console.WriteLine($"{i.X}X{i.Y} {i.Color}");
-    }
-    cmd = cmd.TrimEnd();
-    
-    using var client = new RedisClient("localhost", 6379);
-    await client.Command(cmd);
-    return Results.Ok();
-})
-.WithName("DrawCanvas");
 
-//Get canvas update
-app.MapGet("/canvas/data", async () =>
+    var newCanvas = System.Text.Json.JsonSerializer.Deserialize<Canvas>(body);
+    if (newCanvas == null) return Results.BadRequest("Null canvas data");
+
+    await cs.DrawCanvas(newCanvas);
+    return Results.Ok();
+});
+
+
+//Get all users
+app.MapGet("/chat/join", async (ChatService chs, HttpRequest req) =>
 {
-    using var client = new RedisClient("localhost", 6379);
-    var resp = await client.Command("HGETALL canvas");
-    var pixels = Parser.CanvasParser(resp);
-    return System.Text.Json.JsonSerializer.Serialize(pixels);
-})
-.WithName("GetCanvas");
+    using var reader = new StreamReader(req.Body);
+    string username = (await reader.ReadToEndAsync());
+    
+    if (await chs.Join(username)) return Results.Ok();
+    return Results.BadRequest("Failed to join chatroom");
+});
+
+//Set username
+app.MapPost("/chat/send", async (ChatService chs, HttpRequest req) =>
+{
+    using var reader = new StreamReader(req.Body);
+    string username = (await reader.ReadToEndAsync());
+
+    await chs.Send(username, "test"); //TODO change to handle json and message
+    return Results.Ok();
+});
+
+//Del username
+app.MapDelete("/chat/leave", async (ChatService chs, HttpRequest req) =>
+{
+    using var reader = new StreamReader(req.Body);
+    string username = (await reader.ReadToEndAsync());
+
+    await chs.Leave(username);
+    return Results.Ok();
+});
+
+
 
 
 app.Run();

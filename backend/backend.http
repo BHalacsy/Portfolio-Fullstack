@@ -1,10 +1,10 @@
-@backend_HostAddress = http://localhost:5127
+@hostaddress = http://localhost:5127
 ###
-GET {{backend_HostAddress}}/stat/viewer
+GET {{hostaddress}}/stat/viewer
 Accept: application/json
 ###
 ###
-POST {{backend_HostAddress}}/canvas/draw
+POST {{hostaddress}}/canvas/draw
 Content-Type: application/json
 
 {
@@ -13,7 +13,27 @@ Content-Type: application/json
     { "x": 3, "y": 4, "color": "blue" }
   ]
 }
-
 ###
-GET {{backend_HostAddress}}/canvas/data
+GET {{hostaddress}}/canvas/data
 Accept: application/json
+###
+GET {{hostaddress}}/chat/join
+Accept: application/json
+
+HAL
+###
+POST {{hostaddress}}/chat/send
+Content-Type: text/plain
+
+HAL
+###
+DELETE {{hostaddress}}/chat/leave
+Content-Type: text/plain
+
+HAL
+###
+GET {{hostaddress}}/chat/join
+Accept: application/json
+
+NEW
+###
