@@ -1,0 +1,11 @@
+dark mode:
+black - #001220
+orange - #F7770F
+hot pink - #C62368
+
++add lighter or darker pink to write text on pink or just use the black
+
+light mode:
+white - #EDEEF7
+turqiouse - #0FDBF7
+solid blue - #2446C7
