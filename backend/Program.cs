@@ -1,6 +1,8 @@
+using backend.hubs;
 using Microsoft.AspNetCore.WebSockets;
 using backend.services;
 using backend.util;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +22,9 @@ builder.Services.AddCors(options =>
 // {
 //     
 // });
+builder.Services.AddSignalR();
 builder.Services.AddSingleton<CanvasService>();
 builder.Services.AddSingleton<ChatService>();
-builder.Services.AddSingleton<RedisClient>();
 
 
 var app = builder.Build();
@@ -34,13 +36,10 @@ if (app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 app.UseCors();
-app.UseWebSockets();
 
 
-// app.Map("/sse", async context =>
-// {
-//     
-// });
+app.MapHub<ChatHub>("/chat/hub");
+app.MapHub<CanvasHub>("/canvas/hub");
 
 
 //Counter increase and get
@@ -59,7 +58,7 @@ app.MapGet("/canvas/data", async (CanvasService cs) =>
 });
 
 //Make change to canvas
-app.MapPost("/canvas/draw", async (CanvasService cs, HttpRequest req) => //TODO make separate put and post req
+app.MapPost("/canvas/draw", async (CanvasService cs, HttpRequest req, IHubContext<CanvasHub> hc) =>
 {
     using var reader = new StreamReader(req.Body);
     var body = await reader.ReadToEndAsync();
@@ -68,28 +67,26 @@ app.MapPost("/canvas/draw", async (CanvasService cs, HttpRequest req) => //TODO 
     if (newCanvas == null) return Results.BadRequest("Null canvas data");
 
     await cs.DrawCanvas(newCanvas);
+    await hc.Clients.All.SendAsync("recvStroke", newCanvas.Pixels);
     return Results.Ok();
 });
 
+//Get users all
+app.MapGet("/chat/users", async (ChatService chs) =>
+{
+    var retList = await chs.GetUsers();
+    return Results.Ok(retList);
+});
 
-//Get all users
-app.MapGet("/chat/join", async (ChatService chs, HttpRequest req) =>
+
+//Set username
+app.MapPost("/chat/join", async (ChatService chs, HttpRequest req) =>
 {
     using var reader = new StreamReader(req.Body);
     string username = (await reader.ReadToEndAsync());
     
     if (await chs.Join(username)) return Results.Ok();
     return Results.BadRequest("Failed to join chatroom");
-});
-
-//Set username
-app.MapPost("/chat/send", async (ChatService chs, HttpRequest req) =>
-{
-    using var reader = new StreamReader(req.Body);
-    string username = (await reader.ReadToEndAsync());
-
-    await chs.Send(username, "test"); //TODO change to handle json and message
-    return Results.Ok();
 });
 
 //Del username

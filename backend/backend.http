@@ -22,18 +22,18 @@ Accept: application/json
 
 HAL
 ###
-POST {{hostaddress}}/chat/send
-Content-Type: text/plain
-
-HAL
-###
 DELETE {{hostaddress}}/chat/leave
 Content-Type: text/plain
 
 HAL
 ###
-GET {{hostaddress}}/chat/join
-Accept: application/json
-
-NEW
+#POST {{hostaddress}}/chat/send
+#Content-Type: text/plain
+#
+#HAL
+###
+#GET {{hostaddress}}/chat/join
+#Accept: application/json
+#
+#NEW
 ###

@@ -26,13 +26,32 @@ public class RedisClient : IDisposable
         do
         {
             recvLen = await stream.ReadAsync(recvBuffer, 0, recvBuffer.Length);
+            if (recvLen == 0) break;
             retString.Append(Encoding.UTF8.GetString(recvBuffer, 0, recvLen));
         } 
         while (stream.DataAvailable);
 
         return retString.ToString();
     }
-    
+
+    public async Task<string> ReadServer()
+    {
+        var stream = _client.GetStream();
+        var recvBuffer = new byte[1024];
+        var retString = new StringBuilder();
+        int recvLen;
+
+        do
+        {
+            recvLen = await stream.ReadAsync(recvBuffer, 0, recvBuffer.Length);
+            if (recvLen == 0) break;
+            retString.Append(Encoding.UTF8.GetString(recvBuffer, 0, recvLen));
+        } 
+        while (stream.DataAvailable); //TODO change DataAvailable to something more robust?
+
+        return retString.ToString();
+    }
+
     public void Dispose()
     {
         _client.Close();
