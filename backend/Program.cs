@@ -23,7 +23,7 @@ builder.Services.AddCors(options =>
 //     
 // });
 builder.Services.AddSignalR();
-builder.Services.AddSingleton<CanvasService>();
+builder.Services.AddSingleton<CanvasService>(); //TODO remove or implement
 builder.Services.AddSingleton<ChatService>();
 
 

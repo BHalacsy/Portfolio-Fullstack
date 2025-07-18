@@ -3,21 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="../src/main.ts"></script>
     <link href="./css/output.css" rel="stylesheet">
     <title>Balint Halacsy</title>
 </head>
-<body class="bg-amber-400">
-    <div class="text-3xl font-bold underline">
+<body class="bg-blue-500 h-screen flex flex-col">
+<section id="landingPage">
+    <img src="./media/darkLanding.svg" alt="landing page screen" style="width:100vw;height:auto;display:block;">
+</section>
+<section id="bodySection" class="bg-blue-800">
+    <div id="chatroomBox" class="bg-white">
+        <div id="messageField"></div>
+        <div id="inputField">
+            <label for="inputTxtBox"></label><input type="text" id="inputTxtBox" placeholder="Send message here...">
+            <button id="inputButton">Send</button> <!--change to icon?-->
+        </div>
+    </div>
+    <div id="canvasBox" class="">
 
     </div>
-    <div class="text-3xl font-bold underline">
+    <div class="">
+        im
+    </div>
+    <div class="">
 
     </div>
-    <div class="text-3xl font-bold underline">
-
-    </div>
-    <div class="text-3xl font-bold underline">
-
-    </div>
+</section>
 </body>
 </html>
