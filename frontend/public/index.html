@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="snap-y snap-mandatory scroll-pt-16">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,27 +7,52 @@
     <link href="./css/output.css" rel="stylesheet">
     <title>Balint Halacsy</title>
 </head>
-<body class="bg-blue-500 h-screen flex flex-col">
+<body class="bg-[#EDEEF7]">
 <section id="landingPage">
-    <img src="./media/darkLanding.svg" alt="landing page screen" style="width:100vw;height:auto;display:block;">
+    <h1 class="text-[#0FDBF7] text-6xl font-bold text-center mt-28 snap-start">Welcome to my page!</h1>
+    <div class="text-center mt-15">
+        <span class="text-3xl font-bold">You are visitor number:<br> 100<!--TODO place counter here--></span>
+    </div>
+    <img src="./media/lightLanding.svg" alt="landing page screen" class="w-screen h-auto block">
 </section>
-<section id="bodySection" class="bg-blue-800">
-    <div id="chatroomBox" class="bg-white">
-        <div id="messageField"></div>
-        <div id="inputField">
-            <label for="inputTxtBox"></label><input type="text" id="inputTxtBox" placeholder="Send message here...">
-            <button id="inputButton">Send</button> <!--change to icon?-->
+<section id="bodySection" class="bg-[#2446C7] min-h-screen flex flex-col">
+    <div id="aboutMe" class="bg-blue-50 rounded-2xl w-4/5 h-[700px] flex justify-center mx-auto my-20 snap-start">
+        <div>HI I am person with computer</div>
+    </div>
+    <div id="toybox" class="bg-blue-50 rounded-2xl w-4/5 h-[700px] flex justify-center mx-auto my-20 snap-start">
+        <div id="chatSection" class="basis-[50%] flex flex-col p-4 items-center justify-center">
+            <div id="chatViewer" class="bg-white w-4/5 h-96 overflow-y-auto flex flex-col justify-end space-y-2 p-2 rounded">
+                <div class="bg-blue-100 p-2 rounded self-end">Hello!</div>
+                <div class="bg-green-100 p-2 rounded self-end">Hi there!</div>
+                <div class="bg-green-100 p-2 rounded self-end">Hi there!</div>
+                <div class="bg-green-100 p-2 rounded self-end">Hi there!</div>
+                <div class="bg-green-100 p-2 rounded self-end">Hi there!</div>
+                <div class="bg-green-100 p-2 rounded self-end">Hi there!</div>
+                <div class="bg-green-100 p-2 rounded self-end">Hi there!</div>
+                <div class="bg-green-100 p-2 rounded self-end">Hi there!</div>
+                <div class="bg-blue-100 p-2 rounded self-end">Hello!</div>
+            </div>
+            <div id="chatInput">
+                <label for="inputTxtBox"></label><input type="text" id="inputTxtBox" placeholder="Send message here..." class="px-3 py-1 border border-gray-300 rounded bg-white">
+                <button id="inputButton" class="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Send</button> <!--TODO change to icon?-->
+            </div>
+        </div>
+        <div id="canvasSection" class="basis-[50%] flex flex-col p-4 items-center justify-center">
+            <div id="canvasInput" class="flex mb-2">
+                <label for="inputColorSelect"></label><input type="color" id="inputColorSelect" class="w-10 h-10 mx-10 cursor-pointer">
+                <button id="sizeS" class="px-2 py-1 mx-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">S</button> <!--TODO change to icons-->
+                <button id="sizeM" class="px-2 py-1 mx-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">M</button>
+                <button id="sizeL" class="px-2 py-1 mx-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">L</button>
+            </div>
+            <canvas id="theCanvas" class="bg-white" style="width:300px; height:300px;"></canvas>
         </div>
     </div>
-    <div id="canvasBox" class="">
+    <div class="bg-blue-50 rounded-2xl w-4/5 h-[700px] flex justify-center mx-auto my-20 snap-start">
+        Projects:
+    </div>
+</section>
+<section id="footerSection">
 
-    </div>
-    <div class="">
-        im
-    </div>
-    <div class="">
-
-    </div>
 </section>
 </body>
 </html>
