@@ -10,13 +10,13 @@
 <section id="landingPage">
     <h1 class="text-[#0FDBF7] text-6xl font-bold text-center mt-28 snap-start">Welcome to my page!</h1>
     <div class="text-center mt-15">
-        <span class="text-3xl font-bold">You are visitor number:<br> 100<!--TODO place counter here--></span>
+        <span id="viewCounter" class="text-3xl font-bold">You are visitor number:<br> X</span>
     </div>
     <img src="./media/lightLanding.svg" alt="landing page screen" class="w-screen h-auto block">
 </section>
 <section id="bodySection" class="bg-[#2446C7] min-h-screen flex flex-col">
     <div id="aboutMe" class="bg-blue-50 rounded-2xl w-4/5 h-[700px] flex justify-center mx-auto my-20 snap-start">
-        <div>HI I am person with computer</div>
+        <div>Hi I am person with computer</div>
     </div>
     <div id="toybox" class="bg-blue-50 rounded-2xl w-4/5 h-[700px] flex justify-center mx-auto my-20 snap-start">
         <div id="chatSection" class="basis-[50%] flex flex-col p-4 items-center justify-center">
@@ -32,16 +32,13 @@
                 <div class="bg-blue-100 p-2 rounded self-end">Hello!</div>
             </div>
             <div id="chatInput">
-                <label for="inputTxtBox"></label><input type="text" id="inputTxtBox" placeholder="Send message here..." class="px-3 py-1 border border-gray-300 rounded bg-white">
+                <label for="inputText"></label><input type="text" id="inputText" placeholder="Send message here..." class="px-3 py-1 border border-gray-300 rounded bg-white">
                 <button id="inputButton" class="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Send</button> <!--TODO change to icon?-->
             </div>
         </div>
         <div id="canvasSection" class="basis-[50%] flex flex-col p-4 items-center justify-center">
             <div id="canvasInput" class="flex mb-2">
-                <label for="inputColorSelect"></label><input type="color" id="inputColorSelect" class="w-10 h-10 mx-10 cursor-pointer">
-                <button id="sizeS" class="px-2 py-1 mx-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">S</button> <!--TODO change to icons-->
-                <button id="sizeM" class="px-2 py-1 mx-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">M</button>
-                <button id="sizeL" class="px-2 py-1 mx-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">L</button>
+                <label for="inputColor"></label><input type="color" id="inputColor" class="w-10 h-10 mx-10 cursor-pointer">
             </div>
             <canvas id="theCanvas" class="bg-white" width="300" height="300"></canvas>
         </div>
@@ -54,5 +51,6 @@
 
 </section>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@latest/dist/browser/signalr.js"></script>
 <script type="module" src="../dist/main.js"></script>
 </html>
