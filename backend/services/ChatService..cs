@@ -11,18 +11,12 @@ public class ChatService
         _connected = 0;
     }
 
-    private async Task<bool> SetUser(string username)
+    private async Task<string> SetUser()
     {
         var client = new RedisClient();
-        username = username.Trim();
+        var resp = await client.Command($"SPOP users");
 
-        if (string.IsNullOrEmpty(username) || username.Length != 3) //Username must be 3 characters only
-            return false;
-
-        var resp = await client.Command($"SADD users {username}");
-
-        if (Parser.IntParser(resp) == 0) return false;
-        return true;
+        return resp;
     }
 
     private async Task DelUser(string username)
@@ -40,13 +34,12 @@ public class ChatService
         return retList;
     }
 
-    public async Task<bool> Join(string user)
+    public async Task<string?> Join()
     {
-        if (!await SetUser(user)) return false;
-        if (_connected >= 16) return false; //Just set 
-
+        if (_connected >= 16) return null;
+        
         _connected++;
-        return true;
+        return await SetUser();
     }
     
 

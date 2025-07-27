@@ -41,20 +41,22 @@ app.UseCors();
 app.MapHub<ChatHub>("/chat/hub");
 app.MapHub<CanvasHub>("/canvas/hub");
 
+//TODO handle alt results for endpoints
 
 //Counter increase and get
-app.MapGet("/stat/viewer", async () =>
+app.MapGet("/counter/view", async () =>
 {
     using var client = new RedisClient();
     var resp = await client.Command("INCR viewcounter");
-    return Parser.IntParser(resp);
+    return Results.Ok(Parser.IntParser(resp));
 });
 
 
 //Get canvas update
 app.MapGet("/canvas/data", async (CanvasService cs) =>
 {
-    return await cs.GetCanvas();
+    var resp = await cs.GetCanvas();
+    return Results.Ok(resp);
 });
 
 //Make change to canvas
@@ -63,11 +65,11 @@ app.MapPost("/canvas/draw", async (CanvasService cs, HttpRequest req, IHubContex
     using var reader = new StreamReader(req.Body);
     var body = await reader.ReadToEndAsync();
 
-    var newCanvas = System.Text.Json.JsonSerializer.Deserialize<Canvas>(body);
+    var newCanvas = System.Text.Json.JsonSerializer.Deserialize<List<Pixel>>(body);
     if (newCanvas == null) return Results.BadRequest("Null canvas data");
 
     await cs.DrawCanvas(newCanvas);
-    await hc.Clients.All.SendAsync("recvStroke", newCanvas.Pixels);
+    //await hc.Clients.All.SendAsync("recvStroke", newCanvas.Pixels); //TODO implement maybe
     return Results.Ok();
 });
 
@@ -78,14 +80,11 @@ app.MapGet("/chat/users", async (ChatService chs) =>
     return Results.Ok(retList);
 });
 
-
 //Set username
-app.MapPost("/chat/join", async (ChatService chs, HttpRequest req) =>
+app.MapGet("/chat/join", async (ChatService chs) =>
 {
-    using var reader = new StreamReader(req.Body);
-    string username = (await reader.ReadToEndAsync());
-    
-    if (await chs.Join(username)) return Results.Ok();
+    var resp = await chs.Join();
+    if (resp != null) return Results.Ok(resp);
     return Results.BadRequest("Failed to join chatroom");
 });
 
@@ -98,8 +97,5 @@ app.MapDelete("/chat/leave", async (ChatService chs, HttpRequest req) =>
     await chs.Leave(username);
     return Results.Ok();
 });
-
-
-
 
 app.Run();

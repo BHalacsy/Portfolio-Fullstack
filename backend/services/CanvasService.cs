@@ -19,12 +19,11 @@ public class CanvasService
         var pixels = Parser.CanvasParser(resp);
         return System.Text.Json.JsonSerializer.Serialize(pixels);
     }
-
-
-    public async Task DrawCanvas(Canvas canvas)
+    
+    public async Task DrawCanvas(List<Pixel> pixels)
     {
         var cmd = "HSET canvas ";
-        foreach(var i in canvas.Pixels)
+        foreach(var i in pixels)
         {
             cmd += $"{i.X}X{i.Y} {i.Color} ";
         }
