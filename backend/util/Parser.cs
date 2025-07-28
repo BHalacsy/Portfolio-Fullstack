@@ -28,12 +28,11 @@ public static class Parser
         var retList = new List<Pixel>();
         var lines = line.Split("\r\n", StringSplitOptions.RemoveEmptyEntries);
         
-        for (int i = 2; i < lines.Length; i += 4)
+        for (int i = 2; i + 2 < lines.Length; i += 4)
         {
+            
             var key = lines[i];
-            Console.Write(key + " ");
             var val = lines[i + 2];
-            Console.Write(val + " ");
             var coords = key.Split("X");
             var append = new Pixel(int.Parse(coords[0]), int.Parse(coords[1]), val);
             retList.Add(append);

@@ -1,5 +1,5 @@
 
-interface Pixel {
+export interface Pixel {
     x: number;
     y: number;
     color: string;
@@ -16,7 +16,7 @@ export class Canvas {
         this.canvas = document.getElementById(id) as HTMLCanvasElement;
         this.inputColor = document.getElementById("inputColor") as HTMLInputElement;
         this.crc = <CanvasRenderingContext2D>this.canvas.getContext("2d");
-        this.crc.lineWidth = 5;
+        this.crc.lineWidth = 10;
         this.eventListen();
     }
 
@@ -38,11 +38,22 @@ export class Canvas {
         if (!this.draw) return;
         this.crc.lineTo(e.offsetX, e.offsetY);
         this.crc.stroke();
-        this.updatePixels.push({
-            x: Math.round(e.offsetX),
-            y: Math.round(e.offsetY),
-            color: this.crc.strokeStyle as string
-        });
+        const radius = Math.round(this.crc.lineWidth / 2);
+        const centerX = Math.round(e.offsetX);
+        const centerY = Math.round(e.offsetY);
+        const color = this.crc.strokeStyle as string;
+
+        for (let dx = -radius; dx <= radius; dx++) {
+            for (let dy = -radius; dy <= radius; dy++) {
+                if (dx * dx + dy * dy <= radius * radius) {
+                    this.updatePixels.push({
+                        x: centerX + dx,
+                        y: centerY + dy,
+                        color: color
+                    });
+                }
+            }
+        }
     }
 
     private endDraw() {

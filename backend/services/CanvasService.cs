@@ -26,9 +26,9 @@ public class CanvasService
         foreach(var i in pixels)
         {
             cmd += $"{i.X}X{i.Y} {i.Color} ";
+            
         }
         cmd = cmd.TrimEnd();
-    
         using var client = new RedisClient();
         await client.Command(cmd);
     }
