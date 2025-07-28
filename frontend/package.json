@@ -2,10 +2,11 @@
   "name": "frontend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx @tailwindcss/cli -i ./public/css/input.css -o ./public/css/output.css --watch"
+    "dev": "vite",
+    "tailwind": "npx @tailwindcss/cli -i ./public/css/input.css -o ./public/css/output.css --watch"
   },
   "repository": {
     "type": "git",
@@ -15,7 +16,9 @@
   "dependencies": {
     "@microsoft/signalr": "^8.0.7",
     "@tailwindcss/cli": "^4.1.11",
-    "tailwindcss": "^4.1.11",
-    "vite": "^7.0.4"
+    "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "vite": "^7.0.6"
   }
 }

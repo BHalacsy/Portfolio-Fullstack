@@ -15,14 +15,15 @@ public class ChatService
     {
         var client = new RedisClient();
         var resp = await client.Command($"SPOP users");
-
-        return resp;
+        var parts = resp.Split("\r\n");
+        
+        return parts[1];
     }
 
     private async Task DelUser(string username)
     {
         var client = new RedisClient();
-        await client.Command($"SREM users {username}");
+        await client.Command($"SADD users {username}");
     }
     
     public async Task<List<string>> GetUsers()
