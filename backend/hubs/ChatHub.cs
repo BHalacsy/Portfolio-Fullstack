@@ -9,7 +9,7 @@ public class ChatHub : Hub
     {
         if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(message)) return;
         
-        var payload = new { username, message, timestamp = DateTime.UtcNow };
+        var payload = new { username, message, timestamp = DateTime.UtcNow.TimeOfDay };
         await Clients.All.SendAsync("RecvMessage", payload);
     }
 }
