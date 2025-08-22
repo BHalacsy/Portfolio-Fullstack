@@ -53,14 +53,14 @@ app.MapGet("/counter/view", async () =>
 
 
 //Get canvas update
-app.MapGet("/canvas/data", async (CanvasService cs) =>
+app.MapGet("/canvas/data/{id:int}", async (int id, CanvasService cs) =>
 {
-    var resp = await cs.GetCanvas();
+    var resp = await cs.GetCanvas(id);
     return Results.Ok(resp);
 });
 
 //Make change to canvas
-app.MapPost("/canvas/draw", async (CanvasService cs, HttpRequest req, IHubContext<CanvasHub> hc) =>
+app.MapPost("/canvas/draw/{id:int}", async (int id, CanvasService cs, HttpRequest req, IHubContext<CanvasHub> hc) =>
 {
     using var reader = new StreamReader(req.Body);
     var body = await reader.ReadToEndAsync();
@@ -68,7 +68,7 @@ app.MapPost("/canvas/draw", async (CanvasService cs, HttpRequest req, IHubContex
     var newCanvas = System.Text.Json.JsonSerializer.Deserialize<List<Pixel>>(body);
     if (newCanvas == null) return Results.BadRequest("Null canvas data");
 
-    await cs.DrawCanvas(newCanvas);
+    await cs.DrawCanvas(id, newCanvas);
     //await hc.Clients.All.SendAsync("recvStroke", newCanvas.Pixels); //TODO implement maybe
     return Results.Ok();
 });

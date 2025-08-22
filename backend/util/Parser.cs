@@ -14,7 +14,10 @@ public static class Parser
         {
             builder.Append($"${i.Length}\r\n{i}\r\n");
         }
-        return builder.ToString();
+
+        var ret = builder.ToString();
+        Console.WriteLine(ret);
+        return ret;
     }
 
     public static int IntParser(string line) //From Redis
@@ -33,7 +36,7 @@ public static class Parser
             
             var key = lines[i];
             var val = lines[i + 2];
-            var coords = key.Split("X");
+            var coords = key.Split("x");
             var append = new Pixel(int.Parse(coords[0]), int.Parse(coords[1]), val);
             retList.Add(append);
         }

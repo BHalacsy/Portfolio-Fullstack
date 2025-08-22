@@ -15,23 +15,29 @@
     <img src="./public/media/lightLanding.svg" alt="landing page screen" class="w-screen h-auto block">
 </section>
 <section id="bodySection" class="bg-[#2446C7] min-h-screen flex flex-col">
-    <div id="aboutMe" class="bg-blue-50 rounded-2xl w-4/5 h-[700px] flex justify-center mx-auto my-20 snap-start">
-        <div>Hi I am person with computer</div>
+    <div id="aboutMe" class="grid grid-cols-2 grid-rows-2 bg-blue-50 rounded-2xl w-4/5 h-[700px] mx-auto my-20 snap-start">
+        <div class="flex items-center justify-center">
+            <img src="./public/media/pfp.png" alt="Photo of Me" class="w-32 h-32 rounded-full object-cover">
+        </div>
+
+        <div class="row-span-2 overflow-auto p-4">
+            <!-- BIO HERE -->
+        </div>
+
+        <div class="flex flex-col items-center justify-center space-y-2">
+            <ul class="list-disc list-outside">
+                <li><a href="https://github.com/BHalacsy" class="text-blue-700 hover:underline">GitHub</a></li>
+            </ul>
+        </div>
     </div>
-    <div id="toybox" class="bg-blue-50 rounded-2xl w-4/5 h-[700px] flex justify-center mx-auto my-20 snap-start">
-        <div id="chatSection" class="basis-[50%] flex flex-col p-4 items-center justify-center">
-            <div id="chatViewer" class="bg-white w-4/5 h-96 overflow-y-auto flex flex-col justify-end space-y-2 p-2 rounded">
-                <div class="bg-blue-100 p-2 rounded self-end">Hello!</div>
-                <div class="bg-green-100 p-2 rounded self-end">Hi there!</div>
-                <div class="bg-green-100 p-2 rounded self-end">Hi there!</div>
-                <div class="bg-green-100 p-2 rounded self-end">Hi there!</div>
-                <div class="bg-green-100 p-2 rounded self-end">Hi there!</div>
-                <div class="bg-green-100 p-2 rounded self-end">Hi there!</div>
-                <div class="bg-green-100 p-2 rounded self-end">Hi there!</div>
-                <div class="bg-green-100 p-2 rounded self-end">Hi there!</div>
-                <div class="bg-blue-100 p-2 rounded self-end">Hello!</div>
+    <div id="toybox" class="bg-blue-50 rounded-2xl w-4/5 h-[700px] flex mx-auto my-20 snap-start">
+        <div id="chatSection" class="basis-[50%] flex flex-col items-center justify-center p-4 h-full">
+            <div id="chatViewer" class="bg-white w-4/5 h-4/5 flex flex-col flex-1 space-y-2 p-2 rounded overflow-y-auto">
+                <!--Messages injected here-->
+
+                <div class="bg-blue-100 p-2 rounded self-end">HI</div>
             </div>
-            <div id="chatInput">
+            <div id="chatInput" class="mt-15">
                 <label for="inputText"></label><input type="text" id="inputText" placeholder="Send message here..." class="px-3 py-1 border border-gray-300 rounded bg-white">
                 <button id="inputButton" class="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Send</button> <!--TODO change to icon?-->
             </div>

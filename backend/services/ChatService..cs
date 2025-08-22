@@ -24,6 +24,7 @@ public class ChatService
     {
         var client = new RedisClient();
         await client.Command($"SADD users {username}");
+        Console.WriteLine($"Added back username {username}");
     }
     
     public async Task<List<string>> GetUsers()
@@ -32,6 +33,7 @@ public class ChatService
         var resp = await client.Command("SMEMBERS users");
 
         List<string> retList = Parser.ListParser(resp);
+        //TODO change to not include RESP len
         return retList;
     }
 

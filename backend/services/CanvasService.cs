@@ -8,28 +8,39 @@ public record Pixel(
     [property: JsonPropertyName("y")] int Y,
     [property: JsonPropertyName("color")] string Color
 );
-public record Canvas([property: JsonPropertyName("pixels")] List<Pixel> Pixels);
+//public record Canvas([property: JsonPropertyName("pixels")] List<Pixel> Pixels);
 
 public class CanvasService
 {
-    public async Task<string> GetCanvas()
+    public async Task<List<Pixel>> GetCanvas(int tileID)
     {
         using var client = new RedisClient();
-        var resp = await client.Command("HGETALL canvas");
+        var resp = await client.Command($"HGETALL canvas{tileID}");
         var pixels = Parser.CanvasParser(resp);
-        return System.Text.Json.JsonSerializer.Serialize(pixels);
+        Console.WriteLine(pixels.Count);
+        return pixels;
     }
     
-    public async Task DrawCanvas(List<Pixel> pixels)
+    public async Task DrawCanvas(int tileID, List<Pixel> pixels)
     {
-        var cmd = "HSET canvas ";
+        var cmd = $"HSET canvas{tileID} "; //chunk to send full
         foreach(var i in pixels)
         {
-            cmd += $"{i.X}X{i.Y} {i.Color} ";
+            cmd += $"{i.X}x{i.Y} {i.Color} ";
             
         }
         cmd = cmd.TrimEnd();
         using var client = new RedisClient();
         await client.Command(cmd);
+    }
+
+    public async Task ClearCanvas()
+    {
+        for (int i = 0; i < 99; i++)
+        {
+            var cmd = $"DEL canvas{i}";
+            using var client = new RedisClient();
+            await client.Command(cmd);
+        }
     }
 }

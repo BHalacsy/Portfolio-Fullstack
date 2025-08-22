@@ -6,6 +6,7 @@ export class Chatroom {
     private readonly connection : HubConnection;
     private sendButton : HTMLButtonElement;
     private inputText : HTMLInputElement;
+    // private colorAssign : Map<string,string>;
 
     constructor() {
         this.connection = new HubConnectionBuilder()
@@ -14,6 +15,25 @@ export class Chatroom {
                         .build();
         this.sendButton = document.getElementById("inputButton") as HTMLButtonElement;
         this.inputText = document.getElementById("inputText") as HTMLInputElement;
+        // this.colorAssign = new Map<string, string>([
+        //    // ['lion', '#e6194b'],
+        //    //  ['panther', ''],
+        //    //  ['tiger', ''],
+        //    //  ['jay', ''],
+        //    //  ['robin', ''],
+        //    //  ['giraffe', ''],
+        //    //  ['bee', ''],
+        //    //  ['pig', ''],
+        //    //  ['monkey', ''],
+        //    //  ['donkey', ''],
+        //    //  ['fish', ''],
+        //    //  ['hippo', ''],
+        //    //  ['panda', ''],
+        //    //  ['wolf', ''],
+        //    //  ['bear', ''],
+        //    //  ['deer', '']
+        //     //TODO fill with colors
+        // ]);
         this.sendButton.addEventListener("click", async () => {
             const message = this.inputText.value.trim();
             if (message){
@@ -42,6 +62,7 @@ export class Chatroom {
     }
 
     private async getUsers() : Promise<string []>{ //TODO make public and use in UI to show active users
+        //TODO change to be a list locally in the backend?
         const req = new Request("/chat/users", {
             method: "GET",
             headers: {"Content-Type": "text/plain"}
@@ -52,7 +73,6 @@ export class Chatroom {
             console.warn(resp.statusText);
             return [];
         }
-
         return await resp.json();
     }
 
@@ -61,8 +81,15 @@ export class Chatroom {
 
         this.connection.on("RecvMessage", (recv) => {
             const {username, message, timestamp} = recv;
-            //TODO DOM inject here
-            console.log(`At ${timestamp} from ${username} : ${message}`); //TODO change to rem milli seconds
+            const chatViewer = document.getElementById("chatViewer");
+            if (chatViewer) {
+                const msgDiv = document.createElement("div");
+                msgDiv.className = "bg-blue-100 p-2 rounded self-end";
+                msgDiv.textContent = `[${timestamp}] ${username}: ${message}`;
+                chatViewer.appendChild(msgDiv);
+                // chatViewer.scrollTop = chatViewer.scrollHeight;
+            }
+            //TODO change to rem milli seconds
         });
 
         await this.connection.start();
@@ -77,8 +104,8 @@ export class Chatroom {
             return;
         }
 
-        const users : string[] = await this.getUsers();
-        if (this.username != undefined && users.includes(this.username)){
+        //TODO make active users list.
+        if (this.username == undefined){
             console.warn("Logged out user sending message");
             return;
         }
