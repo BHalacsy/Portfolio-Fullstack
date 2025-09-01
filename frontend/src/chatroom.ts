@@ -87,7 +87,6 @@ export class Chatroom {
                 msgDiv.className = "bg-blue-100 p-2 rounded self-end";
                 msgDiv.textContent = `[${timestamp}] ${username}: ${message}`;
                 chatViewer.appendChild(msgDiv);
-                // chatViewer.scrollTop = chatViewer.scrollHeight;
             }
             //TODO change to rem milli seconds
         });

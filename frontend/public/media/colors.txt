@@ -1,11 +1,15 @@
 dark mode:
 black - #001220
+	black hover - #20282E
 orange - #F7770F
+    orange tinted - #B0550B or #CC6410
 hot pink - #C62368
 
 +add lighter or darker pink to write text on pink or just use the black
 
 light mode:
 white - #EDEEF7
+    white hover - #CBCCD4
 turqiouse - #0FDBF7
+	turqiouse tinted - #13B8Cf
 solid blue - #2446C7

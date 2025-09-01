@@ -8,6 +8,6 @@
     "moduleResolution": "Node",
     "outDir": "./dist",
     "baseUrl": "./src",
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
   }
 }

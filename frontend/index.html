@@ -1,56 +1,93 @@
 <!DOCTYPE html>
-<html lang="en" class="snap-y snap-mandatory scroll-pt-16">
+<html lang="en" class="snap-y snap-mandatory scroll-pt-16 font-main">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./public/css/output.css" rel="stylesheet">
     <title>Balint Halacsy</title>
+    <audio id="player" loop preload="auto">
+        <source src="" type="audio/mpeg">
+        Your browser does not support audio elements.
+    </audio>
 </head>
-<body class="bg-[#EDEEF7]">
-<section id="landingPage">
-    <h1 class="text-[#0FDBF7] text-6xl font-bold text-center mt-28 snap-start">Welcome to my page!</h1>
-    <div class="text-center mt-15">
-        <span id="viewCounter" class="text-3xl font-bold">You are visitor number:<br> X</span>
+<body class="bg-[var(--fg-color)]">
+<section id="menu">
+    <div class="fixed flex justify-center top-0 left-0 right-0 z-50 ">
+        <button id="menuButton" class="bg-[var(--accent-tinted-color)] hover:bg-[var(--accent-color)] px-6 py-3 rounded-b-lg transition-all duration-200">
+            <img src="public/media/menuArrow.svg" alt="menu arrow" class="w-6 h-6 transition-transform duration-200">
+        </button>
+        <div id="menuContent" class="hidden absolute top-full mt-2 z-50 bg-[var(--accent-tinted-color)] rounded-lg p-4 border border-[var(--accent-color)]">
+            <div class="flex">
+                <div class="flex flex-col">
+                    <button id="darkModeToggle" class="bg-[var(--fg-color)] hover:bg-[var(--fg-tinted-color)] shadow-[4px_4px_0px_0px_#1e293b] transition-all duration-200 hover:translate-x-1 hover:translate-y-1 hover:shadow-none text-[#EDEEF7] px-4 py-2 rounded-2xl whitespace-nowrap">
+                        <img id="darkModeIcon" src="public/media/lightToggle.svg" alt="light/dark mode" class="w-6 h-6">
+                    </button>
+                </div>
+                <div class="flex flex-col mx-4">
+                    <select id="trackSelect" class="px-4 py-2 bg-[var(--fg-color)] text-[var(--txt-color)] rounded-2xl shadow-[4px_4px_0px_0px_#1e293b] transition-all duration-200 hover:translate-x-1 hover:translate-y-1 hover:shadow-none">
+                        <option value="">Select Track (None)</option>
+                        <option value="A">Disco Elysium</option>
+                        <option value="B">Little Big Planet</option>
+                        <option value="C">Club Penguin</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <!--TODO volume control here-->
+                </div>
+            </div>
+        </div>
     </div>
-    <img src="./public/media/lightLanding.svg" alt="landing page screen" class="w-screen h-auto block">
 </section>
-<section id="bodySection" class="bg-[#2446C7] min-h-screen flex flex-col">
-    <div id="aboutMe" class="grid grid-cols-2 grid-rows-2 bg-blue-50 rounded-2xl w-4/5 h-[700px] mx-auto my-20 snap-start">
-        <div class="flex items-center justify-center">
-            <img src="./public/media/pfp.png" alt="Photo of Me" class="w-32 h-32 rounded-full object-cover">
-        </div>
-
-        <div class="row-span-2 overflow-auto p-4">
-            <!-- BIO HERE -->
-        </div>
-
-        <div class="flex flex-col items-center justify-center space-y-2">
-            <ul class="list-disc list-outside">
-                <li><a href="https://github.com/BHalacsy" class="text-blue-700 hover:underline">GitHub</a></li>
-            </ul>
-        </div>
+<section id="landingPage">
+    <h1 class="text-[var(--accent-color)] text-6xl font-black text-center mt-28 snap-start">Welcome to my page!</h1>
+    <div class="text-center mt-10">
+        <span id="viewCounter" class="text-3xl text-[var(--txt-color)] font-bold">You are visitor number:<br>
+            <img src="./public/media/loadingBlack.svg" id="loadingCircle" alt="loading circle" class="animate-spin w-10 h-10 mx-auto mt-2">
+        </span>
     </div>
-    <div id="toybox" class="bg-blue-50 rounded-2xl w-4/5 h-[700px] flex mx-auto my-20 snap-start">
-        <div id="chatSection" class="basis-[50%] flex flex-col items-center justify-center p-4 h-full">
-            <div id="chatViewer" class="bg-white w-4/5 h-4/5 flex flex-col flex-1 space-y-2 p-2 rounded overflow-y-auto">
+    <div class="relative h-20 flex justify-center">
+        <a href="#aboutMe" class="absolute top-10">
+            <img src="./public/media/lightArrow.svg" id="arrowDown" alt="arrow down" class="w-28 h-auto">
+        </a>
+    </div>
+    <img id="landingImg" src="./public/media/lightLanding.svg" alt="landing page screen" class="w-screen block">
+</section>
+<section id="bodySection" class="flex flex-col bg-linear-to-b from-[var(--bg-color)] to-[var(--accent-color)] min-h-screen">
+    <div id="aboutMe" class="grid grid-cols-4 grid-rows-5 gap-2 bg-linear-to-br from-[var(--fg-color)] via-[var(--fg-color)] to-[var(--fg-tinted-color)] text-[var(--txt-color)] w-3/5 h-[700px] mx-auto my-20 rounded-2xl snap-start">
+        <div class="col-span-2">1</div>
+        <div class="col-span-2 row-span-2 col-start-1 row-start-2">2</div>
+        <div class="row-span-2 col-start-1 row-start-4">3</div>
+        <div class="row-span-2 col-start-2 row-start-4">4</div>
+        <div class="col-span-2 row-span-5 col-start-3 row-start-1">5</div>
+    </div>
+    <div id="toybox" class="bg-linear-to-br from-[var(--fg-color)] via-[var(--fg-color)] to-[var(--fg-tinted-color)] text-[var(--txt-color)] w-3/5 h-[700px] flex mx-auto my-20 rounded-2xl snap-start">
+        <div id="chatSection" class="flex flex-col basis-[50%] h-full max-[920px]:basis-full max-[920px]:mx-auto p-4 items-center justify-center">
+            <div id="chatViewer" class="relative flex flex-col flex-1 bg-white w-4/5 h-4/5 space-y-2 p-2 rounded overflow-y-auto">
+                <div class="absolute flex bg-gray-400 text-white w-8 h-8 p-4 items-center justify-center rounded-full">
+                    <span class="relative text-xs font-medium px-1">0/16</span>
+                </div>
+                <!--TODO change chat color and border-->
                 <!--Messages injected here-->
-
                 <div class="bg-blue-100 p-2 rounded self-end">HI</div>
             </div>
             <div id="chatInput" class="mt-15">
-                <label for="inputText"></label><input type="text" id="inputText" placeholder="Send message here..." class="px-3 py-1 border border-gray-300 rounded bg-white">
-                <button id="inputButton" class="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Send</button> <!--TODO change to icon?-->
+                <label for="inputText"></label><input type="text" id="inputText" placeholder="Send message here..." class="bg-[var(--fg-color)] px-3 py-1 border border-gray-300 rounded ">
+                <button id="inputButton" class="bg-[var(--bg-color)] text-white px-4 py-1 rounded hover:bg-blue-600 transition">Send</button> <!--TODO change to icon? and on hover color var-->
             </div>
         </div>
-        <div id="canvasSection" class="basis-[50%] flex flex-col p-4 items-center justify-center">
+        <div id="canvasSection" class="flex flex-col basis-[50%] max-[920px]:hidden p-4 items-center justify-center">
             <div id="canvasInput" class="flex mb-2">
                 <label for="inputColor"></label><input type="color" id="inputColor" class="w-10 h-10 mx-10 cursor-pointer">
             </div>
+            <!--TODO make brush cursor on canvas hover-->
             <canvas id="theCanvas" class="bg-white" width="300" height="300"></canvas>
         </div>
     </div>
-    <div class="bg-blue-50 rounded-2xl w-4/5 h-[700px] flex justify-center mx-auto my-20 snap-start">
-        Projects:
+    <div class="grid grid-cols-4 grid-rows-5 gap-2 bg-linear-to-br from-[var(--fg-color)] via-[var(--fg-color)] to-[var(--fg-tinted-color)] text-[var(--txt-color)] w-3/5 h-[700px] justify-center mx-auto my-20 rounded-2xl snap-start">
+        <div class="col-span-2 p-4 ml-8 text-3xl font-extrabold">Redis Clone</div>
+        <div class="col-span-2 row-span-2 col-start-1 row-start-2 flex justify-center"><img src="./public/media/redis.svg" alt="Redis logo" class="w-2xs h-2xs"></div>
+        <div class="col-span-2 row-span-2 col-start-1 row-start-4">3</div>
+        <div class="col-span-2 row-span-5 col-start-3 row-start-1">4</div>
     </div>
 </section>
 <section id="footerSection">
