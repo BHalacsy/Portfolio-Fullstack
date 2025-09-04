@@ -1,10 +1,11 @@
 @import "tailwindcss";
+@plugin "tailwindcss-intersect";
 @plugin "tailwindcss-motion";
 
 :root{
     --bg-color: #2446C7;
     --fg-color: #EDEEF7;
-        --fg-tinted-color: #CBCCD4;
+        --fg-tinted-color: #B3B4BD;
     --accent-color: #0FDBF7;
         --accent-tinted-color: #13B8CF;
     --txt-color: #001220;
@@ -17,6 +18,42 @@
     --accent-color: #F7770F;
         --accent-tinted-color: #CC6410;
     --txt-color: #EDEEF7;
+}
+
+.move-l{
+    @apply intersect:motion-scale-in-[0.5] intersect:motion-translate-x-in-[75%] intersect:motion-translate-y-in-[0%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur;
+}
+
+.move-r{
+    @apply intersect:motion-scale-in-[0.5] intersect:motion-translate-x-in-[-75%] intersect:motion-translate-y-in-[0%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur;
+}
+
+.move-d{
+    @apply intersect:motion-scale-in-[0.5] intersect:motion-translate-x-in-[0%] intersect:motion-translate-y-in-[-75%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur;
+}
+
+.move-u{
+    @apply intersect:motion-scale-in-[0.5] intersect:motion-translate-x-in-[0%] intersect:motion-translate-y-in-[75%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur;
+}
+
+.move-lu{
+    @apply intersect:motion-scale-in-[0.5] intersect:motion-translate-x-in-[75%] intersect:motion-translate-y-in-[75%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur;
+}
+
+.move-ld{
+    @apply intersect:motion-scale-in-[0.5] intersect:motion-translate-x-in-[75%] intersect:motion-translate-y-in-[-75%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur;
+}
+
+.move-ru{
+    @apply intersect:motion-scale-in-[0.5] intersect:motion-translate-x-in-[-75%] intersect:motion-translate-y-in-[75%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur;
+}
+
+.move-rd{
+    @apply intersect:motion-scale-in-[0.5] intersect:motion-translate-x-in-[-75%] intersect:motion-translate-y-in-[-75%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur;
+}
+
+.bg-tile-gradient{
+    @apply bg-gradient-to-br from-[var(--fg-color)] via-[var(--fg-color)] to-[var(--fg-tinted-color)];
 }
 
 @font-face {

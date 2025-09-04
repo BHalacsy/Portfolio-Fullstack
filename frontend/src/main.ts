@@ -1,5 +1,11 @@
 import {Chatroom} from "./chatroom.ts";
 import {Canvas, Pixel} from "./canvas.ts";
+import {Observer} from "tailwindcss-intersect";
+
+
+//Start Intersect Observer
+Observer.start();
+
 
 //Toybox elements
 const theChatroom = new Chatroom();
@@ -15,15 +21,17 @@ const darkModeToggle = document.getElementById("darkModeToggle") as HTMLButtonEl
 const landingImg = document.getElementById("landingImg") as HTMLImageElement;
 const darkModeIcon = document.getElementById("darkModeIcon") as HTMLImageElement;
 const arrowDown = document.getElementById("arrowDown") as HTMLImageElement;
+const volumeIcon = document.getElementById("volumeIcon") as HTMLImageElement;
 
 //Audio elements
 const player = document.getElementById("player") as HTMLAudioElement;
 const trackID = document.getElementById("trackSelect") as HTMLSelectElement;
 const trackMap = new Map<string,string>([
-    ["A" , "./public/audio/DiscoElysium.mp3"],
-    ["B" , "./public/audio/LittleBigPlanet.mp3"],
-    ["C" , "./public/audio/ClubPenguin.mp3"]
+    ["A" , "public/audio/DiscoElysium.mp3"],
+    ["B" , "public/audio/LittleBigPlanet.mp3"],
+    ["C" , "public/audio/ClubPenguin.mp3"]
 ]);
+const volSlider = document.getElementById("volumeControl") as HTMLInputElement;
 
 //User joins
 window.addEventListener("DOMContentLoaded", async () => {
@@ -68,15 +76,15 @@ menuButton.addEventListener("click", (e) =>{
     menuArrow.style.transform = menuVisible ? "rotate(180deg)" : "rotate(0deg)";
 });
 
-
 //Dark mode switching
 darkModeToggle.addEventListener("click", () =>{
     document.body.classList.toggle("dark");
 
     const isDark = document.body.classList.contains("dark");
-    landingImg.src = isDark ? "./public/media/darkLanding.svg" : "./public/media/lightLanding.svg";
-    darkModeIcon.src = isDark ? "./public/media/darkToggle.svg" : "./public/media/lightToggle.svg";
-    arrowDown.src = isDark ? "./public/media/darkArrow.svg" : "./public/media/lightArrow.svg";
+    landingImg.src = isDark ? "public/media/darkLanding.svg" : "public/media/lightLanding.svg";
+    darkModeIcon.src = isDark ? "public/media/darkToggle.svg" : "public/media/lightToggle.svg";
+    arrowDown.src = isDark ? "public/media/darkArrow.svg" : "public/media/lightArrow.svg";
+    volumeIcon.src = isDark ? "public/media/darkVolume.svg" : "public/media/lightVolume.svg";
 
 });
 
@@ -87,6 +95,7 @@ trackID.addEventListener("change", (e) =>{
    if (selected && trackMap.has(selected)) {
        player.src = trackMap.get(selected)!;
        player.load()
+       player.volume = Number(volSlider.value) / 100;
        player.play().catch(err => {
            console.warn("Autoplay failed:", err);
        })
@@ -94,4 +103,8 @@ trackID.addEventListener("change", (e) =>{
    else {
        player.src = "";
    }
+});
+
+volSlider.addEventListener("input", () => {
+   player.volume = Number(volSlider.value) / 100;
 });
