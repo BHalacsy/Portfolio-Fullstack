@@ -16,7 +16,6 @@ public static class Parser
         }
 
         var ret = builder.ToString();
-        Console.WriteLine(ret);
         return ret;
     }
 

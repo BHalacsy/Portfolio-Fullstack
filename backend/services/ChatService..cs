@@ -27,14 +27,9 @@ public class ChatService
         Console.WriteLine($"Added back username {username}");
     }
     
-    public async Task<List<string>> GetUsers()
+    public int GetUsers()
     {
-        var client = new RedisClient();
-        var resp = await client.Command("SMEMBERS users");
-
-        List<string> retList = Parser.ListParser(resp);
-        //TODO change to not include RESP len
-        return retList;
+        return _connected;
     }
 
     public async Task<string?> Join()

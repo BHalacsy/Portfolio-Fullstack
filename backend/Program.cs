@@ -74,10 +74,11 @@ app.MapPost("/canvas/draw/{id:int}", async (int id, CanvasService cs, HttpReques
 });
 
 //Get users all
-app.MapGet("/chat/users", async (ChatService chs) =>
+app.MapGet("/chat/users", (ChatService chs) =>
 {
-    var retList = await chs.GetUsers();
-    return Results.Ok(retList);
+    var userCount = chs.GetUsers();
+    Console.WriteLine(userCount);
+    return Results.Ok(userCount);
 });
 
 //Set username
@@ -89,11 +90,10 @@ app.MapGet("/chat/join", async (ChatService chs) =>
 });
 
 //Del username
-app.MapDelete("/chat/leave", async (ChatService chs, HttpRequest req) =>
+app.MapPost("/chat/leave", async (ChatService chs, HttpRequest req) =>
 {
     using var reader = new StreamReader(req.Body);
     string username = (await reader.ReadToEndAsync());
-
     await chs.Leave(username);
     return Results.Ok();
 });

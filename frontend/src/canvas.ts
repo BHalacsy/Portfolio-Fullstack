@@ -92,6 +92,7 @@ export class Canvas {
         }
 
         for (const [tileID, tilePixels] of tiles.entries()) {
+            console.log(`tiledID: ${tileID} and pixel count ${tilePixels.length}`)
             await fetch(`http://localhost:5127/canvas/draw/${tileID}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

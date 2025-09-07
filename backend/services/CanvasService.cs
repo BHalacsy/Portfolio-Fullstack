@@ -17,13 +17,13 @@ public class CanvasService
         using var client = new RedisClient();
         var resp = await client.Command($"HGETALL canvas{tileID}");
         var pixels = Parser.CanvasParser(resp);
-        Console.WriteLine(pixels.Count);
         return pixels;
     }
     
     public async Task DrawCanvas(int tileID, List<Pixel> pixels)
     {
         var cmd = $"HSET canvas{tileID} "; //chunk to send full
+        Console.WriteLine(pixels.Count);
         foreach(var i in pixels)
         {
             cmd += $"{i.X}x{i.Y} {i.Color} ";
@@ -33,7 +33,8 @@ public class CanvasService
         using var client = new RedisClient();
         await client.Command(cmd);
     }
-
+    
+    //TODO implement on 24hr clock
     public async Task ClearCanvas()
     {
         for (int i = 0; i < 99; i++)
