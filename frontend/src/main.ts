@@ -1,5 +1,5 @@
 import {Chatroom} from "./chatroom.ts";
-import {Canvas, Pixel} from "./canvas.ts";
+import {Canvas, GetPixel} from "./canvas.ts";
 import {Observer} from "tailwindcss-intersect";
 
 
@@ -80,7 +80,7 @@ window.addEventListener("DOMContentLoaded", async () =>{
     const userCount = document.getElementById("userCount") as HTMLSpanElement;
     userCount.innerHTML = `${connectedUsers}/16`;
 
-    //Init canvas //TODO assure consistent loading
+    //Init canvas
     for (let i = 0; i <= 99; i++){
         const respCanvas: Response = await fetch(`http://localhost:5127/canvas/data/${i}`);
         if (!respCanvas.ok) {
@@ -88,7 +88,7 @@ window.addEventListener("DOMContentLoaded", async () =>{
             continue;
         }
 
-        const respData: Pixel[] = await respCanvas.json();
+        const respData: GetPixel[] = await respCanvas.json();
         for (const pixel of respData) {
             theCanvas.crc.fillStyle = pixel.color;
             theCanvas.crc.fillRect(pixel.x, pixel.y, 1, 1);

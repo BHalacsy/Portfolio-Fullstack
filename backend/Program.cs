@@ -55,7 +55,7 @@ app.MapGet("/counter/view", async () =>
 //Get canvas update
 app.MapGet("/canvas/data/{id:int}", async (int id, CanvasService cs) =>
 {
-    var resp = await cs.GetCanvas(id);
+    var resp = await cs.GetCanvas(id); //TODO fix to not use pixels because it does not hold color no more
     return Results.Ok(resp);
 });
 
@@ -65,10 +65,10 @@ app.MapPost("/canvas/draw/{id:int}", async (int id, CanvasService cs, HttpReques
     using var reader = new StreamReader(req.Body);
     var body = await reader.ReadToEndAsync();
 
-    var newCanvas = System.Text.Json.JsonSerializer.Deserialize<List<Pixel>>(body);
-    if (newCanvas == null) return Results.BadRequest("Null canvas data");
+    var newStroke = System.Text.Json.JsonSerializer.Deserialize<Stroke>(body);
+    if (newStroke == null) return Results.BadRequest("Null canvas data");
 
-    await cs.DrawCanvas(id, newCanvas);
+    await cs.DrawCanvas(id, newStroke);
     //await hc.Clients.All.SendAsync("recvStroke", newCanvas.Pixels); //TODO implement maybe
     return Results.Ok();
 });

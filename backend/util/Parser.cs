@@ -25,9 +25,9 @@ public static class Parser
         return int.Parse(line.Substring(1, end - 1));
     }
 
-    public static List<Pixel> CanvasParser(string line) // From Redis
+    public static List<GetPixel> CanvasParser(string line) // From Redis
     {
-        var retList = new List<Pixel>();
+        var retList = new List<GetPixel>();
         var lines = line.Split("\r\n", StringSplitOptions.RemoveEmptyEntries);
         
         for (int i = 2; i + 2 < lines.Length; i += 4)
@@ -36,7 +36,7 @@ public static class Parser
             var key = lines[i];
             var val = lines[i + 2];
             var coords = key.Split("x");
-            var append = new Pixel(int.Parse(coords[0]), int.Parse(coords[1]), val);
+            var append = new GetPixel(int.Parse(coords[0]), int.Parse(coords[1]), val);
             retList.Add(append);
         }
         return retList;

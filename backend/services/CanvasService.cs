@@ -3,16 +3,27 @@ using backend.util;
 
 namespace backend.services;
 
+//Used for setting
 public record Pixel(
+    [property: JsonPropertyName("x")] int X,
+    [property: JsonPropertyName("y")] int Y
+);
+
+public record Stroke(
+    [property: JsonPropertyName("color")] string Color,
+    [property: JsonPropertyName("pixels")] List<Pixel> Pixels
+);
+
+//Used to get canvas, ugly to use one for setting and one for getting but helps reduce the amount sent when setting
+public record GetPixel(
     [property: JsonPropertyName("x")] int X,
     [property: JsonPropertyName("y")] int Y,
     [property: JsonPropertyName("color")] string Color
 );
-//public record Canvas([property: JsonPropertyName("pixels")] List<Pixel> Pixels);
 
 public class CanvasService
 {
-    public async Task<List<Pixel>> GetCanvas(int tileID)
+    public async Task<List<GetPixel>> GetCanvas(int tileID)
     {
         using var client = new RedisClient();
         var resp = await client.Command($"HGETALL canvas{tileID}");
@@ -20,13 +31,13 @@ public class CanvasService
         return pixels;
     }
     
-    public async Task DrawCanvas(int tileID, List<Pixel> pixels)
+    public async Task DrawCanvas(int tileID, Stroke pixels)
     {
         var cmd = $"HSET canvas{tileID} "; //chunk to send full
-        Console.WriteLine(pixels.Count);
-        foreach(var i in pixels)
+        Console.WriteLine(pixels.Pixels.Count);
+        foreach(var i in pixels.Pixels)
         {
-            cmd += $"{i.X}x{i.Y} {i.Color} ";
+            cmd += $"{i.X}x{i.Y} {pixels.Color} ";
             
         }
         cmd = cmd.TrimEnd();

@@ -1,10 +1,17 @@
-
-const TILESIZE = 10;
-
 export interface Pixel {
     x: number;
     y: number;
+}
+
+export interface Stroke {
     color: string;
+    pixels: Pixel[];
+}
+
+export interface GetPixel{
+    color: string;
+    x: number;
+    y: number;
 }
 
 export class Canvas {
@@ -58,7 +65,6 @@ export class Canvas {
                     this.updatePixels.push({
                         x: centerX + dx,
                         y: centerY + dy,
-                        color: color
                     });
                 }
             }
@@ -75,28 +81,29 @@ export class Canvas {
     public async updateCanvas(pixels : Pixel[]) : Promise<void>{
         if (pixels.length === 0) return;
 
-        const uniquePixels = Array.from(
+        const uniquePixels : Pixel[] = Array.from(
             pixels.reduce((map, p) =>
                 map.set(`${p.x},${p.y}`, p), new Map<string, Pixel>()).values()
         );
 
-        const tiles: Map<number, Pixel[]> = new Map();
+        const color = this.crc.strokeStyle as string;
+        const tiles: Map<number, Stroke> = new Map();
 
         for (const p of uniquePixels) {
             const tileX = Math.floor(p.x / 30);
             const tileY = Math.floor(p.y / 30);
             const tileID = tileY * 10 + tileX;
 
-            if (!tiles.has(tileID)) tiles.set(tileID, []);
-            tiles.get(tileID)!.push(p);
+            if (!tiles.has(tileID)) tiles.set(tileID,{color, pixels: [] });
+            tiles.get(tileID)!.pixels.push(p);
         }
 
-        for (const [tileID, tilePixels] of tiles.entries()) {
-            console.log(`tiledID: ${tileID} and pixel count ${tilePixels.length}`)
+        for (const [tileID, stroke] of tiles.entries()) {
+            console.log(`tiledID: ${tileID} and pixel count ${stroke.pixels.length}`)
             await fetch(`http://localhost:5127/canvas/draw/${tileID}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(tilePixels)
+                body: JSON.stringify(stroke)
             });
         }
     }
