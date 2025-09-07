@@ -34,7 +34,6 @@ public class CanvasService
     public async Task DrawCanvas(int tileID, Stroke pixels)
     {
         var cmd = $"HSET canvas{tileID} "; //chunk to send full
-        Console.WriteLine(pixels.Pixels.Count);
         foreach(var i in pixels.Pixels)
         {
             cmd += $"{i.X}x{i.Y} {pixels.Color} ";

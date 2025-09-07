@@ -75,25 +75,13 @@ window.addEventListener("DOMContentLoaded", async () =>{
     counterSpan.innerHTML = `You are visitor number:<br> ${theCounter}`;
 
     //Init chatroom
-    await theChatroom.hubConnect();
+    await theChatroom.connectChat();
     const connectedUsers = await theChatroom.getUsers();
     const userCount = document.getElementById("userCount") as HTMLSpanElement;
     userCount.innerHTML = `${connectedUsers}/16`;
 
     //Init canvas
-    for (let i = 0; i <= 99; i++){
-        const respCanvas: Response = await fetch(`http://localhost:5127/canvas/data/${i}`);
-        if (!respCanvas.ok) {
-            console.warn(`Canvas tile ${i} load failed`);
-            continue;
-        }
-
-        const respData: GetPixel[] = await respCanvas.json();
-        for (const pixel of respData) {
-            theCanvas.crc.fillStyle = pixel.color;
-            theCanvas.crc.fillRect(pixel.x, pixel.y, 1, 1);
-        }
-    }
+    await theCanvas.connectCanvas();
 });
 
 
@@ -106,7 +94,8 @@ window.addEventListener("beforeunload", async () => {
     // localStorage.setItem("track", `${track}`);
     // localStorage.setItem("vol", `${vol}`);
 
-    theChatroom.hubDisconnect();
+    theChatroom.disconnectChat();
+    theCanvas.disconnectCanvas();
 });
 
 

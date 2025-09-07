@@ -5,9 +5,8 @@ namespace backend.hubs;
 
 public class CanvasHub : Hub
 {
-    // public async Task SendStroke(List<Pixel> stroke)
-    // {
-    //     await Clients.All.SendAsync("recvStroke", stroke);
-    // }
-    //replaces program.cs line 70 "recvStroke" if needed
+     public async Task BroadcastStroke(Stroke stroke)
+     {
+         await Clients.Others.SendAsync("RecvStroke", stroke);
+     }
 }

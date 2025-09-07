@@ -69,7 +69,6 @@ app.MapPost("/canvas/draw/{id:int}", async (int id, CanvasService cs, HttpReques
     if (newStroke == null) return Results.BadRequest("Null canvas data");
 
     await cs.DrawCanvas(id, newStroke);
-    //await hc.Clients.All.SendAsync("recvStroke", newCanvas.Pixels); //TODO implement maybe
     return Results.Ok();
 });
 
@@ -77,7 +76,6 @@ app.MapPost("/canvas/draw/{id:int}", async (int id, CanvasService cs, HttpReques
 app.MapGet("/chat/users", (ChatService chs) =>
 {
     var userCount = chs.GetUsers();
-    Console.WriteLine(userCount);
     return Results.Ok(userCount);
 });
 
@@ -90,7 +88,7 @@ app.MapGet("/chat/join", async (ChatService chs) =>
 });
 
 //Del username
-app.MapPost("/chat/leave", async (ChatService chs, HttpRequest req) =>
+app.MapPost("/chat/leave", async (ChatService chs, HttpRequest req) => //Set to post for navigator.beacon
 {
     using var reader = new StreamReader(req.Body);
     string username = (await reader.ReadToEndAsync());

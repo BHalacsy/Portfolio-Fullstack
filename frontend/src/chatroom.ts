@@ -2,8 +2,8 @@ import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
 
 
 export class Chatroom {
-    private username : string | undefined;
     private readonly connection : HubConnection;
+    private username : string | undefined;
     private sendButton : HTMLButtonElement;
     private inputText : HTMLInputElement;
 
@@ -56,7 +56,7 @@ export class Chatroom {
     }
 
     //TODO should also handle stroke sending
-    public async hubConnect() : Promise<boolean>{
+    public async connectChat() : Promise<boolean>{
         if (!await this.initUsername()) return false;
 
         const usernameSpan = document.getElementById("userDisplay") as HTMLSpanElement;
@@ -74,7 +74,6 @@ export class Chatroom {
         });
 
         await this.connection.start();
-
         console.log("Message hub online!");
         return true;
     }
@@ -98,13 +97,12 @@ export class Chatroom {
         }
     }
 
-    public hubDisconnect() : void{
+    public disconnectChat() : void{
         if (this.username) {
             navigator.sendBeacon("/chat/leave", this.username);
         }
         if (this.connection) {
-            this.connection.stop();
-            console.log("Message hub offline");
+            this.connection.stop().then(r => console.log("Message hub offline"));
         }
     }
 }

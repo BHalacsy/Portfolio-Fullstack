@@ -1,3 +1,5 @@
+import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
+
 export interface Pixel {
     x: number;
     y: number;
@@ -15,6 +17,7 @@ export interface GetPixel{
 }
 
 export class Canvas {
+    private readonly connection : HubConnection;
     private canvas : HTMLCanvasElement;
     private inputColor : HTMLInputElement;
     public crc : CanvasRenderingContext2D;
@@ -22,6 +25,10 @@ export class Canvas {
     private updatePixels : Pixel[] = [];
 
     constructor(id : string){
+        this.connection = new HubConnectionBuilder()
+            .withUrl("/canvas/hub")
+            .withAutomaticReconnect()
+            .build();
         this.canvas = document.getElementById(id) as HTMLCanvasElement;
         this.inputColor = document.getElementById("inputColor") as HTMLInputElement;
         this.crc = <CanvasRenderingContext2D>this.canvas.getContext("2d");
@@ -71,11 +78,27 @@ export class Canvas {
         }
     }
 
-    private endDraw() {
+    private endDraw() : void {
         this.draw = false;
         this.crc.closePath();
         this.updateCanvas(this.updatePixels);
         this.updatePixels = [];
+    }
+
+    public async initCanvas() : Promise<void>{
+        for (let i = 0; i <= 99; i++){
+            const respCanvas: Response = await fetch(`http://localhost:5127/canvas/data/${i}`);
+            if (!respCanvas.ok) {
+                console.warn(`Canvas tile ${i} load failed`);
+                continue;
+            }
+
+            const respData: GetPixel[] = await respCanvas.json();
+            for (const pixel of respData) {
+                this.crc.fillStyle = pixel.color;
+                this.crc.fillRect(pixel.x, pixel.y, 1, 1);
+            }
+        }
     }
 
     public async updateCanvas(pixels : Pixel[]) : Promise<void>{
@@ -87,14 +110,19 @@ export class Canvas {
         );
 
         const color = this.crc.strokeStyle as string;
-        const tiles: Map<number, Stroke> = new Map();
 
+        //For real-time updates
+        const stroke: Stroke = {color, pixels: [...uniquePixels]};
+        await this.sendStroke(stroke);
+
+        //For storage of canvas (broke into tiles for each of storage)
+        const tiles: Map<number, Stroke> = new Map();
         for (const p of uniquePixels) {
             const tileX = Math.floor(p.x / 30);
             const tileY = Math.floor(p.y / 30);
             const tileID = tileY * 10 + tileX;
 
-            if (!tiles.has(tileID)) tiles.set(tileID,{color, pixels: [] });
+            if (!tiles.has(tileID)) tiles.set(tileID,{color, pixels: []});
             tiles.get(tileID)!.pixels.push(p);
         }
 
@@ -110,5 +138,44 @@ export class Canvas {
 
     public setColor(color : string) {
         this.crc.strokeStyle = color;
+    }
+
+    public async connectCanvas() : Promise<void>{
+        await this.initCanvas();
+
+        this.connection.on("RecvStroke", (recv : Stroke) => {
+            this.crc.fillStyle = recv.color;
+            for (const pixel of recv.pixels) {
+                this.crc.fillRect(pixel.x, pixel.y, 1, 1);
+            }
+        });
+
+        await this.connection.start();
+        console.log("Canvas hub online!");
+    }
+
+    public async sendStroke(stroke : Stroke) : Promise<void> {
+        if (!this.connection){
+            console.warn("Non-connected try to send stroke");
+            return;
+        }
+
+        const size = JSON.stringify(stroke).length;
+        if (size > 32000){
+            //TODO chunk sending over signalR default
+        }
+
+        try
+        {
+            await this.connection.invoke("BroadcastStroke", stroke);
+        } catch (e) {
+            console.error("Stroke sending failed: ", e);
+        }
+    }
+
+    public disconnectCanvas() : void {
+        if (this.connection) {
+            this.connection.stop().then(r => console.log("Canvas hub offline"));
+        }
     }
 }
