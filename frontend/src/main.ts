@@ -135,4 +135,5 @@ volSlider.addEventListener("input", () => {
     player.volume = Number(volSlider.value) / 100;
 });
 
+//Occasional refresh user count
 setInterval(updateUserCount, 10000);

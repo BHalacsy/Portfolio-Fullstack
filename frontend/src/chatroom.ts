@@ -4,8 +4,9 @@ import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
 export class Chatroom {
     private readonly connection : HubConnection;
     private username : string | undefined;
-    private sendButton : HTMLButtonElement;
+
     private inputText : HTMLInputElement;
+    private sendButton : HTMLButtonElement;
 
     constructor() {
         this.connection = new HubConnectionBuilder()
@@ -14,6 +15,20 @@ export class Chatroom {
                         .build();
         this.sendButton = document.getElementById("inputButton") as HTMLButtonElement;
         this.inputText = document.getElementById("inputText") as HTMLInputElement;
+        this.eventListen();
+    }
+
+    private eventListen() {
+        this.inputText.addEventListener("keydown", async (e) => {
+            if (e.key === "Enter") {
+                const message = this.inputText.value.trim();
+                if (message) {
+                    await this.sendMessage(message);
+                    this.inputText.value = "";
+                }
+            }
+        });
+
         this.sendButton.addEventListener("click", async () => {
             const message = this.inputText.value.trim();
             if (message){
@@ -32,7 +47,7 @@ export class Chatroom {
         const resp : Response = await fetch(req);
         if (!resp.ok){
             //TODO alert user max users chatting or invalid username
-            console.warn(await resp.text()); // maybe just body?
+            console.warn(await resp.text());
             return false;
         }
 
@@ -64,13 +79,14 @@ export class Chatroom {
 
         this.connection.on("RecvMessage", (recv) => {
             const {username, message, timestamp} = recv;
-            const chatViewer = document.getElementById("chatViewer");
-            if (chatViewer) {
-                const msgDiv = document.createElement("div");
-                msgDiv.className = `bg-[var(--${username}-color)] mt-2 p-2 rounded self-end`;
-                msgDiv.textContent = `[${timestamp}] ${username}: ${message}`;
-                chatViewer.appendChild(msgDiv);
-            }
+            const chatViewer = document.getElementById("chatViewer") as HTMLElement;
+
+            const msgDiv = document.createElement("div");
+            msgDiv.className = `text-sm p-2 mt-2 rounded self-end move-r`;
+            msgDiv.style.background = `var(--${username}-color)`; //Independent of tailwind class names because of injection bug
+            msgDiv.textContent = `[${timestamp}] ${username}: ${message}`;
+
+            chatViewer.appendChild(msgDiv);
         });
 
         await this.connection.start();

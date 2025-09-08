@@ -18,9 +18,14 @@ export interface GetPixel{
 
 export class Canvas {
     private readonly connection : HubConnection;
+
     private canvas : HTMLCanvasElement;
     private inputColor : HTMLInputElement;
-    public crc : CanvasRenderingContext2D;
+    private smallBrush : HTMLButtonElement;
+    private mediumBrush : HTMLButtonElement;
+    private largeBrush : HTMLButtonElement;
+    private crc : CanvasRenderingContext2D;
+
     private draw : boolean = false;
     private updatePixels : Pixel[] = [];
 
@@ -31,10 +36,14 @@ export class Canvas {
             .build();
         this.canvas = document.getElementById(id) as HTMLCanvasElement;
         this.inputColor = document.getElementById("inputColor") as HTMLInputElement;
+        this.smallBrush = document.getElementById("smallBrush") as HTMLButtonElement;
+        this.mediumBrush = document.getElementById("mediumBrush") as HTMLButtonElement;
+        this.largeBrush = document.getElementById("largeBrush") as HTMLButtonElement;
         this.crc = <CanvasRenderingContext2D>this.canvas.getContext("2d");
         this.crc.lineWidth = 4;
         this.crc.lineCap = "round";
         this.crc.lineJoin = "round";
+
         this.eventListen();
     }
 
@@ -44,6 +53,9 @@ export class Canvas {
         this.canvas.addEventListener("mouseup", () => this.endDraw());
         this.canvas.addEventListener("mouseleave", () => this.endDraw());
         this.inputColor.addEventListener("change", (e) => this.setColor((e.target as HTMLInputElement).value));
+        this.smallBrush.addEventListener("click", () => this.setSize(4));
+        this.mediumBrush.addEventListener("click", () => this.setSize(6));
+        this.largeBrush.addEventListener("click", () => this.setSize(10));
     }
 
     private startDraw(e: MouseEvent) {
@@ -136,10 +148,16 @@ export class Canvas {
         }
     }
 
-    public setColor(color : string) {
+    private setColor(color : string) {
         this.crc.strokeStyle = color;
     }
 
+    private setSize(size : number){
+        this.crc.lineWidth = size;
+    }
+
+
+    //SignalR functionality
     public async connectCanvas() : Promise<void>{
         await this.initCanvas();
 
