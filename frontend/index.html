@@ -55,18 +55,18 @@
 </section>
 <section id="bodySection" class="flex flex-col bg-linear-to-b from-[var(--bg-color)] to-[var(--accent-color)] text-[var(--txt-color)] min-h-screen">
 
-    <div id="aboutMe" class="grid grid-cols-4 grid-rows-5 gap-4 w-3/5 h-[700px] mx-auto my-25 snap-start max-[1050px]:flex max-[1050px]:flex-col">
+    <div id="aboutMe" class="grid grid-cols-4 grid-rows-5 gap-4 w-3/5 h-[85vh] mx-auto my-25 snap-start max-[1050px]:flex max-[1050px]:flex-col">
         <div class="col-span-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-4 intersect move-rd">
             <span class="text-3xl font-semibold">Halácsy Bálint</span>
         </div>
         <div class="col-span-2 row-span-2 col-start-1 row-start-2 bg-tile-gradient rounded-2xl p-4 intersect move-r flex flex-col items-center justify-center">
             <img id="portrait" src="/media/portrait.png" alt="Image of me" class="w-auto h-[90%] rounded-full object-cover max-[1050px]:h-[200px]">
         </div>
-        <div class="col-start-1 col-span-2 row-start-4 grid grid-cols-2 gap-x-4 max-[1050px]:flex max-[1050px]:flex-row max-[1050px]:gap-4">
-            <div class="row-span-2 col-start-1 row-start-4 bg-tile-gradient rounded-2xl p-2 intersect move-ru max-[1050px]:w-1/2">
+        <div class="col-start-1 col-span-2 row-span-2 row-start-4 grid grid-cols-2 grid-rows-1 gap-x-4 h-full min-h-0 max-[1050px]:flex max-[1050px]:flex-row max-[1050px]:gap-4">
+            <div class="bg-tile-gradient h-full rounded-2xl p-2 intersect move-ru max-[1050px]:w-1/2">
                 <span class="text-lg font-medium mb-1 block">Stack</span>
                 <span class="text-md block mb-2">Languages:</span>
-                <div class="grid grid-cols-3 grid-rows-2">
+                <div class="grid grid-cols-3 grid-rows-2 flex-1 gap-1">
                     <div class="flex items-center justify-center rounded-xl px-2 pt-1">
                         <img src="/media/icons/skills/cppIcon.svg" alt="C++" class="w-8 h-8">
                     </div>
@@ -87,7 +87,7 @@
                     </div>
                 </div>
                 <span class="text-md block mb-2">Technologies:</span>
-                <div class="grid grid-cols-3 grid-rows-2">
+                <div class="grid grid-cols-3 grid-rows-2 flex-1 gap-1">
                     <div class="flex items-center justify-center rounded-xl px-2 pt-1">
                         <img src="/media/icons/skills/dockerIcon.svg" alt="Docker" class="w-8 h-8">
                     </div>
@@ -109,9 +109,9 @@
                 </div>
             </div>
 
-            <div class="row-span-2 col-start-2 row-start-4 bg-tile-gradient rounded-2xl p-2 intersect move-u text-lg font-medium max-[1050px]:w-1/2">
+            <div class="bg-tile-gradient h-full rounded-2xl p-2 intersect move-u text-lg font-medium max-[1050px]:w-1/2">
                 <span class="text-lg font-medium block mb-1">Socials</span>
-                <div class="grid grid-cols-3 grid-rows-5">
+                <div class="grid grid-cols-3 grid-rows-5 flex-1 gap-1">
                     <div class="flex items-center justify-center h-full">
                         <a href="https://www.instagram.com/b00tyb01/?hl=en" target="_blank" rel="noopener">
                             <img src="/media/icons/socials/instagramIcon.svg" alt="instagram" class="w-11 h-11 rounded-full pop-button">
@@ -162,9 +162,9 @@
         </div>
     </div>
 
-    <div id="toybox" class="grid grid-cols-2 grid-rows-5 gap-4 w-3/5 h-[700px] mx-auto my-25 snap-start group max-[1050px]:flex max-[1050px]:flex-col">
+    <div id="toybox" class="grid grid-cols-2 grid-rows-5 gap-4 w-3/5 h-[85vh] mx-auto my-25 snap-start group max-[1050px]:flex max-[1050px]:flex-col">
         <div class="row-span-4 h-full rounded-2xl p-4 items-center justify-center bg-tile-gradient intersect move-r max-[1050px]:order-2 max-[1050px]:h-full">
-            <div id="chatViewer" class="relative flex flex-col h-[500px] max-[1050px]:h-[400px] bg-white rounded-xl p-2 overflow-y-auto">
+            <div id="chatViewer" class="relative flex flex-col h-[95%] max-[1050px]:h-[400px] bg-white rounded-xl p-2 overflow-y-auto">
                 <div class="flex sticky top-0 z-10 bg-gray-400 text-white w-8 h-8 p-4 items-center justify-center rounded-full">
                     <span id="userCount" class="text-xs font-light px-1">0/16</span>
                 </div>
@@ -175,7 +175,7 @@
         </div>
         <div class="col-start-1 row-start-5 flex flex-col items-center justify-center bg-tile-gradient rounded-2xl p-4 intersect move-u max-[1050px]:order-3">
                 <!--TODO solve alignment issue plus icon-->
-                <label for="inputText"></label><input type="text" id="inputText" placeholder="Send message here..." class="bg-[var(--fg-color)] px-3 py-1 border border-gray-300 rounded ">
+                <label for="inputText"></label><input type="text" id="inputText" placeholder="Send message here..." class="bg-[var(--fg-color)] px-3 py-1 border border-gray-300 rounded w-[75%]">
                 <button id="inputButton" class="bg-[var(--bg-color)] text-white px-4 py-1 mt-5 rounded-lg hover:bg-[var(--accent-color)] pop-button transition">Send</button> <!--TODO change to icon? and on hover color var-->
         </div>
         <div class="row-span-4 col-start-2 row-start-2 flex flex-col items-center justify-center bg-tile-gradient rounded-2xl p-4 intersect move-l max-[1050px]:hidden">
@@ -207,7 +207,7 @@
         </div>
     </div>
 
-    <div id="projRedis" class="grid grid-cols-4 grid-rows-5 gap-4 text-[var(--txt-color)] w-3/5 h-[700px] justify-center mx-auto my-25 snap-start">
+    <div id="projRedis" class="grid grid-cols-4 grid-rows-5 gap-4 text-[var(--txt-color)] w-3/5 h-[85vh] justify-center mx-auto my-25 snap-start">
         <div class="col-span-2 bg-tile-gradient rounded-2xl p-4 intersect move-rd text-2xl font-bold">
             Title
         </div>
@@ -222,7 +222,7 @@
         </div>
     </div>
 
-    <div id="projPortfolio" class="grid grid-cols-4 grid-rows-5 gap-4 text-[var(--txt-color)] w-3/5 h-[700px] justify-center mx-auto mt-25 mb-40 snap-start">
+    <div id="projPortfolio" class="grid grid-cols-4 grid-rows-5 gap-4 text-[var(--txt-color)] w-3/5 h-[85vh] justify-center mx-auto mt-25 mb-40 snap-start">
         <div class="col-span-2 row-span-5 bg-tile-gradient rounded-2xl p-4 intersect move-r">
             Desc
         </div>
