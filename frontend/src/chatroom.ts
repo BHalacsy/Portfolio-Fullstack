@@ -70,7 +70,6 @@ export class Chatroom {
         return Number(await resp.text());
     }
 
-    //TODO should also handle stroke sending
     public async connectChat() : Promise<boolean>{
         if (!await this.initUsername()) return false;
 

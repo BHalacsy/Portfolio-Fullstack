@@ -10,7 +10,7 @@ export interface Stroke {
     pixels: Pixel[];
 }
 
-export interface GetPixel{
+interface GetPixel{
     color: string;
     x: number;
     y: number;
@@ -67,9 +67,9 @@ export class Canvas {
     private drawMove(e: MouseEvent) {
         if (!this.draw) return;
 
-        const radius = Math.round(this.crc.lineWidth / 2);
-        const centerX = Math.round(e.offsetX);
-        const centerY = Math.round(e.offsetY);
+        const radius : number = Math.round(this.crc.lineWidth / 2);
+        const centerX : number = Math.round(e.offsetX);
+        const centerY : number = Math.round(e.offsetY);
         const color = this.crc.strokeStyle as string;
 
         this.crc.beginPath();
@@ -78,8 +78,8 @@ export class Canvas {
         this.crc.fill();
         this.crc.closePath();
 
-        for (let dx = -radius; dx <= radius; dx++) {
-            for (let dy = -radius; dy <= radius; dy++) {
+        for (let dx : number = -radius; dx <= radius; dx++) {
+            for (let dy : number = -radius; dy <= radius; dy++) {
                 if (dx * dx + dy * dy <= radius * radius) {
                     this.updatePixels.push({
                         x: centerX + dx,
@@ -98,7 +98,7 @@ export class Canvas {
     }
 
     public async initCanvas() : Promise<void>{
-        for (let i = 0; i <= 99; i++){
+        for (let i : number = 0; i <= 99; i++){
             const respCanvas: Response = await fetch(`http://localhost:5127/canvas/data/${i}`);
             if (!respCanvas.ok) {
                 console.warn(`Canvas tile ${i} load failed`);
@@ -116,6 +116,7 @@ export class Canvas {
     public async updateCanvas(pixels : Pixel[]) : Promise<void>{
         if (pixels.length === 0) return;
 
+        //Clean up pixels reg multiple times
         const uniquePixels : Pixel[] = Array.from(
             pixels.reduce((map, p) =>
                 map.set(`${p.x},${p.y}`, p), new Map<string, Pixel>()).values()
@@ -127,32 +128,51 @@ export class Canvas {
         const stroke: Stroke = {color, pixels: [...uniquePixels]};
         await this.sendStroke(stroke);
 
-        //For storage of canvas (broke into tiles for each of storage)
+        //For storage of canvas
+        //Tile splitting
         const tiles: Map<number, Stroke> = new Map();
         for (const p of uniquePixels) {
-            const tileX = Math.floor(p.x / 30);
-            const tileY = Math.floor(p.y / 30);
-            const tileID = tileY * 10 + tileX;
+            const tileX : number = Math.floor(p.x / 30);
+            const tileY : number = Math.floor(p.y / 30);
+            const tileID : number = tileY * 10 + tileX;
 
             if (!tiles.has(tileID)) tiles.set(tileID,{color, pixels: []});
             tiles.get(tileID)!.pixels.push(p);
         }
 
-        for (const [tileID, stroke] of tiles.entries()) {
-            console.log(`tiledID: ${tileID} and pixel count ${stroke.pixels.length}`)
-            await fetch(`http://localhost:5127/canvas/draw/${tileID}`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(stroke)
-            });
+        const tileEntries = Array.from(tiles.entries());
+
+        for (const [tileID, stroke] of tileEntries) {
+            //Chunking for custom redis to handle length
+            const chunkSize = 150;
+            const pixelChunks = [];
+            if (stroke.pixels.length > chunkSize) {
+                for (let i : number = 0; i < stroke.pixels.length; i += chunkSize) {
+                    pixelChunks.push(stroke.pixels.slice(i, i + chunkSize));
+                }
+            } else {
+                pixelChunks.push(stroke.pixels);
+            }
+
+            for (const chunk of pixelChunks) {
+                try {
+                    await fetch(`http://localhost:5127/canvas/draw/${tileID}`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ color: stroke.color, pixels: chunk }),
+                    });
+                } catch (e) {
+                    console.error(`Failed to send tile ${tileID}:`, e);
+                }
+            }
         }
     }
 
-    private setColor(color : string) {
+    private setColor(color : string) : void {
         this.crc.strokeStyle = color;
     }
 
-    private setSize(size : number){
+    private setSize(size : number) : void{
         this.crc.lineWidth = size;
     }
 
@@ -161,7 +181,7 @@ export class Canvas {
     public async connectCanvas() : Promise<void>{
         await this.initCanvas();
 
-        this.connection.on("RecvStroke", (recv : Stroke) => {
+        this.connection.on("RecvStroke", (recv : Stroke) : void => {
             this.crc.fillStyle = recv.color;
             for (const pixel of recv.pixels) {
                 this.crc.fillRect(pixel.x, pixel.y, 1, 1);
@@ -178,17 +198,32 @@ export class Canvas {
             return;
         }
 
-        const size = JSON.stringify(stroke).length;
-        if (size > 32000){
-            //TODO chunk sending over signalR default
-        }
+        //SignalR default max size is 32kb
+        const size : number = JSON.stringify(stroke).length;
+        if (size > 32000) {
+            const chunkSize : number = Math.ceil(stroke.pixels.length / Math.ceil(size / 32000));
 
-        try
-        {
-            await this.connection.invoke("BroadcastStroke", stroke);
-        } catch (e) {
-            console.error("Stroke sending failed: ", e);
+            for (let i : number = 0; i < stroke.pixels.length; i += chunkSize) {
+                const chunk: Stroke = {
+                    color: stroke.color,
+                    pixels: stroke.pixels.slice(i, i + chunkSize)
+                };
+
+                try {
+                    await this.connection.invoke("BroadcastStroke", chunk);
+                } catch (e) {
+                    console.error("Chunked stroke sending failed: ", e);
+                }
+            }
+        } else {
+            try
+            {
+                await this.connection.invoke("BroadcastStroke", stroke);
+            } catch (e) {
+                console.error("Stroke sending failed: ", e);
+            }
         }
+        return;
     }
 
     public disconnectCanvas() : void {
