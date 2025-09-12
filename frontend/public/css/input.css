@@ -53,35 +53,35 @@
 }
 
 .move-l{
-    @apply group-intersect:motion-scale-in-[0.5] intersect:motion-translate-x-in-[75%] intersect:motion-translate-y-in-[0%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur;
+    @apply intersect:motion-translate-x-in-[75%] intersect:motion-translate-y-in-[0%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur motion-ease-spring-bouncy;
 }
 
 .move-r{
-    @apply intersect:motion-scale-in-[0.5] intersect:motion-translate-x-in-[-75%] intersect:motion-translate-y-in-[0%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur;
+    @apply intersect:motion-translate-x-in-[-75%] intersect:motion-translate-y-in-[0%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur motion-ease-spring-bouncy;
 }
 
 .move-d{
-    @apply intersect:motion-scale-in-[0.5] intersect:motion-translate-x-in-[0%] intersect:motion-translate-y-in-[-75%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur;
+    @apply intersect:motion-translate-x-in-[0%] intersect:motion-translate-y-in-[-75%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur motion-ease-spring-bouncy;
 }
 
 .move-u{
-    @apply intersect:motion-scale-in-[0.5] intersect:motion-translate-x-in-[0%] intersect:motion-translate-y-in-[75%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur;
+    @apply intersect:motion-translate-x-in-[0%] intersect:motion-translate-y-in-[75%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur motion-ease-spring-bouncy;
 }
 
 .move-lu{
-    @apply intersect:motion-scale-in-[0.5] intersect:motion-translate-x-in-[75%] intersect:motion-translate-y-in-[75%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur;
+    @apply intersect:motion-translate-x-in-[75%] intersect:motion-translate-y-in-[75%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur motion-ease-spring-bouncy;
 }
 
 .move-ld{
-    @apply intersect:motion-scale-in-[0.5] intersect:motion-translate-x-in-[75%] intersect:motion-translate-y-in-[-75%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur;
+    @apply intersect:motion-translate-x-in-[75%] intersect:motion-translate-y-in-[-75%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur motion-ease-spring-bouncy;
 }
 
 .move-ru{
-    @apply intersect:motion-scale-in-[0.5] intersect:motion-translate-x-in-[-75%] intersect:motion-translate-y-in-[75%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur;
+    @apply intersect:motion-translate-x-in-[-75%] intersect:motion-translate-y-in-[75%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur motion-ease-spring-bouncy;
 }
 
 .move-rd{
-    @apply  intersect:motion-scale-in-[0.5] intersect:motion-translate-x-in-[-75%] intersect:motion-translate-y-in-[-75%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur;
+    @apply  intersect:motion-translate-x-in-[-75%] intersect:motion-translate-y-in-[-75%] intersect:motion-blur-in-[10px] intersect:motion-duration-[1.13s]/translate motion-delay-[0.35s]/blur motion-ease-spring-bouncy;
 }
 
 .bg-tile-gradient{
@@ -93,7 +93,7 @@
 }
 
 .link-text{
-    @apply text-[var(--bg-color)] hover:text-[var(--accent-color)];
+    @apply text-[var(--bg-color)] hover:text-[var(--accent-color)] transition-all duration-300;
 }
 
 @font-face{
