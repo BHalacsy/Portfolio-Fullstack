@@ -44,10 +44,9 @@ public class CanvasService
         await client.Command(cmd);
     }
     
-    //TODO implement on 24hr clock
     public async Task ClearCanvas()
     {
-        for (int i = 0; i < 99; i++)
+        for (int i = 0; i < 100; i++)
         {
             var cmd = $"DEL canvas{i}";
             using var client = new RedisClient();

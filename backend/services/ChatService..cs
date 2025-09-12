@@ -46,4 +46,10 @@ public class ChatService
         await DelUser(user);
         _connected--;
     }
+
+    public async Task Reset()
+    {
+        var client = new RedisClient();
+        await client.Command($"SADD users lion panther jay tiger robin giraffe bee cow pig donkey fish hippo panda wolf deer bear");
+    }
 }
