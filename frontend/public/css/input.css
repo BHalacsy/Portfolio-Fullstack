@@ -92,6 +92,19 @@
     @apply shadow-[4px_4px_0px_0px_#1e293b] transition-all duration-200 hover:translate-x-1 hover:translate-y-1 hover:shadow-none;
 }
 
+.link-text{
+    @apply text-[var(--bg-color)] hover:text-[var(--accent-color)];
+}
+
+@font-face{
+    font-family: "Inter";
+    src: url("../font/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+    font-weight: 100 900;
+    font-stretch: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 @font-face {
     font-family: "Tirra";
     src: url("../font/Tirra-Regular.ttf") format("truetype");
@@ -160,5 +173,5 @@
 }
 
 @theme{
-    --font-main: "KiwiMaru", "Tirra", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    --font-main: "Inter", "KiwiMaru", "Tirra", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
 }

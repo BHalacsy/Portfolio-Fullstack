@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/output.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/favicon.ico">
     <title>Balint Halacsy</title>
 </head>
 <body class="bg-[var(--fg-color)]">
@@ -24,8 +25,8 @@
                     </button>
                 </div>
                 <div class="flex flex-col mx-4">
-                    <label for="trackSelect"></label><select id="trackSelect" class="bg-[var(--fg-color)] hover:bg-[var(--fg-tinted-color)] px-4 py-2 text-[var(--txt-color)] rounded-2xl pop-button">
-                        <option value="">Select Track (None)</option>
+                    <label for="trackSelect"></label><select id="trackSelect" class="bg-[var(--fg-color)] w-auto hover:bg-[var(--fg-tinted-color)] px-4 py-2 text-[var(--txt-color)] rounded-2xl pop-button">
+                        <option value="">None</option>
                         <option value="A">Disco Elysium</option>
                         <option value="B">Little Big Planet</option>
                         <option value="C">Club Penguin</option>
@@ -40,15 +41,15 @@
     </div>
 </section>
 <section id="landingPage">
-    <h1 class="text-[var(--accent-color)] text-6xl font-extrabold text-center mt-28 snap-start">Welcome to my page!</h1>
+    <h1 class="text-[var(--accent-color)] text-6xl max-[1050px]:text-4xl font-extrabold text-center mt-28 snap-start">Welcome to my page!</h1>
     <div class="text-center mt-10">
-        <span id="viewCounter" class="text-3xl text-[var(--txt-color)] font-semibold">You are visitor number:<br>
+        <span id="viewCounter" class="text-3xl max-[1050px]:text-2xl text-[var(--txt-color)] font-semibold">You are visitor number:<br>
             <img src="/media/loadingBlack.svg" alt="loading circle" class="animate-spin w-10 h-10 mx-auto mt-2">
         </span>
     </div>
     <div class="relative h-10 flex justify-center">
         <a href="#aboutMe" class="absolute top-10">
-            <img src="/media/lightArrow.svg" id="arrowDown" alt="arrow down" class="w-28 h-auto motion-preset-oscillate">
+            <img src="/media/lightArrow.svg" id="arrowDown" alt="arrow down" class="w-28 h-auto max-[1050px]:w-20 motion-preset-oscillate">
         </a>
     </div>
     <img id="landingImg" src="/media/lightLanding.svg" alt="landing page screen" class="w-screen block">
@@ -56,115 +57,152 @@
 <section id="bodySection" class="flex flex-col bg-linear-to-b from-[var(--bg-color)] to-[var(--accent-color)] text-[var(--txt-color)] min-h-screen">
 
     <div id="aboutMe" class="grid grid-cols-4 grid-rows-5 gap-4 w-3/5 h-[85vh] mx-auto my-25 snap-start max-[1050px]:flex max-[1050px]:flex-col">
-        <div class="col-span-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-4 intersect move-rd">
-            <span class="text-3xl font-semibold">Halácsy Bálint</span>
+        <div class="col-span-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-2 intersect move-rd">
+            <span class="text-4xl max-[1050px]:text-2xl font-semibold">Bálint Halácsy</span>
         </div>
-        <div class="col-span-2 row-span-2 col-start-1 row-start-2 bg-tile-gradient rounded-2xl p-4 intersect move-r flex flex-col items-center justify-center">
-            <img id="portrait" src="/media/portrait.png" alt="Image of me" class="w-auto h-[90%] rounded-full object-cover max-[1050px]:h-[200px]">
+        <div class="col-span-2 row-span-2 col-start-1 row-start-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-4 intersect move-r">
+            <img id="portrait" src="/media/portrait.png" alt="Image of me" class="w-[50%] h-auto rounded-full object-cover"> <!--max[1050px]:h-[200px]-->
         </div>
-        <div class="col-start-1 col-span-2 row-span-2 row-start-4 grid grid-cols-2 grid-rows-1 gap-x-4 h-full min-h-0 max-[1050px]:flex max-[1050px]:flex-row max-[1050px]:gap-4">
-            <div class="bg-tile-gradient h-full rounded-2xl p-2 intersect move-ru max-[1050px]:w-1/2">
-                <span class="text-lg font-medium mb-1 block">Stack</span>
-                <span class="text-md block mb-2">Languages:</span>
+        <div class="col-start-1 col-span-2 row-span-2 row-start-4 grid grid-cols-2 grid-rows-1 gap-x-4 h-full max-[1050px]:h-auto max-[1050px]:flex max-[1050px]:flex-row max-[1050px]:gap-4">
+            <div class="bg-tile-gradient rounded-2xl p-2 intersect move-ru max-[1050px]:w-1/2">
+                <span class="text-lg max-[500px]:text-md font-medium mb-1 block">Stack</span>
+                <span class="text-md max-[500px]:text-sm block mb-2">Languages:</span>
                 <div class="grid grid-cols-3 grid-rows-2 flex-1 gap-1">
                     <div class="flex items-center justify-center rounded-xl px-2 pt-1">
-                        <img src="/media/icons/skills/cppIcon.svg" alt="C++" class="w-8 h-8">
+                        <img src="/media/icons/skills/cppIcon.svg" alt="C++" class="w-9 h-auto">
                     </div>
                     <div class="flex items-center justify-center rounded-xl px-2 pt-1">
-                        <img src="/media/icons/skills/csIcon.svg" alt="C#" class="w-8 h-8">
+                        <img src="/media/icons/skills/csIcon.svg" alt="C#" class="w-9 h-auto">
                     </div>
                     <div class="flex items-center justify-center rounded-xl px-2 pt-1">
-                        <img src="/media/icons/skills/tsIcon.svg" alt="Typescript" class="w-7 h-7">
+                        <img src="/media/icons/skills/tsIcon.svg" alt="Typescript" class="w-8 h-auto">
                     </div>
                     <div class="flex items-center justify-center rounded-xl px-2 pt-1">
-                        <img src="/media/icons/skills/jsIcon.svg" alt="JavaScript" class="w-7 h-7">
+                        <img src="/media/icons/skills/jsIcon.svg" alt="JavaScript" class="w-8 h-auto">
                     </div>
                     <div class="flex items-center justify-center rounded-xl px-2 pt-1">
-                        <img src="/media/icons/skills/pyIcon.svg" alt="Python" class="w-8 h-8">
+                        <img src="/media/icons/skills/pyIcon.svg" alt="Python" class="w-9 h-auto">
                     </div>
                     <div class="flex items-center justify-center rounded-xl px-2 pt-1">
-                        <img src="/media/icons/skills/javaIcon.svg" alt="Java" class="w-8 h-8">
+                        <img src="/media/icons/skills/javaIcon.svg" alt="Java" class="w-9 h-auto">
                     </div>
                 </div>
-                <span class="text-md block mb-2">Technologies:</span>
+                <span class="text-md max-[500px]:text-sm block mb-2">Technologies:</span>
                 <div class="grid grid-cols-3 grid-rows-2 flex-1 gap-1">
                     <div class="flex items-center justify-center rounded-xl px-2 pt-1">
-                        <img src="/media/icons/skills/dockerIcon.svg" alt="Docker" class="w-8 h-8">
+                        <img src="/media/icons/skills/dockerIcon.svg" alt="Docker" class="w-9 h-auto">
                     </div>
                     <div class="flex items-center justify-center rounded-xl px-2 pt-1">
-                        <img src="/media/icons/skills/linuxmintIcon.svg" alt="Linux mint" class="w-8 h-8">
+                        <img src="/media/icons/skills/linuxmintIcon.svg" alt="Linux mint" class="w-9 h-auto">
                     </div>
                     <div class="flex items-center justify-center rounded-xl px-2 pt-1">
-                        <img src="/media/icons/skills/tailwindIcon.svg" alt="Tailwind" class="w-8 h-8">
+                        <img src="/media/icons/skills/tailwindIcon.svg" alt="Tailwind" class="w-9 h-auto">
                     </div>
                     <div class="flex items-center justify-center rounded-xl px-2 pt-1">
-                        <img src="/media/icons/skills/redisIcon.svg" alt="Redis" class="w-8 h-8">
+                        <img src="/media/icons/skills/redisIcon.svg" alt="Redis" class="w-9 h-auto">
                     </div>
                     <div class="flex items-center justify-center rounded-xl px-2 pt-1">
-                        <img src="/media/icons/skills/mySQLIcon.svg" alt="mySQL" class="w-8 h-8">
+                        <img src="/media/icons/skills/mySQLIcon.svg" alt="mySQL" class="w-9 h-auto">
                     </div>
                     <div class="flex items-center justify-center rounded-xl px-2 pt-1">
-                        <img src="/media/icons/skills/actionsIcon.svg" alt="GithubActions" class="w-7 h-7">
+                        <img src="/media/icons/skills/actionsIcon.svg" alt="GithubActions" class="w-8 h-auto">
                     </div>
                 </div>
             </div>
 
-            <div class="bg-tile-gradient h-full rounded-2xl p-2 intersect move-u text-lg font-medium max-[1050px]:w-1/2">
-                <span class="text-lg font-medium block mb-1">Socials</span>
-                <div class="grid grid-cols-3 grid-rows-5 flex-1 gap-1">
-                    <div class="flex items-center justify-center h-full">
+            <div class="bg-tile-gradient min-h-0 rounded-2xl p-2 intersect move-u text-lg max-[500px]:text-md font-medium max-[1050px]:w-1/2">
+                <span class="text-lg font-medium block mb-2">Socials</span>
+                <div class="grid grid-cols-3 grid-rows-5 flex-1">
+                    <div class="flex items-center justify-center h-auto">
                         <a href="https://www.instagram.com/b00tyb01/?hl=en" target="_blank" rel="noopener">
-                            <img src="/media/icons/socials/instagramIcon.svg" alt="instagram" class="w-11 h-11 rounded-full pop-button">
+                            <img src="/media/icons/socials/instagramIcon.svg" alt="instagram" class="w-11 h-auto rounded-full pop-button">
                         </a>
                     </div>
                     <div class="col-start-3 flex items-center justify-center h-full">
                         <a href="https://github.com/bhalacsy" target="_blank" rel="noopener">
-                            <img src="/media/icons/socials/githubIcon.svg" alt="github" class="w-11 h-11 bg-black rounded-xl pop-button">
+                            <img src="/media/icons/socials/githubIcon.svg" alt="github" class="w-11 h-auto bg-black rounded-xl pop-button">
                         </a>
                     </div>
                     <div class="col-start-2 row-start-2 flex items-center justify-center h-full">
                         <a href="https://www.linkedin.com/in/balint-halacsy-18b05a2a9" target="_blank" rel="noopener">
-                            <img src="/media/icons/socials/linkedInIcon.svg" alt="linkedIn" class="w-11 h-11 rounded-xl pop-button">
+                            <img src="/media/icons/socials/linkedInIcon.svg" alt="linkedIn" class="w-11 h-auto rounded-xl pop-button">
                         </a>
                     </div>
                     <div class="row-start-3 flex items-center justify-center h-full">
                         <a href="https://open.spotify.com/user/11137535719?si=10ce0cfe47bf4f07" target="_blank" rel="noopener">
-                            <img src="/media/icons/socials/spotifyIcon.svg" alt="spotify" class="w-11 h-11 rounded-full pop-button">
+                            <img src="/media/icons/socials/spotifyIcon.svg" alt="spotify" class="w-11 h-auto rounded-full pop-button">
                         </a>
                     </div>
                     <div class="col-start-3 row-start-3 flex items-center justify-center h-full">
                         <a href="mailto:balint@halacsy.com">
-                            <img src="/media/icons/socials/emailIcon.svg" alt="email" class="w-11 h-11 rounded-xl pop-button">
+                            <img src="/media/icons/socials/emailIcon.svg" alt="email" class="w-11 h-auto rounded-xl pop-button">
                         </a>
                     </div>
                     <div class="col-start-2 row-start-4 flex items-center justify-center h-full">
                         <a href="https://www.youtube.com/@bal-hal" target="_blank" rel="noopener">
-                            <img src="/media/icons/socials/youtubeIcon.svg" alt="youtube" class="w-11 h-11 rounded-xl pop-button">
+                            <img src="/media/icons/socials/youtubeIcon.svg" alt="youtube" class="w-11 h-auto rounded-xl pop-button">
                         </a>
                     </div>
                     <div class="row-start-5 flex items-center justify-center h-full">
                         <a href="https://discord.gg/MemSkmKr" target="_blank" rel="noopener">
-                            <img src="/media/icons/socials/discordIcon.svg" alt="discord" class="w-11 h-11 rounded-xl pop-button">
+                            <img src="/media/icons/socials/discordIcon.svg" alt="discord" class="w-11 h-auto rounded-xl pop-button">
                         </a>
                     </div>
                     <div class="col-start-3 row-start-5 flex items-center justify-center h-full">
                         <a href="https://steamcommunity.com/id/b00tb01/" target="_blank" rel="noopener">
-                            <img src="/media/icons/socials/steamIcon.svg" alt="steam" class="w-11 h-11 rounded-xl pop-button">
+                            <img src="/media/icons/socials/steamIcon.svg" alt="steam" class="w-11 h-auto rounded-xl pop-button">
                         </a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-span-2 row-span-5 col-start-3 row-start-1 bg-tile-gradient rounded-2xl overflow-y-auto p-4 intersect move-l">
+        <div class="col-span-2 row-span-5 col-start-3 row-start-1 max-[1050px]:flex-1 bg-tile-gradient rounded-2xl overflow-y-auto p-4 intersect move-l" >
             <span class="text-2xl font-semibold">About me</span>
-            <p class="text-md">Where to start?</p>
+            <p class="text-sm mt-5 font-light text-justify">
+                If you are stumbling across this page it means that either a recruiter looking for talent or you are a friend I ask to check out my page.
+                To the former: welcome, I look forward to connecting. To the latter: thank you, I owe you one.
+            </p>
+            <p class="text-sm mt-5 font-light text-justify">
+                Now a brief intro about me and who I am.
+                I am American/Hungarian student at <a href="https://vu.nl/nl" target="_blank" rel="noopener" class="link-text">Vrije Universiteit Amsterdam</a>
+                completing a bachelor's degree in Computer Science.
+                I have a deep interest in computer systems and would like to focus on backend and low level software engineering.
+                With a foundation of theoretical knowledge and practical hands-on experience, I am seeking to launch my professional career in the field I have now spent a large part of my life working towards.
+                Looking to work on real-world software that could impact millions of peoples day to day lives with the code I produce. This ambition to make a serious impact is what drives my interests in software design and development.
+            </p>
+            <p class="text-sm mt-5 font-light text-justify">
+                The very first time I fell in love with computer science was actually in middle school. During our once a week IT class we got introduced to the concept of algorithms, the logical structure of these algorithms made
+                sense to me at a time in my life when natural language was difficult as bilingual child transitioning to a hungarian school.
+                This inturn introduced me to "technically" my first programming language, <a href="https://en.wikipedia.org/wiki/Turtle_graphics" target="_blank" rel="noopener" class="link-text">Logo</a> in which we guided a turtle
+                to draw on a canvas. This very simple algorithm was the pandora's box that had started it all.
+            </p>
+            <p class="text-sm mt-5 font-light text-justify">
+                By the time I had to transition to high school I knew I had wanted to work with computers when I had grown up.
+                I had made the decision to enroll in a vocational high school focusing on information technology, here we had fewer classes regarding things such as geography and biology,
+                more so computer programming (C#) and computer networks (Cisco Packet tracer).
+                This set in stone what I was going to do later on in my professional career and looking back it was the best decision I had made as it not just fueled my existing passion for computers,
+                but also brought me close to like-minded individuals who I now call my friends.
+                Here I gained a foundational understanding on how computers are built, operate and communicate, however this was just scratching the surface of what was to come.
+            </p>
+            <p class="text-sm mt-5 font-light text-justify">
+                I always knew following high school that I would want to continue my studies in english as opposed to the hungarian.
+                So the decision to study abroad was a no-brainer consider all the options out there for studying computer science. I eventually landed on wanting to study in the Netherlands as it is considered to be a tech hub of Europe and made the decision to enroll at the VU.
+                Here I could easily pick up and understand the curriculum as I had previous experience with computers and programming, however it is challenging enough to deepen my knowledge of computer systems.
+                of my favourite courses were: Machine learning, Software development and Computer networks.
+                I am currently in my last year of this bachelor's program and grinding to land an internship to gain work experience before ending my time here at university.
+            </p>
+            <p class="text-sm mt-5 font-light text-justify">
+                I am now just focusing on projects that could improve my CV in hopes of finally landing an internship, so I may get some real-world hands-on experience in field I have striving to join since middle school.
+                Feel free to check out the <a href="#toybox" class="link-text">toybox section</a> on my page with an anonymous chat room and collaborative persistent canvas
+                or maybe read up on the <a href="#projRedis" class="link-text">projects</a> I have been working on in my free time like this website for example.
+            </p>
         </div>
     </div>
 
     <div id="toybox" class="grid grid-cols-2 grid-rows-5 gap-4 w-3/5 h-[85vh] mx-auto my-25 snap-start group max-[1050px]:flex max-[1050px]:flex-col">
         <div class="row-span-4 h-full rounded-2xl p-4 items-center justify-center bg-tile-gradient intersect move-r max-[1050px]:order-2 max-[1050px]:h-full">
-            <div id="chatViewer" class="relative flex flex-col h-[95%] max-[1050px]:h-[400px] bg-white rounded-xl p-2 overflow-y-auto">
+            <div id="chatViewer" class="relative flex flex-col h-[95%] bg-white rounded-xl p-2 overflow-y-auto">
                 <div class="flex sticky top-0 z-10 bg-gray-400 text-white w-8 h-8 p-4 items-center justify-center rounded-full">
                     <span id="userCount" class="text-xs font-light px-1">0/16</span>
                 </div>
@@ -174,9 +212,8 @@
             </div>
         </div>
         <div class="col-start-1 row-start-5 flex flex-col items-center justify-center bg-tile-gradient rounded-2xl p-4 intersect move-u max-[1050px]:order-3">
-                <!--TODO solve alignment issue plus icon-->
                 <label for="inputText"></label><input type="text" id="inputText" placeholder="Send message here..." class="bg-[var(--fg-color)] px-3 py-1 border border-gray-300 rounded w-[75%]">
-                <button id="inputButton" class="bg-[var(--bg-color)] text-white px-4 py-1 mt-5 rounded-lg hover:bg-[var(--accent-color)] pop-button transition">Send</button> <!--TODO change to icon? and on hover color var-->
+                <button id="inputButton" class="bg-[var(--bg-color)] text-white px-4 py-1 mt-5 rounded-lg hover:bg-[var(--accent-color)] pop-button transition">Send</button>
         </div>
         <div class="row-span-4 col-start-2 row-start-2 flex flex-col items-center justify-center bg-tile-gradient rounded-2xl p-4 intersect move-l max-[1050px]:hidden">
             <div id="canvasInput" class="flex mb-2">
@@ -198,7 +235,6 @@
                     </svg>
                 </button>
             </div>
-            <!--TODO make brush cursor on canvas hover-->
             <canvas id="theCanvas" class="bg-white" width="300" height="300"></canvas>
         </div>
         <div class="col-start-2 row-start-1 flex flex-col items-center justify-center bg-tile-gradient rounded-2xl p-4 text-4xl font-medium intersect move-d max-[1050px]:order-1">
@@ -207,33 +243,119 @@
         </div>
     </div>
 
-    <div id="projRedis" class="grid grid-cols-4 grid-rows-5 gap-4 text-[var(--txt-color)] w-3/5 h-[85vh] justify-center mx-auto my-25 snap-start">
-        <div class="col-span-2 bg-tile-gradient rounded-2xl p-4 intersect move-rd text-2xl font-bold">
-            Title
+    <div id="projRedis" class="grid grid-cols-4 grid-rows-5 gap-4 text-[var(--txt-color)] w-3/5 h-[85vh] justify-center mx-auto my-25 snap-start max-[1050px]:flex max-[1050px]:flex-col">
+        <div class="col-span-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-2 intersect move-rd text-2xl font-bold max-[1050px]:order-1">
+            <span class="text-4xl max-[1050px]:text-2xl font-semibold"><a href="https://github.com/BHalacsy/Redis-Clone" target="_blank" rel="noopener" class="link-text">Redis Clone</a></span>
         </div>
-        <div class="col-span-2 row-span-2 col-start-1 row-start-2 bg-tile-gradient rounded-2xl p-4 intersect move-r">
-            Img
+        <div class="col-span-2 row-span-2 col-start-1 row-start-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-4 intersect move-r max-[1050px]:hidden">
+            <img src="/media/icons/skills/redisIcon.svg" alt="Redis Logo" class="w-[50%] h-auto">
         </div>
-        <div class="col-span-2 row-span-2 col-start-1 row-start-4 bg-tile-gradient rounded-2xl p-4 intersect move-ru">
-            Tech stack
+        <div class="col-span-2 row-span-2 col-start-1 row-start-4 bg-tile-gradient rounded-2xl p-4 intersect move-ru overflow-y-auto max-[1050px]:order-2">
+            <span class="text-lg font-medium block mb-1">Tech used</span>
+            <p class="text-sm mt-5 font-regular text-justify">
+                Written in C++ for high performance using STL containers for efficient in-memory data structures
+                without the headache of low level memory management.
+                With existing libraries such as <a href="https://www.boost.org/" target="_blank" rel="noopener" class="link-text">Boost.Asio</a> for asynchronous networking and <a href="https://github.com/uxlfoundation/oneTBB" target="_blank" rel="noopener" class="link-text">TBB</a> for fine-grain locking.
+            </p>
+            <p class="text-sm mt-5 font-regular text-justify">
+                Utilized <a href="https://github.com/catchorg/Catch2" target="_blank" rel="noopener" class="link-text">Catch2</a> for unit testing commands and expected behaviour.
+                Alongside <a href="https://docs.github.com/en/actions" target="_blank" rel="noopener" class="link-text">GitHub Actions</a> for CI.
+                Developed and ran on Linux (using WSL) to have access to <a href="https://man7.org/linux/man-pages/man2/socket.2.html" target="_blank" rel="noopener" class="link-text">sockets</a>.
+                Later dockerized for mainly for the next <a href="#projPortfolio" class="link-text">project</a>.
+            </p>
         </div>
-        <div class="col-span-2 row-span-5 col-start-3 row-start-1 bg-tile-gradient rounded-2xl p-4 intersect move-l">
-            Desc
+        <div class="col-span-2 row-span-5 col-start-3 row-start-1 bg-tile-gradient rounded-2xl p-4 intersect move-l overflow-y-auto max-[1050px]:order-3">
+            <span class="text-2xl font-semibold">Description</span>
+            <p class="text-sm mt-5 font-light text-justify">
+                <a href="https://redis.io/docs/latest/develop/" target="_blank" rel="noopener" class="link-text">Redis</a> is an open-source,
+                in-memory key value store database known for it's high performance and low latency which supports advanced data types such as sets, lists, hashes and more.
+                Using for a variety of things but typically as a cache for large scale databases alongside real-time analytics and pub/sub messaging.
+                For more check out this <a href="https://www.youtube.com/watch?v=G1rOthIU-uo" target="_blank" rel="noopener" class="link-text">brief summary</a> by Fireship
+            </p>
+            <p class="text-sm mt-5 font-light text-justify">
+                I knew that for my very first independent project I wanted to make some existing piece of software and understand its inner workings.
+                Initially I considered following one of code crafters' challenges since they provide a bit more hand holding and have automated tests indicating if you complete a subsection of the challenger,
+                however seeing how much out would cost for a subscription, I have opted to instead have no hand holding and do the tests myself.
+            </p>
+            <p class="text-sm mt-5 font-light text-justify">
+                I began by deciding what language to write the clone in. C++ seemed like an ideal choice as I have had plenty of experience using it, and it is closely related to C in which the original Redis is written in.
+                Once that was done I made sure to set up a GitHub Actions workflow to run any existing tests automatically on pushes to the repo.
+                Having experience with computer networks came in handy since I had to use linux's sockets, encode and parse commands using RESP and have done multithreaded programming multiple times.
+                I began by converting existing code (server and client) done in python to C++ which proved to be more of a challenge I had thought, but once echo message was set up, it was time to get our hands dirty.
+            </p>
+            <p class="text-sm mt-5 font-light text-justify">
+                Following this I wanted to follow Redis' RESProtocol for communication as it proved all the utility I had wanted for my clone.
+                Initially only allowing to store strings with the basic commands (SET, GET, DEL, EXISTS) I added the first feature of the clone, key expiration.
+                I expanded by implementing advanced data structure and their respective commands.
+                This had set up the core functionality of the Redis clone, however we were far from done.
+            </p>
+            <p class="text-sm mt-5 font-light text-justify">
+                Having had worked with multithreading I decided that a thread pool would be fitting for our application to allow concurrent access to the database, this came with its own challenge of handling
+                race condition in case multiple thread try to access the same piece of memory. The easy fix for this was to thread lock the kv store in memory when a thread tries to access it, however this
+                greatly impacted performance and made accessing the database incredible slow. I solved this by using TBB's fine-grain locking in which we only lock the currently accessed portion of the kv store
+                as opposed to the entire db.
+            </p>
+            <p class="text-sm mt-5 font-light text-justify">
+                Another feature I knew I wanted to implement was snapshotting as this allowed for the kv store to remain persistent.
+                To do this I utilized Boost's serialization which made serializing the kv store much easier as I was using custom data types for managing kv pairs.
+                Other features included Pub/Sub messaging, Pipelining, Transaction support for command queueing and LRU (Least Recently Used) key eviction for memory management.
+            </p>
+            <p class="text-sm mt-5 font-light text-justify">
+                Having all these features I had a pretty deep understanding of Redis core functionality, however I always want to make software which has some sort of real world use.
+                I decided to dockerize the Redis clone in hopes of running it as a database for a project down the line. As you can imagine I had some ideas, in fact, it runs the very website you are reading this on.
+            </p>
+            <p class="text-xs mt-5 font-light text-justify">
+                For more information check out my GitHub or click the title of this section.
+            </p>
         </div>
     </div>
 
-    <div id="projPortfolio" class="grid grid-cols-4 grid-rows-5 gap-4 text-[var(--txt-color)] w-3/5 h-[85vh] justify-center mx-auto mt-25 mb-40 snap-start">
-        <div class="col-span-2 row-span-5 bg-tile-gradient rounded-2xl p-4 intersect move-r">
-            Desc
+    <div id="projPortfolio" class="grid grid-cols-4 grid-rows-5 gap-4 text-[var(--txt-color)] w-3/5 h-[85vh] justify-center mx-auto mt-25 mb-40 snap-start max-[1050px]:flex max-[1050px]:flex-col">
+        <div class="col-span-2 row-span-5 bg-tile-gradient rounded-2xl p-4 intersect move-r overflow-y-auto max-[1050px]:order-3">
+            <span class="text-2xl font-semibold">Description</span>
+            <p class="text-sm mt-5 font-light text-justify">
+                The website you are currently reading this on is actually the project I am going to talk about next.
+                I figured after I had finished my Redis clone that I should use it for a real world application to show its functionality in practices.
+                Having your very own website always was appealing, so when the opportunity came around to utilize my previous project in way that can be viewed by anyone, it was really a no-brainer.
+            </p>
+            <p class="text-sm mt-5 font-light text-justify">
+                Now having a database or even a backend is not necessary for a web portfolio, but as someone who inspires to be a future software engineer
+            </p>
+            <p class="text-sm mt-5 font-light text-justify">
+
+            </p>
+            <p class="text-sm mt-5 font-light text-justify">
+
+            </p>
+            <p class="text-sm mt-5 font-light text-justify">
+
+            </p>
+            <p class="text-sm mt-5 font-light text-justify">
+
+            </p>
+            <p class="text-sm mt-5 font-light text-justify">
+
+            </p>
         </div>
-        <div class="col-span-2 col-start-3 bg-tile-gradient rounded-2xl p-4 intersect move-ld text-2xl font-bold">
-            Title
+        <div class="col-span-2 col-start-3 flex items-center justify-center bg-tile-gradient rounded-2xl p-4 intersect move-ld text-2xl font-bold max-[1050px]:order-1">
+            <span class="text-4xl max-[1050px]:text-2xl font-semibold"><a href="https://github.com/BHalacsy/Portfolio-Fullstack" target="_blank" rel="noopener" class="link-text">Personal portfolio</a></span>
         </div>
-        <div class="col-span-2 row-span-2 col-start-3 row-start-2 bg-tile-gradient rounded-2xl p-4 intersect move-l">
-            Img
+        <div class="col-span-2 row-span-2 flex items-center justify-center col-start-3 row-start-2 bg-tile-gradient rounded-2xl p-4 intersect move-l max-[1050px]:hidden">
+            <img src="/media/www.svg" alt="WWW" class="w-[50%] h-auto">
         </div>
-        <div class="col-span-2 row-span-2 col-start-3 row-start-4 bg-tile-gradient rounded-2xl p-4 intersect move-lu">
-            Tech stack
+        <div class="col-span-2 row-span-2 col-start-3 row-start-4 bg-tile-gradient rounded-2xl p-4 intersect move-lu overflow-y-auto max-[1050px]:order-2">
+            <span class="text-lg font-medium block mb-1">Tech used</span>
+            <p class="text-sm mt-5 font-regular text-justify">
+                A lot of question arouse when picking the idle stack for my portfolio.
+                I ended up not using a framework (which I would later regret) and stuck with vanilla typescript as I wanted to familiarize myself with javascript using the added bonus of typing.
+                Along with ts for the frontend I opted to use tailwind for styling as I did not mind the added clutter it adds to ones html file if it meant a simplified way of styling.
+            </p>
+            <p class="text-sm mt-5 font-regular text-justify">
+                For the backend I chose .NET 9 as I have plenty C# experience. With all the possible backend frameworks I figured using one which I will have no problem coding in will work just fine.
+                Even though I did not utilize the MVC architecture and instead relied on request-response endpoint design, the option to pivot was always there.
+                In hindsight, I would have maybe tried Gin instead as that would have suited my situation a bit better.
+                The database for the website is my Redis clone dockerized alongside the backend of the website, both of which are running on a NAS.
+            </p>
         </div>
     </div>
 

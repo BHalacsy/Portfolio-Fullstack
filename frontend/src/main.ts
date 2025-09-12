@@ -1,5 +1,5 @@
 import {Chatroom} from "./chatroom.ts";
-import {Canvas, GetPixel} from "./canvas.ts";
+import {Canvas} from "./canvas.ts";
 import {Observer} from "tailwindcss-intersect";
 
 
@@ -13,7 +13,7 @@ const theCanvas = new Canvas("theCanvas");
 //Overhead menu elements
 const menuButton = document.getElementById("menuButton") as HTMLButtonElement;
 const menuContent = document.getElementById("menuContent") as HTMLDivElement;
-let menuVisible = false;
+let menuVisible : boolean = false;
 
 //Dark mode elements
 const darkModeToggle = document.getElementById("darkModeToggle") as HTMLButtonElement;
@@ -38,7 +38,7 @@ const volSlider = document.getElementById("volumeControl") as HTMLInputElement;
 function darkToggle() : void {
     document.body.classList.toggle("dark");
 
-    const isDark = document.body.classList.contains("dark");
+    const isDark : boolean = document.body.classList.contains("dark");
     landingImg.src = isDark ? "media/darkLanding.svg" : "media/lightLanding.svg";
     darkModeIcon.src = isDark ? "media/darkToggle.svg" : "media/lightToggle.svg";
     arrowDown.src = isDark ? "media/darkArrow.svg" : "media/lightArrow.svg";
@@ -49,7 +49,7 @@ function darkToggle() : void {
 }
 
 function loadSettings() : void {
-    const mode = localStorage.getItem("mode") ?? "light";
+    const mode: string = localStorage.getItem("mode") ?? "light";
     if (mode === "dark") {
         darkToggle();
     }
@@ -76,7 +76,7 @@ window.addEventListener("DOMContentLoaded", async () =>{
 
     //Init chatroom
     await theChatroom.connectChat();
-    const connectedUsers = await theChatroom.getUsers();
+    const connectedUsers : number = await theChatroom.getUsers();
     const userCount = document.getElementById("userCount") as HTMLSpanElement;
     userCount.innerHTML = `${connectedUsers}/16`;
 
