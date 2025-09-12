@@ -170,6 +170,10 @@ export class Canvas {
 
     private setColor(color : string) : void {
         this.crc.strokeStyle = color;
+        const circles = document.querySelectorAll('circle');
+        circles.forEach(circle => {
+            circle.setAttribute('fill', color);
+        });
     }
 
     private setSize(size : number) : void{
@@ -228,7 +232,7 @@ export class Canvas {
 
     public disconnectCanvas() : void {
         if (this.connection) {
-            this.connection.stop().then(r => console.log("Canvas hub offline"));
+            this.connection.stop().then(_ => console.log("Canvas hub offline"));
         }
     }
 }
