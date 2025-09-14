@@ -23,10 +23,16 @@ public record GetPixel(
 
 public class CanvasService
 {
+    private readonly RedisClient _client;
+
+    public CanvasService(RedisClient client)
+    {
+        _client = client;
+    }
+    
     public async Task<List<GetPixel>> GetCanvas(int tileID)
     {
-        using var client = new RedisClient();
-        var resp = await client.Command($"HGETALL canvas{tileID}");
+        var resp = await _client.Command($"HGETALL canvas{tileID}");
         var pixels = Parser.CanvasParser(resp);
         return pixels;
     }
@@ -40,8 +46,7 @@ public class CanvasService
             
         }
         cmd = cmd.TrimEnd();
-        using var client = new RedisClient();
-        await client.Command(cmd);
+        await _client.Command(cmd);
     }
     
     public async Task ClearCanvas()
@@ -49,8 +54,7 @@ public class CanvasService
         for (int i = 0; i < 100; i++)
         {
             var cmd = $"DEL canvas{i}";
-            using var client = new RedisClient();
-            await client.Command(cmd);
+            await _client.Command(cmd);
         }
     }
 }

@@ -8,7 +8,7 @@ public class RedisClient : IDisposable
 {
     private readonly TcpClient _client;
     
-    public RedisClient(string host = "localhost", int port = 6379)
+    public RedisClient(string host = "localhost", int port = 6379) //localhost for development and redis_server for deployment
     {
         _client = new TcpClient(host, port);
     }
@@ -29,28 +29,10 @@ public class RedisClient : IDisposable
             if (recvLen == 0) break;
             retString.Append(Encoding.UTF8.GetString(recvBuffer, 0, recvLen));
         } 
-        while (stream.DataAvailable);
+        while (stream.DataAvailable); //TODO maybe alt to DataAvailable
 
         return retString.ToString();
     }
-
-    // public async Task<string> ReadServer()
-    // {
-    //     var stream = _client.GetStream();
-    //     var recvBuffer = new byte[1024];
-    //     var retString = new StringBuilder();
-    //     int recvLen;
-    //
-    //     do
-    //     {
-    //         recvLen = await stream.ReadAsync(recvBuffer, 0, recvBuffer.Length);
-    //         if (recvLen == 0) break;
-    //         retString.Append(Encoding.UTF8.GetString(recvBuffer, 0, recvLen));
-    //     } 
-    //     while (stream.DataAvailable); //TODO change DataAvailable to something more robust?
-    //
-    //     return retString.ToString();
-    // }
 
     public void Dispose()
     {

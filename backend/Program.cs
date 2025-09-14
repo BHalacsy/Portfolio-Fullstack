@@ -1,52 +1,63 @@
 using backend.hubs;
-using Microsoft.AspNetCore.WebSockets;
 using backend.services;
 using backend.util;
-using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
+    options.AddPolicy("AllowDev", policy =>
     {
         policy.AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
+    
+    options.AddPolicy("AllowLive", policy =>
+    {
+        policy.WithOrigins("https://balint.halacsy.com")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
 });
-// builder.Services.AddWebSockets(options =>
-// {
-//     
-// });
 builder.Services.AddSignalR();
-builder.Services.AddSingleton<CanvasService>(); //TODO remove or implement
-builder.Services.AddSingleton<ChatService>();
+builder.Services.AddSingleton<RedisClient>();
 
+builder.Services.AddSingleton<CanvasService>();
+builder.Services.AddSingleton<ChatService>();
 
 var app = builder.Build();
 
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
 app.UseHttpsRedirection();
-app.UseCors();
+app.UseCors("AllowDev");
+app.UseCors("AllowLive");
 
 
 app.MapHub<ChatHub>("/chat/hub");
 app.MapHub<CanvasHub>("/canvas/hub");
 
-//TODO handle alt results for endpoints
+
+
+_ = Task.Run(async () =>
+{
+    while (true)
+    {
+        using var scope = app.Services.CreateScope();
+        var cs = scope.ServiceProvider.GetRequiredService<CanvasService>();
+        var chs = scope.ServiceProvider.GetRequiredService<ChatService>();
+        
+        
+        await cs.ClearCanvas();
+        await chs.Reset();
+        
+        Console.WriteLine("Reset");
+        await Task.Delay(TimeSpan.FromHours(24));
+    }
+});
 
 //Counter increase and get
-app.MapGet("/counter/view", async () =>
-{
-    using var client = new RedisClient();
+app.MapGet("/counter/view", async (RedisClient client) => {
     var resp = await client.Command("INCR viewcounter");
     return Results.Ok(Parser.IntParser(resp));
 });
@@ -55,12 +66,12 @@ app.MapGet("/counter/view", async () =>
 //Get canvas update
 app.MapGet("/canvas/data/{id:int}", async (int id, CanvasService cs) =>
 {
-    var resp = await cs.GetCanvas(id); //TODO fix to not use pixels because it does not hold color no more
+    var resp = await cs.GetCanvas(id);
     return Results.Ok(resp);
 });
 
 //Make change to canvas
-app.MapPost("/canvas/draw/{id:int}", async (int id, CanvasService cs, HttpRequest req, IHubContext<CanvasHub> hc) =>
+app.MapPost("/canvas/draw/{id:int}", async (int id, CanvasService cs, HttpRequest req) =>
 {
     using var reader = new StreamReader(req.Body);
     var body = await reader.ReadToEndAsync();

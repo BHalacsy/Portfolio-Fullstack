@@ -1,20 +1,19 @@
-﻿using backend.util;
-
-namespace backend.services;
+﻿namespace backend.services;
 
 public class ChatService
 {
     private int _connected;
-
-    public ChatService()
+    private readonly RedisClient _client;
+    
+    public ChatService(RedisClient client)
     {
         _connected = 0;
+        _client = client;
     }
 
     private async Task<string> SetUser()
     {
-        var client = new RedisClient();
-        var resp = await client.Command($"SPOP users");
+        var resp = await _client.Command($"SPOP users");
         var parts = resp.Split("\r\n");
         
         return parts[1];
@@ -22,9 +21,7 @@ public class ChatService
 
     private async Task DelUser(string username)
     {
-        var client = new RedisClient();
-        await client.Command($"SADD users {username}");
-        Console.WriteLine($"Added back username {username}");
+        await _client.Command($"SADD users {username}");
     }
     
     public int GetUsers()
@@ -49,7 +46,6 @@ public class ChatService
 
     public async Task Reset()
     {
-        var client = new RedisClient();
-        await client.Command($"SADD users lion panther jay tiger robin giraffe bee cow pig donkey fish hippo panda wolf deer bear");
+        await _client.Command($"SADD users lion panther jay tiger robin giraffe bee cow pig donkey fish hippo panda wolf deer bear");
     }
 }
