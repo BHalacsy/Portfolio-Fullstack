@@ -10,7 +10,7 @@ export class Chatroom {
 
     constructor() {
         this.connection = new HubConnectionBuilder()
-                        .withUrl("/chat/hub")
+                        .withUrl("https://api.halacsy.com/chat/hub")
                         .withAutomaticReconnect()
                         .build();
         this.sendButton = document.getElementById("inputButton") as HTMLButtonElement;
@@ -39,7 +39,7 @@ export class Chatroom {
     }
 
     private async initUsername() : Promise<boolean> {
-        const resp : Response = await fetch("http://localhost:5127/chat/join");
+        const resp : Response = await fetch("https://api.halacsy.com/chat/join");
         if (!resp.ok){
             alert("Chatroom is full and inaccessible at this time.")
             console.warn(await resp.text());
@@ -52,7 +52,7 @@ export class Chatroom {
     }
 
     public async getUsers() : Promise<number>{
-        const resp : Response = await fetch("http://localhost:5127/chat/users");
+        const resp : Response = await fetch("https://api.halacsy.com/chat/users");
         if (!resp.ok){
             console.warn(resp.statusText);
             return 0;

@@ -31,7 +31,7 @@ export class Canvas {
 
     constructor(id : string){
         this.connection = new HubConnectionBuilder()
-            .withUrl("/canvas/hub")
+            .withUrl("https://api.halacsy.com/canvas/hub")
             .withAutomaticReconnect()
             .build();
         this.canvas = document.getElementById(id) as HTMLCanvasElement;
@@ -99,7 +99,7 @@ export class Canvas {
 
     public async initCanvas() : Promise<void>{
         for (let i : number = 0; i <= 99; i++){
-            const respCanvas: Response = await fetch(`http://localhost:5127/canvas/data/${i}`);
+            const respCanvas: Response = await fetch(`https://api.halacsy.com/canvas/data/${i}`);
             if (!respCanvas.ok) {
                 console.warn(`Canvas tile ${i} load failed`);
                 continue;
@@ -156,7 +156,7 @@ export class Canvas {
 
             for (const chunk of pixelChunks) {
                 try {
-                    await fetch(`http://localhost:5127/canvas/draw/${tileID}`, {
+                    await fetch(`https://api.halacsy.com/canvas/draw/${tileID}`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ color: stroke.color, pixels: chunk }),
