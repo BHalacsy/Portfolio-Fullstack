@@ -48,14 +48,27 @@ function darkToggle() : void {
     chatViewer.classList.toggle("bg-white", !isDark);
 }
 
+//Sets settings to user pref
 function loadSettings() : void {
-    const mode: string = localStorage.getItem("mode") ?? "light";
+    const savedMode = localStorage.getItem("mode");
+    let mode: string;
+
+    if (savedMode) {
+        mode = savedMode;
+    } else {
+        const prefersDark : boolean = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        mode = prefersDark ? "dark" : "light";
+    }
+
+
     if (mode === "dark") {
         darkToggle();
     }
+
     //Used to hold the track and vol selected, but autoplay restrictions have made those obsolete
 }
 
+//Updates user count visually
 function updateUserCount() : void {
     theChatroom.getUsers().then(active => {
         const userCount = document.getElementById("userCount") as HTMLSpanElement;
@@ -65,7 +78,6 @@ function updateUserCount() : void {
 
 //User joins
 window.addEventListener("DOMContentLoaded", async () =>{
-    //Set user pref
     loadSettings();
 
     //Init counter
@@ -88,11 +100,7 @@ window.addEventListener("DOMContentLoaded", async () =>{
 //User leaves
 window.addEventListener("beforeunload", async () => {
     const mode : string = document.body.classList.contains("dark") ? "dark" : "light";
-    // const track : string = (document.getElementById("trackSelect") as HTMLSelectElement).value;
-    // const vol : string = (document.getElementById("volumeControl") as HTMLInputElement).value;
     localStorage.setItem("mode", `${mode}`);
-    // localStorage.setItem("track", `${track}`);
-    // localStorage.setItem("vol", `${vol}`);
 
     theChatroom.disconnectChat();
     theCanvas.disconnectCanvas();

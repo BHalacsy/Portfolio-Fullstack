@@ -39,14 +39,9 @@ export class Chatroom {
     }
 
     private async initUsername() : Promise<boolean> {
-        const req = new Request("/chat/join", {
-            method: "GET",
-            headers: {"Content-Type": "text/plain"}
-        });
-
-        const resp : Response = await fetch(req);
+        const resp : Response = await fetch("http://localhost:5127/chat/join");
         if (!resp.ok){
-            //TODO alert user max users chatting or invalid username
+            alert("Chatroom is full and inaccessible at this time.")
             console.warn(await resp.text());
             return false;
         }
@@ -57,12 +52,7 @@ export class Chatroom {
     }
 
     public async getUsers() : Promise<number>{
-        const req = new Request("/chat/users", {
-            method: "GET",
-            headers: {"Content-Type": "text/plain"}
-        });
-
-        const resp : Response = await fetch(req);
+        const resp : Response = await fetch("http://localhost:5127/chat/users");
         if (!resp.ok){
             console.warn(resp.statusText);
             return 0;

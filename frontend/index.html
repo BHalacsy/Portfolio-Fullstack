@@ -34,14 +34,14 @@
                 </div>
                 <div class="flex items-center bg-[var(--fg-color)] hover:bg-[var(--fg-tinted-color)] px-4 py-2 rounded-2xl pop-button">
                     <img id="volumeIcon" src="/media/lightVolume.svg" alt="volume" class="w-4 h-4 mr-2">
-                    <input type="range" id="volumeControl" min="0" max="100" value="50" class="w-20 h-2 bg-[var(--accent-tinted-color)] rounded-lg appearance-none accent-[var(--accent-color)]">
+                    <label for="volumeControl"></label><input type="range" id="volumeControl" min="0" max="100" value="50" class="w-20 h-2 bg-[var(--accent-tinted-color)] rounded-lg appearance-none accent-[var(--accent-color)]">
                 </div>
             </div>
         </div>
     </div>
 </section>
 <section id="landingPage">
-    <div class="text-[var(--accent-color)] text-6xl max-[1050px]:text-4xl font-extrabold text-center mt-28 snap-start motion-preset-fade motion-duration-5000">
+    <div class="text-[var(--accent-color)] text-6xl max-[1050px]:text-4xl font-extrabold text-center mt-28 snap-start motion-preset-fade motion-duration-5000 font-titles">
         Welcome to my page!
     </div>
     <div class="text-center mt-10">
@@ -58,9 +58,9 @@
 </section>
 <section id="bodySection" class="flex flex-col bg-linear-to-b from-[var(--bg-color)] to-[var(--accent-color)] text-[var(--txt-color)] min-h-screen">
 
-    <div id="aboutMe" class="grid grid-cols-4 grid-rows-5 gap-4 w-3/5 h-[85vh] mx-auto my-25 snap-start max-[1050px]:flex max-[1050px]:flex-col">
+    <div id="aboutMe" class="grid grid-cols-4 grid-rows-5 gap-4 w-3/5 h-[85vh] mx-auto my-25 snap-start max-[1050px]:flex max-[1050px]:flex-col max-[710px]:mt-100">
         <div class="col-span-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-2 intersect move-rd hover:scale-102 duration-700">
-            <span class="text-4xl max-[1050px]:text-2xl font-semibold">Bálint Halácsy</span>
+            <span class="text-4xl max-[1050px]:text-2xl font-semibold font-titles">Bálint Halácsy</span>
         </div>
         <div class="col-span-2 row-span-2 col-start-1 row-start-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-4 intersect move-r hover:scale-102 duration-700">
             <img id="portrait" src="/media/portrait.png" alt="Image of me" class="w-[50%] h-auto rounded-full object-cover"> <!--max[1050px]:h-[200px]-->
@@ -89,7 +89,7 @@
                         <img src="/media/icons/skills/javaIcon.svg" alt="Java" class="w-9 h-auto">
                     </div>
                 </div>
-                <span class="text-md max-[500px]:text-sm block mb-2">Technologies:</span>
+                <span class="text-md max-[500px]:text-sm block mb-1">Technologies:</span>
                 <div class="grid grid-cols-3 grid-rows-2 flex-1 gap-1">
                     <div class="flex items-center justify-center rounded-xl px-2 pt-1">
                         <img src="/media/icons/skills/dockerIcon.svg" alt="Docker" class="w-9 h-auto">
@@ -115,19 +115,19 @@
             <div class="bg-tile-gradient min-h-0 rounded-2xl p-2 intersect move-u text-lg max-[500px]:text-md font-medium max-[1050px]:w-1/2 hover:scale-102 duration-700">
                 <span class="text-lg font-medium block mb-2">Socials</span>
                 <div class="grid grid-cols-3 grid-rows-5 flex-1">
-                    <div class="flex items-center justify-center h-auto">
-                        <a href="https://www.instagram.com/b00tyb01/?hl=en" target="_blank" rel="noopener">
-                            <img src="/media/icons/socials/instagramIcon.svg" alt="instagram" class="w-11 h-auto rounded-full pop-button">
-                        </a>
-                    </div>
-                    <div class="col-start-3 flex items-center justify-center h-full">
+                    <div class="flex items-center justify-center h-full">
                         <a href="https://github.com/bhalacsy" target="_blank" rel="noopener">
                             <img src="/media/icons/socials/githubIcon.svg" alt="github" class="w-11 h-auto bg-black rounded-xl pop-button">
                         </a>
                     </div>
-                    <div class="col-start-2 row-start-2 flex items-center justify-center h-full">
+                    <div class="col-start-3 flex items-center justify-center h-full">
                         <a href="https://www.linkedin.com/in/balint-halacsy-18b05a2a9" target="_blank" rel="noopener">
                             <img src="/media/icons/socials/linkedInIcon.svg" alt="linkedIn" class="w-11 h-auto rounded-xl pop-button">
+                        </a>
+                    </div>
+                    <div class="col-start-2 row-start-2 flex items-center justify-center h-full">
+                        <a href="mailto:balint@halacsy.com">
+                            <img src="/media/icons/socials/emailIcon.svg" alt="email" class="w-11 h-auto rounded-xl pop-button">
                         </a>
                     </div>
                     <div class="row-start-3 flex items-center justify-center h-full">
@@ -136,8 +136,8 @@
                         </a>
                     </div>
                     <div class="col-start-3 row-start-3 flex items-center justify-center h-full">
-                        <a href="mailto:balint@halacsy.com">
-                            <img src="/media/icons/socials/emailIcon.svg" alt="email" class="w-11 h-auto rounded-xl pop-button">
+                        <a href="https://www.instagram.com/b00tyb01/?hl=en" target="_blank" rel="noopener">
+                            <img src="/media/icons/socials/instagramIcon.svg" alt="instagram" class="w-11 h-auto rounded-full pop-button">
                         </a>
                     </div>
                     <div class="col-start-2 row-start-4 flex items-center justify-center h-full">
@@ -164,6 +164,7 @@
             <p class="text-sm mt-5 font-light text-justify">
                 If you are stumbling across this page it means that either a recruiter looking for talent or you are a friend I ask to check out my page.
                 To the former: welcome, I look forward to connecting. To the latter: thank you, I owe you one.
+<!--              TODO replace with more formal text  -->
             </p>
             <p class="text-sm mt-5 font-light text-justify">
                 Now a brief intro about me and who I am.
@@ -246,7 +247,7 @@
 
     <div id="projRedis" class="grid grid-cols-4 grid-rows-5 gap-4 text-[var(--txt-color)] w-3/5 h-[85vh] justify-center mx-auto my-25 snap-start max-[1050px]:flex max-[1050px]:flex-col">
         <div class="col-span-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-2 intersect move-rd text-2xl font-bold max-[1050px]:order-1 hover:scale-102 duration-700">
-            <span class="text-4xl max-[1050px]:text-2xl font-semibold"><a href="https://github.com/BHalacsy/Redis-Clone" target="_blank" rel="noopener" class="link-text">Redis Clone</a></span>
+            <span class="text-4xl max-[1050px]:text-2xl font-semibold font-titles"><a href="https://github.com/BHalacsy/Redis-Clone" target="_blank" rel="noopener" class="link-text">Redis Clone</a></span>
         </div>
         <div class="col-span-2 row-span-2 col-start-1 row-start-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-4 intersect move-r max-[1050px]:hidden hover:scale-102 duration-700">
             <img src="/media/icons/skills/redisIcon.svg" alt="Redis Logo" class="w-[50%] h-auto">
@@ -321,6 +322,7 @@
             </p>
             <p class="text-sm mt-5 font-light text-justify">
                 Now having a database or even a backend is not necessary for a web portfolio, but as someone who inspires to be a future software engineer
+                <!--TODO finish content-->
             </p>
             <p class="text-sm mt-5 font-light text-justify">
 
@@ -339,7 +341,7 @@
             </p>
         </div>
         <div class="col-span-2 col-start-3 flex items-center justify-center bg-tile-gradient rounded-2xl p-4 intersect move-ld text-2xl font-bold max-[1050px]:order-1 hover:scale-102 duration-700">
-            <span class="text-4xl max-[1050px]:text-2xl font-semibold"><a href="https://github.com/BHalacsy/Portfolio-Fullstack" target="_blank" rel="noopener" class="link-text">Personal portfolio</a></span>
+            <span class="text-4xl max-[1050px]:text-2xl font-semibold font-titles"><a href="https://github.com/BHalacsy/Portfolio-Fullstack" target="_blank" rel="noopener" class="link-text">Personal portfolio</a></span>
         </div>
         <div class="col-span-2 row-span-2 flex items-center justify-center col-start-3 row-start-2 bg-tile-gradient rounded-2xl p-4 intersect move-l max-[1050px]:hidden hover:scale-102 duration-700">
             <img src="/media/www.svg" alt="WWW" class="w-[50%] h-auto">
@@ -348,14 +350,15 @@
             <span class="text-lg font-medium block mb-1">Tech used</span>
             <p class="text-sm mt-5 font-regular text-justify">
                 A lot of question arouse when picking the idle stack for my portfolio.
-                I ended up not using a framework (which I would later regret) and stuck with vanilla typescript as I wanted to familiarize myself with javascript using the added bonus of typing.
-                Along with ts for the frontend I opted to use tailwind for styling as I did not mind the added clutter it adds to ones html file if it meant a simplified way of styling.
+                I ended up sticking with vanilla <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener" class="link-text">typescript</a> as opposed to using a framework,
+                as I wanted to refresh my knowledge of javascript with the benefit of a strongly typed language.<br>
+                Along with TS for the frontend I opted to use <a href="https://tailwindcss.com/" target="_blank" rel="noopener" class="link-text">tailwind</a> for styling,
+                as I did not mind the added clutter it adds to my html file if it meant a simplified way of styling. Along with some useful plugins that I will talk about in the description.
             </p>
             <p class="text-sm mt-5 font-regular text-justify">
-                For the backend I chose .NET 9 as I have plenty C# experience. With all the possible backend frameworks I figured using one which I will have no problem coding in will work just fine.
-                Even though I did not utilize the MVC architecture and instead relied on request-response endpoint design, though it was nice to always have the option to pivot.
-                In hindsight, I would have maybe tried Gin instead as that would have suited my situation a bit better.
-                The database for the website is my Redis clone dockerized alongside the backend of the website, both of which are running on a NAS.
+                For the backend I chose <a href="https://dotnet.microsoft.com/en-us/apps/aspnet" target="_blank" rel="noopener" class="link-text">ASP.NET</a> as I have plenty C# experience. With all the possible backend frameworks I figured using one which I will have no problem coding in will work just fine.
+                Even though I did not utilize the MVC architecture and instead relied on a minimal API style, the option to pivot was always there if I wanted to.<br>
+                The database for the website is my Redis clone containerized alongside the backend of the website using <a href="https://docs.docker.com/compose/" target="blank" rel="noopener" class="link-text">docker compose</a>, both of which are running on a NAS.
             </p>
         </div>
     </div>

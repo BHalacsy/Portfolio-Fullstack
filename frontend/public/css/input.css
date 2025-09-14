@@ -96,6 +96,24 @@
     @apply text-[var(--bg-color)] hover:text-[var(--accent-color)] transition-all duration-300;
 }
 
+@font-face {
+    font-family: "Doodly";
+    src: url("../font/Doodly-Regular.ttf") format("truetype");
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "DoodlyBubble";
+    src: url("../font/DoodlyBubble-Regular.ttf") format("truetype");
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 @font-face{
     font-family: "Inter";
     src: url("../font/Inter-VariableFont_opsz,wght.ttf") format("truetype");
@@ -173,5 +191,6 @@
 }
 
 @theme{
-    --font-main: "Inter", "KiwiMaru", "Tirra", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    --font-main: "Inter", "Tirra", Roboto, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial;
+    --font-titles: "Doodly", "KiwiMaru";
 }
