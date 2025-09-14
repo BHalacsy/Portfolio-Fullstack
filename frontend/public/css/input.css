@@ -94,21 +94,22 @@
 }
 
 .link-text{
-    @apply text-[var(--bg-color)] hover:text-[var(--accent-color)] transition-all duration-300;
+    @apply text-[var(--accent-color)] hover:text-[var(--bg-color)] transition-all duration-300;
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
     background: var(--fg-color);
-    border-radius: 10px;
+    border-radius: 15px;
 }
 ::-webkit-scrollbar-thumb {
     background: var(--accent-tinted-color);
     border-radius: 8px;
 }
+
 ::-webkit-scrollbar-track {
     background: var(--fg-tinted-color);
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 @font-face {
@@ -207,5 +208,5 @@
 
 @theme{
     --font-main: "Inter", "Tirra", Roboto, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial;
-    --font-titles: "Doodly", "KiwiMaru";
+    --font-titles: "KiwiMaru", "Doodly";
 }
