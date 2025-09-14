@@ -209,6 +209,7 @@
                 <div class="flex sticky top-0 z-10 bg-gray-400 text-white w-8 h-8 p-4 items-center justify-center rounded-full">
                     <span id="userCount" class="text-xs font-light px-1">0/16</span>
                 </div>
+                <div class="bg-[var(--fg-tinted-color)] text-[var(--text-color)] text-xs p-2 mt-2 rounded self-end move-r">Welcome to the chatroom! Feel free draw and converse.</div>
 
                 <!-- Messages injected here -->
 
@@ -317,27 +318,45 @@
             <span class="text-2xl font-semibold">Description</span>
             <p class="text-sm mt-5 font-light text-justify">
                 The website you are currently reading this on is actually the project I am going to talk about next.
-                I figured after I had finished my Redis clone that I should use it for a real world application to show its functionality in practices.
+                I figured after I had finished my <a href="#projRedis" class="link-text">Redis clone</a> that I should use it for a real world application to show its functionality in practice.
                 Having your very own website always was appealing, so when the opportunity came around to utilize my previous project in way that can be viewed by anyone, it was really a no-brainer.
             </p>
             <p class="text-sm mt-5 font-light text-justify">
                 Now having a database or even a backend is not necessary for a web portfolio, but as someone who inspires to be a future software engineer
+                I figured I should get a taste of full-stack web development sooner rather than later.
+                Three features came to mind that could utilize my db in one way or another, a page view counter and an anonymous chatroom alongside the collaborative canvas you can find in the <a href="#toybox">toybox</a>.
+
                 <!--TODO finish content-->
             </p>
             <p class="text-sm mt-5 font-light text-justify">
-
+                Once my stack and features were chosen I began really understanding how API endpoints work and focus solely at first on the backend with a very minimal frontend structure.
+                As someone who aspires to become a backend developer, was eager to begin with that so my development started from back to the front.
+                ASP.NET's minimal api made it a breeze to set up the various endpoint needed to communicate with my db, once that communication was established it was time for some frontend development.
             </p>
             <p class="text-sm mt-5 font-light text-justify">
-
+                I initially considered using a framework like <a href="https://react.dev/" target="_blank" rel="noopener" class="link-text">React</a> but opted not to as I figured a project with this "relatively" small scale was not necessary,
+                I would later come to regret this decision as it would have familiarized myself with a widely used web framework.
+                No matter using vanilla TS was sufficient and forced me to utilize more traditional frontend technics which is always a good skill to have.
             </p>
             <p class="text-sm mt-5 font-light text-justify">
-
+                The very first feature and easiest was the view counter as it only increments a single number in our db on an API call.
+                For the rest of the features I could not say the same, the collaborative canvas especially was a challenge and forced me to reconsider the design I had in mind.
+                Due to the large amount of data we want to save and load at any given time, I opted to "chunk" the canvas into tiles for saving and into sub-strokes for real-time visualizing for other clients.
             </p>
             <p class="text-sm mt-5 font-light text-justify">
-
+                As for frontend design choices I always consider a relatively clean and smooth look.
+                Tailwind simplified the styling process to a great extent and is definitely a tool I will utilize in the future provided I work with HTML again.
+                I knew I wanted a single page design with various sections, these sections initially were all one single tile,
+                but I had made the decision to tile each div in the sections to get this almost mosaic layout.
             </p>
             <p class="text-sm mt-5 font-light text-justify">
-
+                Frontend plugs also came in handy as I never had experience animating elements on HTML,
+                decided to use <a href="https://rombo.co/tailwind/" target="_blank" rel="noopener" class="link-text">Rombo</a> which is a sleek and easy to use plugin just for that.
+                Having these springy, blurry and sleek animations was nice, but always ran when the page had loaded which defeated their purpose, as the user would never see them.
+                I always knew about the Intersect Observer API but setting it up seemed like a challenge,
+                therefore I utilized an existing <a href="https://github.com/heidkaemper/tailwindcss-intersect" target="_blank" rel="noopener" class="link-text">tailwind-intersect</a> plugin
+                which did the very same task but much easier to implement.
+                Along with some subtle animations on hover and a simple overhead menu with dark mode and casual music options, I recon this website turned out alright.
             </p>
         </div>
         <div class="col-span-2 col-start-3 flex items-center justify-center bg-tile-gradient rounded-2xl p-4 intersect move-ld text-2xl font-bold max-[1050px]:order-1 hover:scale-102 duration-700">
