@@ -80,6 +80,7 @@ export class Chatroom {
 
         await this.connection.start();
         console.log("Message hub online!");
+
         return true;
     }
 
@@ -102,9 +103,9 @@ export class Chatroom {
         }
     }
 
-    public disconnectChat() : void{
+    public disconnectChat() : void {
         if (this.username) {
-            navigator.sendBeacon("/chat/leave", this.username);
+            navigator.sendBeacon("https://api.halacsy.com/chat/leave", this.username);
         }
         if (this.connection) {
             this.connection.stop().then(r => console.log("Message hub offline"));

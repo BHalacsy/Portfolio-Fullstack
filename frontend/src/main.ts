@@ -99,11 +99,11 @@ window.addEventListener("DOMContentLoaded", async () =>{
 
 //User leaves
 window.addEventListener("beforeunload", async () => {
-    const mode : string = document.body.classList.contains("dark") ? "dark" : "light";
-    localStorage.setItem("mode", `${mode}`);
-
     theChatroom.disconnectChat();
     theCanvas.disconnectCanvas();
+
+    const mode : string = document.body.classList.contains("dark") ? "dark" : "light";
+    localStorage.setItem("mode", `${mode}`);
 });
 
 

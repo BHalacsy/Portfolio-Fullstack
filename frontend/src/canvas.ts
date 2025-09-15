@@ -194,6 +194,10 @@ export class Canvas {
 
         await this.connection.start();
         console.log("Canvas hub online!");
+
+        this.connection.onclose(() => {
+            this.disconnectCanvas();
+        });
     }
 
     public async sendStroke(stroke : Stroke) : Promise<void> {

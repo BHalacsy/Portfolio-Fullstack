@@ -72,43 +72,43 @@
                 <span class="text-md max-[500px]:text-sm block mb-2">Languages:</span>
                 <div class="grid grid-cols-3 grid-rows-2 flex-1 gap-1">
                     <div class="flex items-center justify-center px-2">
-                        <img src="/media/icons/skills/cppIcon.svg" alt="C++" class="w-8 h-auto">
+                        <img src="/media/icons/skills/cppIcon.svg" alt="C++" class="w-9 h-auto">
                     </div>
                     <div class="flex items-center justify-center px-2">
-                        <img src="/media/icons/skills/csIcon.svg" alt="C#" class="w-8 h-auto">
+                        <img src="/media/icons/skills/csIcon.svg" alt="C#" class="w-9 h-auto">
                     </div>
                     <div class="flex items-center justify-center px-2">
-                        <img src="/media/icons/skills/tsIcon.svg" alt="Typescript" class="w-8 h-auto">
+                        <img src="/media/icons/skills/tsIcon.svg" alt="Typescript" class="w-9 h-auto">
                     </div>
                     <div class="flex items-center justify-center px-2">
-                        <img src="/media/icons/skills/jsIcon.svg" alt="JavaScript" class="w-8 h-auto">
+                        <img src="/media/icons/skills/jsIcon.svg" alt="JavaScript" class="w-9 h-auto">
                     </div>
                     <div class="flex items-center justify-center px-2">
-                        <img src="/media/icons/skills/pyIcon.svg" alt="Python" class="w-9 h-auto">
+                        <img src="/media/icons/skills/pyIcon.svg" alt="Python" class="w-10 h-auto">
                     </div>
                     <div class="flex items-center justify-center px-2">
-                        <img src="/media/icons/skills/javaIcon.svg" alt="Java" class="w-9 h-auto">
+                        <img src="/media/icons/skills/javaIcon.svg" alt="Java" class="w-10 h-auto">
                     </div>
                 </div>
-                <span class="text-md max-[500px]:text-sm block mb-1">Technologies:</span>
+                <span class="text-md max-[500px]:text-sm block mb-1 mt-1">Technologies:</span>
                 <div class="grid grid-cols-3 grid-rows-2 flex-1 gap-1">
                     <div class="flex items-center justify-center px-2">
-                        <img src="/media/icons/skills/dockerIcon.svg" alt="Docker" class="w-9 h-auto">
+                        <img src="/media/icons/skills/dockerIcon.svg" alt="Docker" class="w-10 h-auto">
                     </div>
                     <div class="flex items-center justify-center px-2">
-                        <img src="/media/icons/skills/linuxmintIcon.svg" alt="Linux mint" class="w-9 h-auto">
+                        <img src="/media/icons/skills/linuxmintIcon.svg" alt="Linux mint" class="w-10 h-auto">
                     </div>
                     <div class="flex items-center justify-center px-2">
-                        <img src="/media/icons/skills/tailwindIcon.svg" alt="Tailwind" class="w-9 h-auto">
+                        <img src="/media/icons/skills/tailwindIcon.svg" alt="Tailwind" class="w-10 h-auto">
                     </div>
                     <div class="flex items-center justify-center px-2">
-                        <img src="/media/icons/skills/redisIcon.svg" alt="Redis" class="w-9 h-auto">
+                        <img src="/media/icons/skills/redisIcon.svg" alt="Redis" class="w-10 h-auto">
                     </div>
                     <div class="flex items-center justify-center px-2">
-                        <img src="/media/icons/skills/mySQLIcon.svg" alt="mySQL" class="w-9 h-auto">
+                        <img src="/media/icons/skills/mySQLIcon.svg" alt="mySQL" class="w-10 h-auto">
                     </div>
                     <div class="flex items-center justify-center px-2">
-                        <img src="/media/icons/skills/actionsIcon.svg" alt="GithubActions" class="w-8 h-auto">
+                        <img src="/media/icons/skills/actionsIcon.svg" alt="GithubActions" class="w-9 h-auto">
                     </div>
                 </div>
             </div>
@@ -205,15 +205,15 @@
                 <div class="flex sticky top-0 z-10 bg-gray-400 text-white w-8 h-8 p-4 items-center justify-center rounded-full">
                     <span id="userCount" class="text-xs font-light px-1">0/16</span>
                 </div>
-                <div class="bg-[var(--fg-tinted-color)] text-[var(--text-color)] text-xs p-2 mt-2 rounded self-end move-r">Welcome to the chatroom! Feel free draw and converse.</div>
+                <div class="bg-[var(--fg-tinted-color)] text-[var(--text-color)] text-xs p-2 mt-2 rounded self-end move-r">Welcome to the chatroom! Feel free to draw and converse.</div>
 
                 <!-- Messages injected here -->
 
             </div>
         </div>
-        <div class="col-start-1 row-start-5 flex flex-col items-center justify-center bg-tile-gradient rounded-2xl p-4 intersect move-u max-[1050px]:order-3 hover:scale-102 duration-700">
+        <div class="col-start-1 row-start-5 flex flex-col items-center justify-center bg-tile-gradient rounded-2xl p-4 intersect move-u max-[1050px]:order-3 hover:scale-102 duration-700 overflow-y-hidden">
                 <label for="inputText"></label><input type="text" id="inputText" placeholder="Send message here..." class="bg-[var(--fg-color)] px-3 py-1 border border-gray-300 rounded w-[75%]">
-                <button id="inputButton" class="bg-[var(--bg-color)] text-white px-4 py-1 mt-5 rounded-lg hover:bg-[var(--accent-color)] pop-button transition">Send</button>
+                <button id="inputButton" class="bg-[var(--bg-color)] text-white px-4 py-1 mt-4 rounded-lg hover:bg-[var(--accent-color)] pop-button transition">Send</button>
         </div>
         <div class="row-span-4 col-start-2 row-start-2 flex flex-col items-center justify-center bg-tile-gradient rounded-2xl p-4 intersect move-l max-[1050px]:hidden hover:scale-102 duration-700">
             <div id="canvasInput" class="flex mb-2">
@@ -236,9 +236,9 @@
             </div>
             <canvas id="theCanvas" class="bg-white" width="300" height="300"></canvas>
         </div>
-        <div class="col-start-2 row-start-1 flex flex-col items-center justify-center bg-tile-gradient rounded-2xl p-4 text-4xl font-medium intersect move-d max-[1050px]:order-1 hover:scale-102 duration-700">
-            Toybox
-            <span id="userDisplay" class="text-sm mt-4">you are connected as: <img src="/media/loadingBlack.svg" alt="loading circle" class="animate-spin w-10 h-10 mx-auto mt-2"></span>
+        <div class="col-start-2 row-start-1 flex flex-col items-center justify-center bg-tile-gradient rounded-2xl intersect move-d max-[1050px]:order-1 hover:scale-102 duration-700 overflow-y-auto">
+            <span class="text-4xl font-medium mt-4">Toybox</span>
+            <span id="userDisplay" class="text-sm mt-2">you are connected as: <img src="/media/loadingBlack.svg" alt="loading circle" class="animate-spin w-6 h-6 mx-auto mt-1"></span>
         </div>
     </div>
 
@@ -246,18 +246,18 @@
         <div class="col-span-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-2 intersect move-rd text-2xl font-bold max-[1050px]:order-1 hover:scale-102 duration-700">
             <span class="text-4xl max-[1050px]:text-2xl font-semibold font-titles"><a href="https://github.com/BHalacsy/Redis-Clone" target="_blank" rel="noopener" class="link-text">Redis Clone</a></span>
         </div>
-        <div class="col-span-2 row-span-2 col-start-1 row-start-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-4 intersect move-r max-[1050px]:hidden hover:scale-102 duration-700">
+        <div class="col-span-2 row-span-2 col-start-1 row-start-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-4 intersect move-r max-[1050px]:hidden hover:scale-102 duration-700 overflow-y-hidden">
             <img src="/media/icons/skills/redisIcon.svg" alt="Redis Logo" class="w-[50%] h-auto">
         </div>
         <div class="col-span-2 row-span-2 col-start-1 row-start-4 bg-tile-gradient rounded-2xl p-4 intersect move-ru overflow-y-auto max-[1050px]:order-2 hover:scale-102 duration-700">
             <span class="text-lg font-medium block mb-1">Tech used</span>
-            <p class="text-sm mt-5 font-regular text-justify">
+            <p class="text-sm mt-5 font-light text-justify">
                 Written in C++ for high performance using STL containers for efficient in-memory data structures
                 without the headache of low level memory management.
                 With existing libraries such as <a href="https://www.boost.org/" target="_blank" rel="noopener" class="link-text">Boost.Asio</a>
                 for asynchronous networking and <a href="https://github.com/uxlfoundation/oneTBB" target="_blank" rel="noopener" class="link-text">TBB</a> for fine-grain locking.
             </p>
-            <p class="text-sm mt-5 font-regular text-justify">
+            <p class="text-sm mt-5 font-light text-justify">
                 Utilized <a href="https://github.com/catchorg/Catch2" target="_blank" rel="noopener" class="link-text">Catch2</a> for unit testing commands and expected behaviour.
                 Alongside <a href="https://docs.github.com/en/actions" target="_blank" rel="noopener" class="link-text">GitHub Actions</a> for CI.
                 Developed and ran on Linux (using WSL) to have access to <a href="https://man7.org/linux/man-pages/man2/socket.2.html" target="_blank" rel="noopener" class="link-text">sockets</a>.
@@ -353,29 +353,34 @@
                 which did the very same task but much easier to implement.
                 Along with some subtle animations on hover and a simple overhead menu with dark mode and casual music options, I reckon this website turned out alright.
             </p>
+            <p class="text-sm mt-5 font-light text-justify">
+                Deployment also came with its own challenges. I knew I could run the websites backend using a NAS that our family has and on it, I ran the backend, the Redis clone and a cloudflare tunnel, so
+                I wouldn't need to forward any ports and keep a high level of security for our local network. My main subdomain is used to connect the user to this page, while an api.halacsy.com domain is made to route to the NAS for api calls.
+                All of these built together and managed on a docker compose file for quick build up and tear down of the website.
+            </p>
+            <p class="text-xs mt-5 font-light text-justify">
+                For more information check out my GitHub or click the title of this section.
+            </p>
         </div>
         <div class="col-span-2 col-start-3 flex items-center justify-center bg-tile-gradient rounded-2xl p-4 intersect move-ld text-2xl font-bold max-[1050px]:order-1 hover:scale-102 duration-700">
-            <span class="text-4xl max-[1050px]:text-2xl font-semibold font-titles"><a href="https://github.com/BHalacsy/Portfolio-Fullstack" target="_blank" rel="noopener" class="link-text">Personal portfolio</a></span>
+            <span class="text-4xl max-[1050px]:text-2xl font-semibold font-titles"><a href="https://github.com/BHalacsy/Portfolio-Fullstack" target="_blank" rel="noopener" class="link-text">Fullstack portfolio</a></span>
         </div>
-        <div class="col-span-2 row-span-2 flex items-center justify-center col-start-3 row-start-2 bg-tile-gradient rounded-2xl p-4 intersect move-l max-[1050px]:hidden hover:scale-102 duration-700">
+        <div class="col-span-2 row-span-2 flex items-center justify-center col-start-3 row-start-2 bg-tile-gradient rounded-2xl p-4 intersect move-l max-[1050px]:hidden hover:scale-102 duration-700 overflow-y-hidden">
             <img src="/media/www.svg" alt="WWW" class="w-[50%] h-auto">
         </div>
         <div class="col-span-2 row-span-2 col-start-3 row-start-4 bg-tile-gradient rounded-2xl p-4 intersect move-lu overflow-y-auto max-[1050px]:order-2 hover:scale-102 duration-700">
             <span class="text-lg font-medium block mb-1">Tech used</span>
-            <p class="text-sm mt-5 font-regular text-justify">
+            <p class="text-sm mt-5 font-light text-justify">
                 A lot of question arouse when picking the idle stack for my portfolio.
                 I ended up sticking with vanilla <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener" class="link-text">typescript</a> as opposed to using a framework,
                 as I wanted to refresh my knowledge of javascript with the benefit of a strongly typed language.<br>
                 Along with TS for the frontend I opted to use <a href="https://tailwindcss.com/" target="_blank" rel="noopener" class="link-text">tailwind</a> for styling,
                 as I did not mind the added clutter it adds to my html file if it meant a simplified way of styling. Along with some useful plugins that I will talk about in the description.
             </p>
-            <p class="text-sm mt-5 font-regular text-justify">
+            <p class="text-sm mt-5 font-light text-justify">
                 For the backend I chose <a href="https://dotnet.microsoft.com/en-us/apps/aspnet" target="_blank" rel="noopener" class="link-text">ASP.NET</a> as I have plenty C# experience. With all the possible backend frameworks I figured using one which I will have no problem coding in will work just fine.
                 Even though I did not utilize the MVC architecture and instead relied on a minimal API style, the option to pivot was always there if I wanted to.<br>
                 The database for the website is my Redis clone containerized alongside the backend of the website using <a href="https://docs.docker.com/compose/" target="blank" rel="noopener" class="link-text">docker compose</a>, both of which are running on a NAS.
-            </p>
-            <p class="text-xs mt-5 font-light text-justify">
-                For more information check out my GitHub or click the title of this section.
             </p>
         </div>
     </div>
