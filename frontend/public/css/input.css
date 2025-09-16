@@ -14,18 +14,18 @@
     --panther-color: #014D4E;
     --jay-color: #1E90FF;
     --tiger-color: #FF6A00;
-    --robin-color: #B7410E;
+    --robin-color: #A61E20;
     --giraffe-color: #D2B48C;
     --bee-color: #FFCC00;
     --cow-color: #F5F5DC;
     --pig-color: #F4C2C2;
     --donkey-color: #A9A9A9;
-    --fish-color: #00CED1;
+    --fish-color: #A9A9F5;
     --hippo-color: #708090;
     --panda-color: #2E8B57;
     --wolf-color: #C0C0C0;
     --deer-color: #CD853F;
-    --bear-color: #5C3317;
+    --bear-color: #804D3B;
 }
 
 .dark{
@@ -48,7 +48,7 @@
     --fish-color: #014D4E;
     --hippo-color: #483C46;
     --panda-color: #006400;
-    --wolf-color: #A9A9F5;
+    --wolf-color: #708090;
     --deer-color: #5C3317;
     --bear-color: #3B1C0A;
 }
@@ -208,5 +208,5 @@
 
 @theme{
     --font-main: "Inter", "Tirra", Roboto, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial;
-    --font-titles: "KiwiMaru", "Doodly";
+    --font-titles: "KiwiMaru", Courier New, "Doodly";
 }

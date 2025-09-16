@@ -144,4 +144,4 @@ volSlider.addEventListener("input", () => {
 });
 
 //Occasional refresh user count
-setInterval(updateUserCount, 10000);
+setInterval(updateUserCount, 30000);
