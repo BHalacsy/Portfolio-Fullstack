@@ -6,18 +6,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowDev", policy =>
-    {
-        policy.AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
+
     
     options.AddPolicy("AllowLive", policy =>
     {
-        policy.WithOrigins("https://balint.halacsy.com")
+        policy.WithOrigins("https://balint.halacsy.com", "https://www.balint.halacsy.com")
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 builder.Services.AddSignalR();
@@ -30,7 +26,6 @@ var app = builder.Build();
 
 
 app.UseHttpsRedirection();
-app.UseCors("AllowDev");
 app.UseCors("AllowLive");
 
 
@@ -94,7 +89,11 @@ app.MapGet("/chat/users", (ChatService chs) =>
 app.MapGet("/chat/join", async (ChatService chs) =>
 {
     var resp = await chs.Join();
-    if (resp != null) return Results.Ok(resp);
+    if (resp != null)
+	{
+		Console.WriteLine($"New user {resp}");
+		return Results.Ok(resp);
+	}
     return Results.BadRequest("Failed to join chatroom");
 });
 
@@ -102,9 +101,10 @@ app.MapGet("/chat/join", async (ChatService chs) =>
 app.MapPost("/chat/leave", async (ChatService chs, HttpRequest req) => //Set to post for navigator.beacon
 {
     using var reader = new StreamReader(req.Body);
-    string username = (await reader.ReadToEndAsync());
+    string username = await reader.ReadToEndAsync();
     await chs.Leave(username);
-    return Results.Ok();
+	Console.WriteLine($"Added back {username}");
+    return Results.Ok(); //Doesn't actually need to happen just a formality 
 });
 
 app.Run();

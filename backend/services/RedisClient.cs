@@ -8,7 +8,7 @@ public class RedisClient : IDisposable
 {
     private readonly TcpClient _client;
     
-    public RedisClient(string host = "localhost", int port = 6379) //localhost for development and redis_server for deployment
+    public RedisClient(string host = "redis_server", int port = 6379) //localhost for development and redis_server for deployment
     {
         _client = new TcpClient(host, port);
     }

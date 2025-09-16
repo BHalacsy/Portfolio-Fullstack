@@ -47,5 +47,6 @@ public class ChatService
     public async Task Reset()
     {
         await _client.Command($"SADD users lion panther jay tiger robin giraffe bee cow pig donkey fish hippo panda wolf deer bear");
+        _connected = 0;
     }
 }
