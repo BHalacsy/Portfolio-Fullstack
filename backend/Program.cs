@@ -6,7 +6,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
 {
-
+    
+    options.AddPolicy("AllowDev", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173") //Vite default
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+    });
     
     options.AddPolicy("AllowLive", policy =>
     {
@@ -24,9 +31,9 @@ builder.Services.AddSingleton<ChatService>();
 
 var app = builder.Build();
 
-
-app.UseHttpsRedirection();
+// app.UseCors("AllowDev");
 app.UseCors("AllowLive");
+app.UseHttpsRedirection();
 
 
 app.MapHub<ChatHub>("/chat/hub");
@@ -85,26 +92,5 @@ app.MapGet("/chat/users", (ChatService chs) =>
     return Results.Ok(userCount);
 });
 
-//Set username
-app.MapGet("/chat/join", async (ChatService chs) =>
-{
-    var resp = await chs.Join();
-    if (resp != null)
-	{
-		Console.WriteLine($"New user {resp}");
-		return Results.Ok(resp);
-	}
-    return Results.BadRequest("Failed to join chatroom");
-});
-
-//Del username
-app.MapPost("/chat/leave", async (ChatService chs, HttpRequest req) => //Set to post for navigator.beacon
-{
-    using var reader = new StreamReader(req.Body);
-    string username = await reader.ReadToEndAsync();
-    await chs.Leave(username);
-	Console.WriteLine($"Added back {username}");
-    return Results.Ok(); //Doesn't actually need to happen just a formality 
-});
 
 app.Run();

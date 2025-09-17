@@ -1,4 +1,6 @@
-﻿namespace backend.services;
+﻿using backend.util;
+
+namespace backend.services;
 
 public class ChatService
 {
@@ -18,11 +20,6 @@ public class ChatService
         
         return parts[1];
     }
-
-    private async Task DelUser(string username)
-    {
-        await _client.Command($"SADD users {username}");
-    }
     
     public int GetUsers()
     {
@@ -40,8 +37,14 @@ public class ChatService
 
     public async Task Leave(string user)
     {
-        await DelUser(user);
-        _connected--;
+        var resp = await _client.Command($"SADD users {user}");
+        if (Parser.IntParser(resp) == 1)
+        {
+            Console.WriteLine($"Added back {user}");
+            _connected--;
+            return;
+        }
+        Console.WriteLine($"Added back already pooled name: {user}");
     }
 
     public async Task Reset()
