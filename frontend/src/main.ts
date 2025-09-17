@@ -81,7 +81,7 @@ window.addEventListener("DOMContentLoaded", async () =>{
     loadSettings();
 
     //Init counter
-    const respCounter : Response = await fetch("https://api.halacsy.com/counter/view");
+    const respCounter : Response = await fetch("http://localhost:5127/counter/view");
     const theCounter : string = await respCounter.json();
     const counterSpan = document.getElementById("viewCounter") as HTMLSpanElement;
     counterSpan.innerHTML = `You are visitor number:<br> ${theCounter}`;
@@ -99,11 +99,12 @@ window.addEventListener("DOMContentLoaded", async () =>{
 
 //User leaves
 window.addEventListener("beforeunload", async () => {
-    theChatroom.disconnectChat();
-    theCanvas.disconnectCanvas();
+    // theChatroom.disconnectChat();
+    // theCanvas.disconnectCanvas();
 
     const mode : string = document.body.classList.contains("dark") ? "dark" : "light";
     localStorage.setItem("mode", `${mode}`);
+
 });
 
 

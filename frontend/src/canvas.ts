@@ -99,7 +99,7 @@ export class Canvas {
 
     public async initCanvas() : Promise<void>{
         for (let i : number = 0; i <= 99; i++){
-            const respCanvas: Response = await fetch(`https://api.halacsy.com/canvas/data/${i}`);
+            const respCanvas: Response = await fetch(`http://localhost:5127/canvas/data/${i}`);
             if (!respCanvas.ok) {
                 console.warn(`Canvas tile ${i} load failed`);
                 continue;
@@ -156,7 +156,7 @@ export class Canvas {
 
             for (const chunk of pixelChunks) {
                 try {
-                    await fetch(`https://api.halacsy.com/canvas/draw/${tileID}`, {
+                    await fetch(`http://localhost:5127/canvas/draw/${tileID}`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ color: stroke.color, pixels: chunk }),
@@ -194,10 +194,6 @@ export class Canvas {
 
         await this.connection.start();
         console.log("Canvas hub online!");
-
-        this.connection.onclose(() => {
-            this.disconnectCanvas();
-        });
     }
 
     public async sendStroke(stroke : Stroke) : Promise<void> {
@@ -232,11 +228,5 @@ export class Canvas {
             }
         }
         return;
-    }
-
-    public disconnectCanvas() : void {
-        if (this.connection) {
-            this.connection.stop().then(_ => console.log("Canvas hub offline"));
-        }
     }
 }

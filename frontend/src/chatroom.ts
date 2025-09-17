@@ -10,7 +10,7 @@ export class Chatroom {
 
     constructor() {
         this.connection = new HubConnectionBuilder()
-                        .withUrl("https://api.halacsy.com/chat/hub")
+                        .withUrl("https://localhost:5127/chat/hub")
                         .withAutomaticReconnect()
                         .build();
         this.sendButton = document.getElementById("inputButton") as HTMLButtonElement;
@@ -18,7 +18,7 @@ export class Chatroom {
         this.eventListen();
     }
 
-    private eventListen() {
+    private eventListen() { //TODO maybe just group?
         this.inputText.addEventListener("keydown", async (e) => {
             if (e.key === "Enter") {
                 const message = this.inputText.value.trim();
@@ -38,21 +38,8 @@ export class Chatroom {
         })
     }
 
-    private async initUsername() : Promise<boolean> {
-        const resp : Response = await fetch("https://api.halacsy.com/chat/join");
-        if (!resp.ok){
-            alert("Chatroom is full and inaccessible at this time.")
-            console.warn(await resp.text());
-            return false;
-        }
-
-        this.username = await resp.json();
-        console.log(this.username);
-        return true;
-    }
-
     public async getUsers() : Promise<number>{
-        const resp : Response = await fetch("https://api.halacsy.com/chat/users");
+        const resp : Response = await fetch("https://localhost:5127/chat/users");
         if (!resp.ok){
             console.warn(resp.statusText);
             return 0;
@@ -61,10 +48,17 @@ export class Chatroom {
     }
 
     public async connectChat() : Promise<boolean>{
-        if (!await this.initUsername()) return false;
+        this.connection.on("RecvUsername", (username: string) => {
+            this.username = username;
+            console.log(username);
+            const usernameSpan = document.getElementById("userDisplay") as HTMLSpanElement;
+            usernameSpan.innerHTML = `you are connected as: ${this.username}`;
+        });
 
-        const usernameSpan = document.getElementById("userDisplay") as HTMLSpanElement;
-        usernameSpan.innerHTML = `you are connected as: ${this.username}`;
+        this.connection.on("Error", (msg: string) => {
+            alert(msg);
+        });
+
 
         this.connection.on("RecvMessage", (recv) => {
             const {username, message, timestamp} = recv;
@@ -97,18 +91,9 @@ export class Chatroom {
 
         try
         {
-            await this.connection.invoke("BroadcastMessage", this.username, message);
+            await this.connection.invoke("BroadcastMessage", message);
         } catch (e) {
             console.error("Message sending failed: ", e);
-        }
-    }
-
-    public disconnectChat() : void {
-        if (this.username) {
-            navigator.sendBeacon("https://api.halacsy.com/chat/leave", this.username);
-        }
-        if (this.connection) {
-            this.connection.stop().then(r => console.log("Message hub offline"));
         }
     }
 }

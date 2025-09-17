@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # cloudflared:
+  #   image: cloudflare/cloudflared:latest
+  #   command: tunnel run
+  #   environment:
+  #     - TUNNEL_TOKEN=Your tunnel token goes here
+  #   restart: always
+  #   networks:
+  #     - app-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports: 
+      - "5127:5127"
+    depends_on:
+      - redis_server
+    restart: always
+    networks:
+      - app-network
+
+  redis_server:
+    build:
+      context: ./redis_clone
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+      - app-network
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:
+
+networks:
+  app-network:
+    driver: bridge
