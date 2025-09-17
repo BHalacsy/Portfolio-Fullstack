@@ -49,8 +49,9 @@ Everything is containerized with **Docker Compose** and deployed on a NAS throug
 cd frontend
 npm install
 npm run dev
-
---separate terminal--
+```
+*--separate terminal--*
+```
 cd frontend
 npm run tailwind
 ```
@@ -64,7 +65,18 @@ dotnet run
 3. Database (default port 6379)
 To run it, check out my redis clone repo [here](https://github.com/BHalacsy/Redis-Clone).
 
+## Setup for running
 
+1. Clone Redis to same folder as the portfolio
+2. Run docker-compose
+```
+docker-compose up -d --build
+```
+3. Frontend
+```
+cd frontend
+npm run dev
+```
 ## Future development
 
 Would look into React in the future to simplify the frontend process. Add additional UI features.
