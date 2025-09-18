@@ -9,7 +9,7 @@ Everything is containerized with **Docker Compose** and deployed on a NAS throug
 
 ### Frontend
 - **HTML + Vanilla TypeScript**
-- **TailwindCSS** (with [Rombo](https://rombo.dev) and [tailwind-intersect](https://github.com/jamiebuilds/tailwind-intersect) plugins)
+- **TailwindCSS** (with [Rombo](https://rombo.co/tailwind/) and [tailwind-intersect](https://github.com/heidkaemper/tailwindcss-intersect) plugins)
 - Built into static assets served by domain hoster IONOS.
 
 ### Backend
