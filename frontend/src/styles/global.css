@@ -1,0 +1,209 @@
+@import "tailwindcss";
+@plugin "tailwindcss-motion";
+
+/* dark: utilities follow the .dark class (toggled on <html>) instead of the OS setting */
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+:root{
+    --bg-color: #2446C7;
+    --fg-color: #EDEEF7;
+    --fg-tinted-color: #B3B4BD;
+    --accent-color: #0FDBF7;
+    --accent-tinted-color: #13B8CF;
+    --txt-color: #001220;
+    --lion-color: #FFD700;
+    --panther-color: #014D4E;
+    --jay-color: #1E90FF;
+    --tiger-color: #FF6A00;
+    --robin-color: #A61E20;
+    --giraffe-color: #D2B48C;
+    --bee-color: #FFCC00;
+    --cow-color: #F5F5DC;
+    --pig-color: #F4C2C2;
+    --donkey-color: #A9A9A9;
+    --fish-color: #A9A9F5;
+    --hippo-color: #708090;
+    --panda-color: #2E8B57;
+    --wolf-color: #C0C0C0;
+    --deer-color: #CD853F;
+    --bear-color: #804D3B;
+}
+
+.dark{
+    --bg-color: #C62368;
+    --fg-color: #001220;
+    --fg-tinted-color: #20282E;
+    --accent-color: #F7770F;
+    --accent-tinted-color: #CC6410;
+    --txt-color: #EDEEF7;
+    --lion-color: #FFB000;
+    --panther-color: #2F4F4F;
+    --jay-color: #004080;
+    --tiger-color: #CC5500;
+    --robin-color: #5A1E0A;
+    --giraffe-color: #8B5E3C;
+    --bee-color: #996600;
+    --cow-color: #A9A98A;
+    --pig-color: #E75480;
+    --donkey-color: #505050;
+    --fish-color: #014D4E;
+    --hippo-color: #483C46;
+    --panda-color: #006400;
+    --wolf-color: #708090;
+    --deer-color: #5C3317;
+    --bear-color: #3B1C0A;
+}
+
+/*
+ * Scroll-linked tile entrances, driven by Lenis (see Layout.astro).
+ * --scroll-p goes 0 → 1 as the tile enters the viewport; it defaults to 1
+ * (resting state) so tiles render in place without JS.
+ */
+.move-l, .move-r, .move-d, .move-u, .move-lu, .move-ld, .move-ru, .move-rd {
+    --scroll-out: calc(1 - var(--scroll-p, 1));
+    translate: calc(var(--tile-x, 0%) * var(--scroll-out)) calc(var(--tile-y, 0%) * var(--scroll-out));
+    filter: blur(calc(10px * var(--scroll-out)));
+    opacity: var(--scroll-p, 1);
+    /* transition-property defaults to `all`, so the tiles' duration-700 (meant
+       for hover:scale) would smooth the scroll-driven translate/blur/opacity
+       into a laggy one-shot animation instead of tracking the scroll 1:1 */
+    transition-property: scale;
+}
+
+/* Viewport units, not %: translate percentages are relative to each tile's
+   own box, which would make differently sized tiles travel different distances */
+.move-l{ --tile-x: 30vw; --tile-y: 0vh; }
+.move-r{ --tile-x: -30vw; --tile-y: 0vh; }
+.move-d{ --tile-x: 0vw; --tile-y: -30vh; }
+.move-u{ --tile-x: 0vw; --tile-y: 30vh; }
+.move-lu{ --tile-x: 30vw; --tile-y: 30vh; }
+.move-ld{ --tile-x: 30vw; --tile-y: -30vh; }
+.move-ru{ --tile-x: -30vw; --tile-y: 30vh; }
+.move-rd{ --tile-x: -30vw; --tile-y: -30vh; }
+
+.bg-tile-gradient{
+    @apply bg-gradient-to-br from-[var(--fg-color)] via-[var(--fg-color)] to-[var(--fg-tinted-color)];
+}
+
+.pop-button{
+    @apply shadow-[4px_4px_0px_0px_#1e293b] transition-all duration-200 hover:translate-x-1 hover:translate-y-1 hover:shadow-none;
+}
+
+.link-text{
+    @apply text-[var(--accent-color)] hover:text-[var(--bg-color)] transition-all duration-300;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    background: var(--fg-color);
+    border-radius: 15px;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--accent-tinted-color);
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--fg-tinted-color);
+    border-radius: 5px;
+}
+
+@font-face {
+    font-family: "Doodly";
+    src: url("/font/Doodly-Regular.ttf") format("truetype");
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "DoodlyBubble";
+    src: url("/font/DoodlyBubble-Regular.ttf") format("truetype");
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face{
+    font-family: "Inter";
+    src: url("/font/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+    font-weight: 100 900;
+    font-stretch: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Tirra";
+    src: url("/font/Tirra-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Tirra";
+    src: url("/font/Tirra-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Tirra";
+    src: url("/font/Tirra-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Tirra";
+    src: url("/font/Tirra-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Tirra";
+    src: url("/font/Tirra-ExtraBold.ttf") format("truetype");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Tirra";
+    src: url("/font/Tirra-Black.ttf") format("truetype");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "KiwiMaru";
+    src: url("/font/KiwiMaru-Light.ttf") format("truetype");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "KiwiMaru";
+    src: url("/font/KiwiMaru-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "KiwiMaru";
+    src: url("/font/KiwiMaru-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@theme{
+    --font-main: "Inter", "Tirra", Roboto, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial;
+    --font-titles: "KiwiMaru", Courier New, "Doodly";
+}

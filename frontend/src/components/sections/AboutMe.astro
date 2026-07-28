@@ -1,0 +1,110 @@
+---
+const languages = [
+    { src: "/media/icons/skills/cppIcon.svg", alt: "C++", width: "w-9" },
+    { src: "/media/icons/skills/csIcon.svg", alt: "C#", width: "w-9" },
+    { src: "/media/icons/skills/tsIcon.svg", alt: "Typescript", width: "w-9" },
+    { src: "/media/icons/skills/jsIcon.svg", alt: "JavaScript", width: "w-9" },
+    { src: "/media/icons/skills/pyIcon.svg", alt: "Python", width: "w-10" },
+    { src: "/media/icons/skills/javaIcon.svg", alt: "Java", width: "w-10" },
+];
+
+const technologies = [
+    { src: "/media/icons/skills/dockerIcon.svg", alt: "Docker", width: "w-10" },
+    { src: "/media/icons/skills/linuxmintIcon.svg", alt: "Linux mint", width: "w-10" },
+    { src: "/media/icons/skills/tailwindIcon.svg", alt: "Tailwind", width: "w-10" },
+    { src: "/media/icons/skills/redisIcon.svg", alt: "Redis", width: "w-10" },
+    { src: "/media/icons/skills/mySQLIcon.svg", alt: "mySQL", width: "w-10" },
+    { src: "/media/icons/skills/actionsIcon.svg", alt: "GithubActions", width: "w-9" },
+];
+
+const socials = [
+    { href: "https://github.com/bhalacsy", src: "/media/icons/socials/githubIcon.svg", alt: "github", cell: "", style: "bg-black rounded-xl" },
+    { href: "https://www.linkedin.com/in/balint-halacsy-18b05a2a9", src: "/media/icons/socials/linkedInIcon.svg", alt: "linkedIn", cell: "col-start-3", style: "rounded-xl" },
+    { href: "mailto:balint@halacsy.com", src: "/media/icons/socials/emailIcon.svg", alt: "email", cell: "col-start-2 row-start-2", style: "rounded-xl" },
+    { href: "https://open.spotify.com/user/11137535719?si=10ce0cfe47bf4f07", src: "/media/icons/socials/spotifyIcon.svg", alt: "spotify", cell: "row-start-3", style: "rounded-full" },
+    { href: "https://www.instagram.com/b00tyb01/?hl=en", src: "/media/icons/socials/instagramIcon.svg", alt: "instagram", cell: "col-start-3 row-start-3", style: "rounded-full" },
+    { href: "https://www.youtube.com/@bal-hal", src: "/media/icons/socials/youtubeIcon.svg", alt: "youtube", cell: "col-start-2 row-start-4", style: "rounded-xl" },
+    { href: "https://discord.gg/MemSkmKr", src: "/media/icons/socials/discordIcon.svg", alt: "discord", cell: "row-start-5", style: "rounded-xl" },
+    { href: "https://steamcommunity.com/id/b00tb01/", src: "/media/icons/socials/steamIcon.svg", alt: "steam", cell: "col-start-3 row-start-5", style: "rounded-xl" },
+];
+---
+<div id="aboutMe" class="grid grid-cols-4 grid-rows-5 gap-4 w-3/5 h-[85vh] mx-auto my-25 snap-start max-[1050px]:flex max-[1050px]:flex-col max-[710px]:mt-100">
+    <div class="col-span-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-2 move-rd hover:scale-102 duration-700">
+        <span class="text-4xl max-[1050px]:text-2xl font-semibold font-titles">Bálint Halácsy</span>
+    </div>
+    <div class="col-span-2 row-span-2 col-start-1 row-start-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-4 move-r hover:scale-102 duration-700">
+        <img id="portrait" src="/media/portrait.png" alt="Image of me" class="w-[50%] h-auto rounded-full object-cover">
+    </div>
+    <div class="col-start-1 col-span-2 row-span-2 row-start-4 grid grid-cols-2 grid-rows-1 gap-x-4 h-full max-[1050px]:h-auto max-[1050px]:flex max-[1050px]:flex-row max-[1050px]:gap-4">
+        <div class="bg-tile-gradient rounded-2xl p-2 move-ru max-[1050px]:w-1/2 hover:scale-102 duration-700 overflow-y-auto">
+            <span class="text-lg max-[500px]:text-md font-medium mb-1 block">Stack</span>
+            <span class="text-md max-[500px]:text-sm block mb-2">Languages:</span>
+            <div class="grid grid-cols-3 grid-rows-2 flex-1 gap-1">
+                {languages.map((icon) => (
+                    <div class="flex items-center justify-center px-2">
+                        <img src={icon.src} alt={icon.alt} class={`${icon.width} h-auto`}>
+                    </div>
+                ))}
+            </div>
+            <span class="text-md max-[500px]:text-sm block mb-1 mt-1">Technologies:</span>
+            <div class="grid grid-cols-3 grid-rows-2 flex-1 gap-1">
+                {technologies.map((icon) => (
+                    <div class="flex items-center justify-center px-2">
+                        <img src={icon.src} alt={icon.alt} class={`${icon.width} h-auto`}>
+                    </div>
+                ))}
+            </div>
+        </div>
+
+        <div class="bg-tile-gradient min-h-0 rounded-2xl p-2 move-u text-lg max-[500px]:text-md font-medium max-[1050px]:w-1/2 hover:scale-102 duration-700 overflow-y-auto">
+            <span class="text-lg font-medium block mb-2">Socials</span>
+            <div class="grid grid-cols-3 grid-rows-5 flex-1">
+                {socials.map((social) => (
+                    <div class={`${social.cell} flex items-center justify-center h-full`}>
+                        <a href={social.href} target={social.href.startsWith("mailto:") ? undefined : "_blank"} rel="noopener">
+                            <img src={social.src} alt={social.alt} class={`w-11 h-auto ${social.style} pop-button`}>
+                        </a>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-span-2 row-span-5 col-start-3 row-start-1 max-[1050px]:flex-1 bg-tile-gradient rounded-2xl overflow-y-auto p-4 move-l hover:scale-102 duration-700">
+        <span class="text-2xl font-semibold">About me</span>
+        <p class="text-sm mt-5 font-light text-justify">
+            A brief intro about me and who I am?
+            I am an American/Hungarian student at <a href="https://vu.nl/nl" target="_blank" rel="noopener" class="link-text">Vrije Universiteit Amsterdam</a>,
+            completing a bachelor's degree in Computer Science.
+            I have a deep interest in computer systems and would like to focus on backend and low level software engineering.
+            With a foundation of theoretical knowledge and practical hands-on experience, I am seeking to launch my professional career in the field I have now spent a large part of my life working towards.
+            Looking to work on real-world software that could impact millions of peoples day to day lives with the code I produce. This ambition to make a serious impact is what drives my interests in software design and development.
+        </p>
+        <p class="text-sm mt-5 font-light text-justify">
+            The very first time I fell in love with computer science was actually in middle school. During our once a week IT class we got introduced to the concept of algorithms, the logical structure of these algorithms made
+            sense to me at a time in my life when natural language was difficult as a bilingual child transitioning to a Hungarian school.
+            This inturn introduced me to "technically" my first programming language, <a href="https://en.wikipedia.org/wiki/Turtle_graphics" target="_blank" rel="noopener" class="link-text">Logo</a> in which we guided a turtle
+            to draw on a canvas. This very simple algorithm was the pandora's box that had started it all.
+        </p>
+        <p class="text-sm mt-5 font-light text-justify">
+            By the time I had to transition to high school I knew I had wanted to work with computers when I had grown up.
+            I had made the decision to enroll in a vocational high school focusing on information technology, here we had fewer classes regarding things such as geography and biology,
+            more so computer programming (C#) and computer networks (Cisco Packet tracer).
+            This set in stone what I was going to do later on in my professional career and looking back it was the best decision I had made as it not just fueled my existing passion for computers,
+            but also brought me close to like-minded individuals who I now call my friends.
+            Here I gained a foundational understanding on how computers are built, operate and communicate, however this was just scratching the surface of what was to come.
+        </p>
+        <p class="text-sm mt-5 font-light text-justify">
+            I always knew following high school that I would want to continue my studies in English as opposed to Hungarian.
+            So the decision to study abroad was a no-brainer considering all the options out there for studying computer science. I eventually landed on wanting to study in the Netherlands as it is considered to be a tech hub of Europe and made the decision to enroll at the VU.
+            Here I could easily pick up and understand the curriculum as I had previous experience with computers and programming, however it is challenging enough to deepen my knowledge of computer systems.
+            of my favourite courses were: Machine learning, Software development and Computer networks.
+            I am currently in my last year of this bachelor's program and grinding to land an internship to gain work experience before ending my time here at university.
+        </p>
+        <p class="text-sm mt-5 font-light text-justify">
+            I am now just focusing on projects that could improve my CV in hopes of finally landing an internship, so I may get some real-world hands-on experience in a field I have been striving to join since middle school.
+            Feel free to check out the <a href="#toybox" class="link-text">toybox section</a> on my page with an anonymous chat room and collaborative persistent canvas
+            or maybe read up on the <a href="#projRedis" class="link-text">projects</a> I have been working on in my free time like this website for example.
+        </p>
+    </div>
+</div>

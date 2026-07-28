@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "lib": ["ES2016", "DOM"],
+    "strict": true,
+    "noImplicitAny": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "allowImportingTsExtensions": true
+  }
+}

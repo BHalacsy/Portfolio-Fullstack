@@ -1,0 +1,67 @@
+<div id="projRedis" class="grid grid-cols-4 grid-rows-5 gap-4 text-[var(--txt-color)] w-3/5 h-[85vh] justify-center mx-auto my-25 snap-start max-[1050px]:flex max-[1050px]:flex-col">
+    <div class="col-span-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-2 move-rd text-2xl font-bold max-[1050px]:order-1 hover:scale-102 duration-700">
+        <span class="text-4xl max-[1050px]:text-2xl font-semibold font-titles"><a href="https://github.com/BHalacsy/Redis-Clone" target="_blank" rel="noopener" class="link-text">Redis Clone</a></span>
+    </div>
+    <div class="col-span-2 row-span-2 col-start-1 row-start-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-4 move-r max-[1050px]:hidden hover:scale-102 duration-700 overflow-y-hidden">
+        <img src="/media/icons/skills/redisIcon.svg" alt="Redis Logo" class="w-[50%] h-auto">
+    </div>
+    <div class="col-span-2 row-span-2 col-start-1 row-start-4 bg-tile-gradient rounded-2xl p-4 move-ru overflow-y-auto max-[1050px]:order-2 hover:scale-102 duration-700">
+        <span class="text-lg font-medium block mb-1">Tech used</span>
+        <p class="text-sm mt-5 font-light text-justify">
+            Written in C++ for high performance using STL containers for efficient in-memory data structures
+            without the headache of low level memory management.
+            With existing libraries such as <a href="https://www.boost.org/" target="_blank" rel="noopener" class="link-text">Boost.Asio</a>
+            for asynchronous networking and <a href="https://github.com/uxlfoundation/oneTBB" target="_blank" rel="noopener" class="link-text">TBB</a> for fine-grain locking.
+        </p>
+        <p class="text-sm mt-5 font-light text-justify">
+            Utilized <a href="https://github.com/catchorg/Catch2" target="_blank" rel="noopener" class="link-text">Catch2</a> for unit testing commands and expected behaviour.
+            Alongside <a href="https://docs.github.com/en/actions" target="_blank" rel="noopener" class="link-text">GitHub Actions</a> for CI.
+            Developed and ran on Linux (using WSL) to have access to <a href="https://man7.org/linux/man-pages/man2/socket.2.html" target="_blank" rel="noopener" class="link-text">sockets</a>.
+            Later dockerized for mainly for the next <a href="#projPortfolio" class="link-text">project</a>.
+        </p>
+    </div>
+    <div class="col-span-2 row-span-5 col-start-3 row-start-1 bg-tile-gradient rounded-2xl p-4 move-l overflow-y-auto max-[1050px]:order-3 hover:scale-102 duration-700">
+        <span class="text-2xl font-semibold">Description</span>
+        <p class="text-sm mt-5 font-light text-justify">
+            <a href="https://redis.io/docs/latest/develop/" target="_blank" rel="noopener" class="link-text">Redis</a> is an open-source,
+            in-memory key value store database known for its high performance and low latency which supports advanced data types such as sets, lists, hashes and more.
+            Using for a variety of things but typically as a cache for large scale databases alongside real-time analytics and pub/sub messaging.
+            For more check out this <a href="https://www.youtube.com/watch?v=G1rOthIU-uo" target="_blank" rel="noopener" class="link-text">brief summary</a> by Fireship
+        </p>
+        <p class="text-sm mt-5 font-light text-justify">
+            I knew that for my very first independent project I wanted to make some existing piece of software and understand its inner workings.
+            Initially I considered following one of code crafters' challenges since they provide a bit more hand holding and have automated tests indicating if you complete a subsection of the challenger,
+            however seeing how much it would cost for a subscription, I have opted to instead have no hand holding and do the tests myself.
+        </p>
+        <p class="text-sm mt-5 font-light text-justify">
+            I began by deciding what language to write the clone in. C++ seemed like an ideal choice as I have had plenty of experience using it, and it is closely related to C in which the original Redis is written in.
+            Once that was done I made sure to set up a GitHub Actions workflow to run any existing tests automatically on pushes to the repo.
+            Having experience with computer networks came in handy since I had to use linux's sockets, encode and parse commands using RESP and have done multithreaded programming multiple times.
+            I began by converting existing code (server and client) done in python to C++ which proved to be more of a challenge than I had thought, but once echo message was set up, it was time to get our hands dirty.
+        </p>
+        <p class="text-sm mt-5 font-light text-justify">
+            Following this I wanted to follow Redis' RESProtocol for communication as it proved all the utility I had wanted for my clone.
+            Initially only allowed to store strings with the basic commands (SET, GET, DEL, EXISTS) I added the first feature of the clone, key expiration.
+            I expanded by implementing advanced data structure and their respective commands.
+            This had set up the core functionality of the Redis clone, however we were far from done.
+        </p>
+        <p class="text-sm mt-5 font-light text-justify">
+            Having had worked with multithreading I decided that a thread pool would be fitting for our application to allow concurrent access to the database, this came with its own challenge of handling
+            race condition in case multiple threads try to access the same piece of memory. The easy fix for this was to thread lock the kv store in memory when a thread tries to access it, however this
+            greatly impacted performance and made accessing the database incredibly slow. I solved this by using TBB's fine-grain locking in which we only lock the currently accessed portion of the kv store
+            as opposed to the entire db.
+        </p>
+        <p class="text-sm mt-5 font-light text-justify">
+            Another feature I knew I wanted to implement was snapshotting as this allowed for the kv store to remain persistent.
+            To do this I utilized Boost's serialization which made serializing the kv store much easier as I was using custom data types for managing kv pairs.
+            Other features included Pub/Sub messaging, Pipelining, Transaction support for command queueing and LRU (Least Recently Used) key eviction for memory management.
+        </p>
+        <p class="text-sm mt-5 font-light text-justify">
+            Having all these features I had a pretty deep understanding of Redis core functionality, however I always want to make software which has some sort of real world use.
+            I decided to dockerize the Redis clone in hopes of running it as a database for a project down the line. As you can imagine I had some ideas, in fact, it runs the very website you are reading this on.
+        </p>
+        <p class="text-xs mt-5 font-light text-justify">
+            For more information check out my GitHub or click the title of this section.
+        </p>
+    </div>
+</div>

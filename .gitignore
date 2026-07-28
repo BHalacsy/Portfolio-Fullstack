@@ -1,7 +1,26 @@
 # Jetbrains IDE files
-backend/.idea/
-frontend/.idea/
+.idea/
+archive/backend/.idea/
+archive/frontend/.idea/
 
 # Webapi build tools
-backend/bin/
-backend/obj/
+archive/backend/bin/
+archive/backend/obj/
+
+# Frontend (Astro)
+frontend/dist/
+frontend/.astro/
+frontend/node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment variables
+.env
+.env.production
+
+# macOS-specific files
+.DS_Store

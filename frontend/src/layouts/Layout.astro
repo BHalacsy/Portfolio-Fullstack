@@ -1,0 +1,33 @@
+---
+import "../styles/global.css";
+
+interface Props {
+    title?: string;
+}
+
+const { title = "Balint Halacsy" } = Astro.props;
+---
+<!-- No snap-y/scroll-smooth: Lenis owns scrolling (CSS scroll-snap and smooth-behavior conflict with it) -->
+<html lang="en" class="scroll-pt-16 font-main">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/favicon.ico">
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <script is:inline>
+        // Runs before paint to avoid a light-mode flash on reload
+        const savedMode = localStorage.getItem("mode");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const isDark = savedMode ? savedMode === "dark" : prefersDark;
+        document.documentElement.classList.toggle("dark", isDark);
+    </script>
+</head>
+<body class="bg-[var(--fg-color)] overflow-x-hidden">
+    <slot />
+    <script>
+        import { startSmoothScroll } from "../scripts/smoothScroll";
+        startSmoothScroll();
+    </script>
+</body>
+</html>
