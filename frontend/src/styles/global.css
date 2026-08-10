@@ -62,9 +62,13 @@
  */
 .move-l, .move-r, .move-d, .move-u, .move-lu, .move-ld, .move-ru, .move-rd {
     --scroll-out: calc(1 - var(--scroll-p, 1));
+    /* Opacity trails the translate/blur instead of tracking them 1:1: cubing
+       --scroll-p holds a tile faint until it is most of the way in, and drops
+       it again as soon as it starts leaving */
+    --scroll-fade: calc(var(--scroll-p, 1) * var(--scroll-p, 1) * var(--scroll-p, 1));
     translate: calc(var(--tile-x, 0%) * var(--scroll-out)) calc(var(--tile-y, 0%) * var(--scroll-out));
     filter: blur(calc(10px * var(--scroll-out)));
-    opacity: var(--scroll-p, 1);
+    opacity: var(--scroll-fade);
     /* transition-property defaults to `all`, so the tiles' duration-700 (meant
        for hover:scale) would smooth the scroll-driven translate/blur/opacity
        into a laggy one-shot animation instead of tracking the scroll 1:1 */

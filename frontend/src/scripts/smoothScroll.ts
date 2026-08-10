@@ -1,10 +1,44 @@
 import Lenis from "lenis";
+import Snap from "lenis/snap";
 
 // Matches scroll-pt-16 on <html>, which native jumps fall back to without JS
 const ANCHOR_OFFSET = -64;
 
 // Fraction of the viewport height over which a section animates in/out
-const RAMP = 0.5;
+const RAMP = 1;
+
+interface SnapTarget {
+    id: string; // what anchors link to, and the key resting positions are stored under
+    measureId?: string; // element the position is measured from, when it is not #id itself
+    align: "start" | "center" | "end";
+    offset?: number;
+}
+
+// Sections scrolling comes to rest on, and where each parks in the viewport.
+// The tile grids are 85vh, so centring leaves them an even margin; the footer
+// aligns to the document end it already sits against. The landing rests on its
+// title with the same headroom scroll-pt-16 gives anchors — the section box
+// starts at the title's collapsed top margin, so aligning the section instead
+// would pull the title flush against the top of the viewport.
+const SNAP_TARGETS: SnapTarget[] = [
+    { id: "landingPage", measureId: "landingTitle", align: "start", offset: ANCHOR_OFFSET },
+    { id: "aboutMe", align: "center" },
+    { id: "projRedis", align: "center" },
+    { id: "projPortfolio", align: "center" },
+    { id: "footerSection", align: "end" },
+];
+
+// offsetTop chains are layout positions, so measuring stays correct even while
+// tiles are translated mid-animation
+const documentTop = (el: HTMLElement): number => {
+    let y = 0;
+    let node: HTMLElement | null = el;
+    while (node) {
+        y += node.offsetTop;
+        node = node.offsetParent as HTMLElement | null;
+    }
+    return y;
+};
 
 interface Section {
     el: HTMLElement;
@@ -26,6 +60,40 @@ export function startSmoothScroll(): void {
         requestAnimationFrame(raf);
     };
     requestAnimationFrame(raf);
+
+    // Stands in for the archived page's CSS scroll-snap, which Lenis cannot
+    // coexist with. Mandatory matches what snap-y snap-mandatory did there:
+    // every scroll settles on a section rather than only nearby ones.
+    const snap = new Snap(lenis, { type: "mandatory" });
+
+    // Snap.addElement derives positions from the element box alone — it has no
+    // equivalent of scroll-padding — so we compute the values ourselves and
+    // register them with snap.add(). Anchors then reuse the same numbers, which
+    // is what keeps the landing arrow and a wheel gesture landing in one place.
+    const snapPoints = new Map<string, number>();
+    let removeSnaps: (() => void)[] = [];
+
+    const registerSnaps = () => {
+        for (const remove of removeSnaps) remove();
+        removeSnaps = [];
+        snapPoints.clear();
+
+        const viewport = window.innerHeight;
+        const maxScroll = Math.max(document.documentElement.scrollHeight - viewport, 0);
+        for (const { id, measureId, align, offset = 0 } of SNAP_TARGETS) {
+            const el = document.getElementById(measureId ?? id);
+            if (!el) continue;
+            const top = documentTop(el);
+            const height = el.offsetHeight;
+            const aligned =
+                align === "start" ? top
+                : align === "center" ? top + height / 2 - viewport / 2
+                : top + height - viewport;
+            const value = Math.min(Math.max(Math.round(aligned + offset), 0), maxScroll);
+            snapPoints.set(id, value);
+            removeSnaps.push(snap.add(value));
+        }
+    };
 
     // Group tiles by their section: the nearest ancestor with an id
     // (#aboutMe, #projRedis, #projPortfolio, ...)
@@ -60,19 +128,14 @@ export function startSmoothScroll(): void {
         }
     };
 
-    // offsetTop chains are layout positions, so measuring stays correct even
-    // while tiles are translated mid-animation
     const measure = () => {
         for (const section of sections) {
-            let y = 0;
-            let node: HTMLElement | null = section.el;
-            while (node) {
-                y += node.offsetTop;
-                node = node.offsetParent as HTMLElement | null;
-            }
-            section.top = y;
+            section.top = documentTop(section.el);
             section.height = section.el.offsetHeight;
         }
+        // Snap has ResizeObservers of its own, but they are debounced 500ms —
+        // recompute with us so the points are right the moment images land
+        registerSnaps();
         update();
     };
 
@@ -81,13 +144,20 @@ export function startSmoothScroll(): void {
     window.addEventListener("load", measure); // images/fonts shift layout
     measure();
 
-    // Route same-page anchors through Lenis for smooth scrolling
+    // Route same-page anchors through Lenis for smooth scrolling. A link into a
+    // snapped section goes to that section's resting position rather than to its
+    // top edge, so clicking the landing arrow ends where scrolling there would —
+    // otherwise the jump lands off-snap and stays there, since Snap only reacts
+    // to user input ("virtual-scroll") and never corrects a programmatic scroll.
     document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener("click", (event) => {
-            const target = document.querySelector<HTMLElement>(anchor.getAttribute("href")!);
+            const href = anchor.getAttribute("href")!;
+            const target = document.querySelector<HTMLElement>(href);
             if (!target) return;
             event.preventDefault();
-            lenis.scrollTo(target, { offset: ANCHOR_OFFSET });
+            const snapPoint = snapPoints.get(href.slice(1));
+            if (snapPoint !== undefined) lenis.scrollTo(snapPoint);
+            else lenis.scrollTo(target, { offset: ANCHOR_OFFSET });
         });
     });
 }
