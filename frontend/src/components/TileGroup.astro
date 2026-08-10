@@ -1,0 +1,60 @@
+---
+// The mosaic shell every section rests in: a 4x5 grid holding a title, a piece
+// of media and a secondary panel stacked in one half, with a full-height
+// description filling the other. "alternative" mirrors the two halves — the
+// tiles swap sides and every .move-* direction flips with them.
+//
+// Sections own their content and their vertical margins; everything about the
+// frame (width, height, gutters, cell placement, motion, mobile order) lives
+// here so it is changed in one place.
+interface Props {
+    id: string;
+    layout?: "normal" | "alternative";
+    class?: string; // per-section margins
+    titleClass?: string;
+    mediaClass?: string;
+    secondaryClass?: string;
+    descriptionClass?: string;
+    secondaryTile?: boolean; // false where the cell hosts tiles of its own instead of being one
+    mediaOnMobile?: boolean; // the projects drop their logo below 1050px, About Me keeps its portrait
+}
+
+const {
+    id,
+    layout = "normal",
+    class: outerClass = "",
+    titleClass = "",
+    mediaClass = "",
+    secondaryClass = "",
+    descriptionClass = "",
+    secondaryTile = true,
+    mediaOnMobile = false,
+} = Astro.props;
+
+const mirrored = layout === "alternative";
+const stack = mirrored ? "col-start-3" : "col-start-1";
+const panel = mirrored ? "col-start-1" : "col-start-3";
+
+// Shared chrome: what makes a cell read as a tile
+const TILE = "bg-tile-gradient rounded-2xl hover:scale-102 duration-700";
+
+// Below 1050px the grid collapses to a flex column, so the cells carry an
+// explicit order — source order alone would put the description before the
+// stacked tiles in the mirrored layout
+const title = `${stack} col-span-2 row-start-1 flex items-center justify-center p-4 max-[1050px]:order-1 ${mirrored ? "move-ld" : "move-rd"}`;
+const media = `${stack} col-span-2 row-start-2 row-span-2 flex items-center justify-center p-4 overflow-hidden max-[1050px]:order-2 ${mirrored ? "move-l" : "move-r"} ${mediaOnMobile ? "" : "max-[1050px]:hidden"}`;
+const secondary = `${stack} col-span-2 row-start-4 row-span-2 max-[1050px]:order-3 ${secondaryTile ? `p-4 tile-scroll ${mirrored ? "move-lu" : "move-ru"}` : ""}`;
+const description = `${panel} col-span-2 row-start-1 row-span-5 p-4 tile-scroll max-[1050px]:order-4 ${mirrored ? "move-r" : "move-l"}`;
+---
+<div
+    id={id}
+    class:list={[
+        "grid grid-cols-4 grid-rows-5 gap-4 w-[min(1440px,95%)] h-[85vh] mx-auto justify-center text-[var(--txt-color)] max-[1050px]:flex max-[1050px]:flex-col",
+        outerClass,
+    ]}
+>
+    <div class:list={[TILE, title, titleClass]}><slot name="title" /></div>
+    <div class:list={[TILE, media, mediaClass]}><slot name="media" /></div>
+    <div class:list={[secondaryTile && TILE, secondary, secondaryClass]}><slot name="secondary" /></div>
+    <div class:list={[TILE, description, descriptionClass]}><slot name="description" /></div>
+</div>

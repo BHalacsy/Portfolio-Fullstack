@@ -86,6 +86,44 @@
 .move-ru{ --tile-x: -30vw; --tile-y: 30vh; }
 .move-rd{ --tile-x: -30vw; --tile-y: -30vh; }
 
+/*
+ * Overflowing tile content. The wheel only reaches a tile once its section has
+ * settled on its snap point (smoothScroll.ts adds .settled), so content cannot
+ * be scrolled while the mosaic is still animating into place — until then the
+ * tile is overflow:hidden, which keeps scrollTop rather than resetting it the
+ * way `clip` or `visible` would.
+ *
+ * overscroll-behavior traps the wheel in the tile at both ends: it stops native
+ * chaining, and Lenis reads the same property to decide the tile still owns the
+ * event, so hovering a fully scrolled tile no longer drags the page along.
+ */
+.tile-scroll {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    /* The gate below swaps overflow-y, which would pop a scrollbar into being
+       and reflow the text under it. A gutter is reserved in both states — an
+       overflow:hidden box is still a scroll container — so nothing shifts when
+       a section settles */
+    scrollbar-gutter: stable;
+    /* A scrollbar is painted against the inner border edge, so padding cannot
+       shift it — a transparent border can. The tile gradient still paints
+       underneath (background-clip is border-box), so this only pulls the bar
+       away from the rounded edge. Widen it to inset the bar further */
+    border-right: 0.25rem solid transparent;
+}
+
+/* Scrolling stays open unless smoothScroll.ts opts in by marking <html>, so a
+   touch device (Snap ignores touchmove, sections never park exactly) and a
+   reduced-motion visitor (the script returns before Lenis starts) both keep
+   plain scrollable tiles */
+.gate-tiles .tile-scroll {
+    overflow-y: hidden;
+}
+
+.gate-tiles .settled .tile-scroll {
+    overflow-y: auto;
+}
+
 .bg-tile-gradient{
     @apply bg-gradient-to-br from-[var(--fg-color)] via-[var(--fg-color)] to-[var(--fg-tinted-color)];
 }

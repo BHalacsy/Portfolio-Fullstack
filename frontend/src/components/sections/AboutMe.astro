@@ -1,4 +1,6 @@
 ---
+import TileGroup from "../TileGroup.astro";
+
 const languages = [
     { src: "/media/icons/skills/cppIcon.svg", alt: "C++", width: "w-9" },
     { src: "/media/icons/skills/csIcon.svg", alt: "C#", width: "w-9" },
@@ -28,15 +30,20 @@ const socials = [
     { href: "https://steamcommunity.com/id/b00tb01/", src: "/media/icons/socials/steamIcon.svg", alt: "steam", cell: "col-start-3 row-start-5", style: "rounded-xl" },
 ];
 ---
-<div id="aboutMe" class="grid grid-cols-4 grid-rows-5 gap-4 w-[min(1440px,95%)] h-[85vh] mx-auto my-25 max-[1050px]:flex max-[1050px]:flex-col max-[710px]:mt-100">
-    <div class="col-span-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-2 move-rd hover:scale-102 duration-700">
-        <span class="text-4xl max-[1050px]:text-2xl font-semibold font-titles">Bálint Halácsy</span>
-    </div>
-    <div class="col-span-2 row-span-2 col-start-1 row-start-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-4 move-r hover:scale-102 duration-700">
-        <img id="portrait" src="/media/portrait.png" alt="Image of me" class="w-[50%] h-auto rounded-full object-cover">
-    </div>
-    <div class="col-start-1 col-span-2 row-span-2 row-start-4 grid grid-cols-2 grid-rows-1 gap-x-4 h-full max-[1050px]:h-auto max-[1050px]:flex max-[1050px]:flex-row max-[1050px]:gap-4">
-        <div class="bg-tile-gradient rounded-2xl p-2 move-ru max-[1050px]:w-1/2 hover:scale-102 duration-700 overflow-y-auto">
+<TileGroup
+    id="aboutMe"
+    class="my-25 max-[710px]:mt-100"
+    mediaOnMobile
+    secondaryTile={false}
+    secondaryClass="grid grid-cols-2 grid-rows-1 gap-x-4 h-full max-[1050px]:h-auto max-[1050px]:flex max-[1050px]:flex-row max-[1050px]:gap-4"
+    descriptionClass="max-[1050px]:flex-1"
+>
+    <span slot="title" class="text-4xl max-[1050px]:text-2xl font-semibold font-titles">Bálint Halácsy</span>
+
+    <img slot="media" id="portrait" src="/media/portrait.png" alt="Image of me" class="w-[50%] h-auto rounded-full object-cover">
+
+    <Fragment slot="secondary">
+        <div class="bg-tile-gradient rounded-2xl p-2 move-ru max-[1050px]:w-1/2 hover:scale-102 duration-700 tile-scroll">
             <span class="text-lg max-[500px]:text-md font-medium mb-1 block">Stack</span>
             <span class="text-md max-[500px]:text-sm block mb-2">Languages:</span>
             <div class="grid grid-cols-3 grid-rows-2 flex-1 gap-1">
@@ -56,7 +63,7 @@ const socials = [
             </div>
         </div>
 
-        <div class="bg-tile-gradient min-h-0 rounded-2xl p-2 move-u text-lg max-[500px]:text-md font-medium max-[1050px]:w-1/2 hover:scale-102 duration-700 overflow-y-auto">
+        <div class="bg-tile-gradient min-h-0 rounded-2xl p-2 move-u text-lg max-[500px]:text-md font-medium max-[1050px]:w-1/2 hover:scale-102 duration-700 tile-scroll">
             <span class="text-lg font-medium block mb-2">Socials</span>
             <div class="grid grid-cols-3 grid-rows-5 flex-1">
                 {socials.map((social) => (
@@ -68,9 +75,9 @@ const socials = [
                 ))}
             </div>
         </div>
-    </div>
+    </Fragment>
 
-    <div class="col-span-2 row-span-5 col-start-3 row-start-1 max-[1050px]:flex-1 bg-tile-gradient rounded-2xl overflow-y-auto p-4 move-l hover:scale-102 duration-700">
+    <Fragment slot="description">
         <span class="text-2xl font-semibold">About me</span>
         <p class="text-sm mt-5 font-light text-justify">
             A brief intro about me and who I am?
@@ -106,5 +113,5 @@ const socials = [
             Feel free to check out the <a href="#toybox" class="link-text">toybox section</a> on my page with an anonymous chat room and collaborative persistent canvas
             or maybe read up on the <a href="#projRedis" class="link-text">projects</a> I have been working on in my free time like this website for example.
         </p>
-    </div>
-</div>
+    </Fragment>
+</TileGroup>

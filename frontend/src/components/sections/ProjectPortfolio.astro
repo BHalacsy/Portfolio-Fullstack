@@ -1,5 +1,28 @@
-<div id="projPortfolio" class="grid grid-cols-4 grid-rows-5 gap-4 text-[var(--txt-color)] w-[min(1440px,95%)] h-[85vh] justify-center mx-auto mt-25 mb-40 max-[1050px]:flex max-[1050px]:flex-col">
-    <div class="col-span-2 row-span-5 bg-tile-gradient rounded-2xl p-4 move-r overflow-y-auto max-[1050px]:order-3 hover:scale-102 duration-700">
+---
+import TileGroup from "../TileGroup.astro";
+---
+<TileGroup id="projPortfolio" layout="alternative" class="mt-25 mb-40">
+    <span slot="title" class="text-4xl max-[1050px]:text-2xl font-semibold font-titles"><a href="https://github.com/BHalacsy/Portfolio-Fullstack" target="_blank" rel="noopener" class="link-text">Fullstack portfolio</a></span>
+
+    <img slot="media" src="/media/www.svg" alt="WWW" class="w-[50%] h-auto">
+
+    <Fragment slot="secondary">
+        <span class="text-lg font-medium block mb-1">Tech used</span>
+        <p class="text-sm mt-5 font-light text-justify">
+            A lot of question arouse when picking the idle stack for my portfolio.
+            I ended up sticking with vanilla <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener" class="link-text">typescript</a> as opposed to using a framework,
+            as I wanted to refresh my knowledge of javascript with the benefit of a strongly typed language.<br>
+            Along with TS for the frontend I opted to use <a href="https://tailwindcss.com/" target="_blank" rel="noopener" class="link-text">tailwind</a> for styling,
+            as I did not mind the added clutter it adds to my html file if it meant a simplified way of styling. Along with some useful plugins that I will talk about in the description.
+        </p>
+        <p class="text-sm mt-5 font-light text-justify">
+            For the backend I chose <a href="https://dotnet.microsoft.com/en-us/apps/aspnet" target="_blank" rel="noopener" class="link-text">ASP.NET</a> as I have plenty C# experience. With all the possible backend frameworks I figured using one which I will have no problem coding in will work just fine.
+            Even though I did not utilize the MVC architecture and instead relied on a minimal API style, the option to pivot was always there if I wanted to.<br>
+            The database for the website is my Redis clone containerized alongside the backend of the website using <a href="https://docs.docker.com/compose/" target="_blank" rel="noopener" class="link-text">docker compose</a>, both of which are running on a NAS.
+        </p>
+    </Fragment>
+
+    <Fragment slot="description">
         <span class="text-2xl font-semibold">Description</span>
         <p class="text-sm mt-5 font-light text-justify">
             The website you are currently reading this on is actually the project I am going to talk about next.
@@ -49,26 +72,5 @@
         <p class="text-xs mt-5 font-light text-justify">
             For more information check out my GitHub or click the title of this section.
         </p>
-    </div>
-    <div class="col-span-2 col-start-3 flex items-center justify-center bg-tile-gradient rounded-2xl p-4 move-ld text-2xl font-bold max-[1050px]:order-1 hover:scale-102 duration-700">
-        <span class="text-4xl max-[1050px]:text-2xl font-semibold font-titles"><a href="https://github.com/BHalacsy/Portfolio-Fullstack" target="_blank" rel="noopener" class="link-text">Fullstack portfolio</a></span>
-    </div>
-    <div class="col-span-2 row-span-2 flex items-center justify-center col-start-3 row-start-2 bg-tile-gradient rounded-2xl p-4 move-l max-[1050px]:hidden hover:scale-102 duration-700 overflow-y-hidden">
-        <img src="/media/www.svg" alt="WWW" class="w-[50%] h-auto">
-    </div>
-    <div class="col-span-2 row-span-2 col-start-3 row-start-4 bg-tile-gradient rounded-2xl p-4 move-lu overflow-y-auto max-[1050px]:order-2 hover:scale-102 duration-700">
-        <span class="text-lg font-medium block mb-1">Tech used</span>
-        <p class="text-sm mt-5 font-light text-justify">
-            A lot of question arouse when picking the idle stack for my portfolio.
-            I ended up sticking with vanilla <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener" class="link-text">typescript</a> as opposed to using a framework,
-            as I wanted to refresh my knowledge of javascript with the benefit of a strongly typed language.<br>
-            Along with TS for the frontend I opted to use <a href="https://tailwindcss.com/" target="_blank" rel="noopener" class="link-text">tailwind</a> for styling,
-            as I did not mind the added clutter it adds to my html file if it meant a simplified way of styling. Along with some useful plugins that I will talk about in the description.
-        </p>
-        <p class="text-sm mt-5 font-light text-justify">
-            For the backend I chose <a href="https://dotnet.microsoft.com/en-us/apps/aspnet" target="_blank" rel="noopener" class="link-text">ASP.NET</a> as I have plenty C# experience. With all the possible backend frameworks I figured using one which I will have no problem coding in will work just fine.
-            Even though I did not utilize the MVC architecture and instead relied on a minimal API style, the option to pivot was always there if I wanted to.<br>
-            The database for the website is my Redis clone containerized alongside the backend of the website using <a href="https://docs.docker.com/compose/" target="_blank" rel="noopener" class="link-text">docker compose</a>, both of which are running on a NAS.
-        </p>
-    </div>
-</div>
+    </Fragment>
+</TileGroup>

@@ -1,11 +1,13 @@
 import Lenis from "lenis";
 import Snap from "lenis/snap";
 
-// Matches scroll-pt-16 on <html>, which native jumps fall back to without JS
 const ANCHOR_OFFSET = -64;
-
-// Fraction of the viewport height over which a section animates in/out
 const RAMP = 1;
+const SNAP_DURATION = 2;
+const SNAP_DELAY = 700;
+
+// How close to a snap point counts as parked there, in pixels
+const SETTLE_TOLERANCE = 2;
 
 interface SnapTarget {
     id: string; // what anchors link to, and the key resting positions are stored under
@@ -54,7 +56,17 @@ interface Section {
 export function startSmoothScroll(): void {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const lenis = new Lenis();
+    // Gating tile content on .settled only makes sense where a wheel parks the
+    // page exactly on a snap point; Snap ignores touchmove, so a touch device
+    // would otherwise be left with tiles it can never scroll
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+        document.documentElement.classList.add("gate-tiles");
+    }
+
+    // allowNestedScroll hands a wheel event back to the browser while the tile
+    // under the cursor still has content to scroll, then takes over again once
+    // that tile bottoms out, so overflowing tiles scroll and chain on to the page
+    const lenis = new Lenis({ allowNestedScroll: true });
     const raf = (time: number) => {
         lenis.raf(time);
         requestAnimationFrame(raf);
@@ -64,13 +76,45 @@ export function startSmoothScroll(): void {
     // Stands in for the archived page's CSS scroll-snap, which Lenis cannot
     // coexist with. Mandatory matches what snap-y snap-mandatory did there:
     // every scroll settles on a section rather than only nearby ones.
-    const snap = new Snap(lenis, { type: "mandatory" });
+    const snap = new Snap(lenis, {
+        type: "mandatory",
+        duration: SNAP_DURATION,
+        debounce: SNAP_DELAY,
+    });
+
+    // Lenis emits "virtual-scroll" before it works out whether an event belongs
+    // to a nested scroller, so Snap would queue a snap off wheel ticks that never
+    // moved the page — yanking the section away while a tile is being read.
+    // Suppress those: whichever event lands last before the debounce elapses
+    // decides whether the page settles.
+    const SCROLLABLE = ["auto", "scroll", "overlay"];
+    const scrollsTile = (event: Event, delta: number): boolean => {
+        for (const node of event.composedPath()) {
+            if (node === document.body) break;
+            if (!(node instanceof HTMLElement)) continue;
+            const style = getComputedStyle(node);
+            // .tile-scroll is overflow:hidden until its section settles, so an
+            // unsettled tile never matches and the wheel drives the page instead
+            if (!SCROLLABLE.includes(style.overflowY)) continue;
+            if (node.scrollHeight - node.clientHeight <= 1) continue;
+            // A contained tile keeps the wheel at its ends too — the same rule
+            // Lenis applies, so both sides agree on who owns the event
+            if (style.overscrollBehaviorY !== "auto") return true;
+            const room = delta > 0 ? node.scrollHeight - node.clientHeight - node.scrollTop : node.scrollTop;
+            if (room > 1) return true;
+        }
+        return false;
+    };
+    lenis.on("virtual-scroll", ({ deltaY, event }) => {
+        if (scrollsTile(event, deltaY)) snap.stop();
+        else snap.start();
+    });
 
     // Snap.addElement derives positions from the element box alone — it has no
     // equivalent of scroll-padding — so we compute the values ourselves and
     // register them with snap.add(). Anchors then reuse the same numbers, which
     // is what keeps the landing arrow and a wheel gesture landing in one place.
-    const snapPoints = new Map<string, number>();
+    const snapPoints = new Map<string, { el: HTMLElement; value: number }>();
     let removeSnaps: (() => void)[] = [];
 
     const registerSnaps = () => {
@@ -90,7 +134,9 @@ export function startSmoothScroll(): void {
                 : align === "center" ? top + height / 2 - viewport / 2
                 : top + height - viewport;
             const value = Math.min(Math.max(Math.round(aligned + offset), 0), maxScroll);
-            snapPoints.set(id, value);
+            // The class goes on the section itself, which is not always what was
+            // measured — the landing is measured from its title
+            snapPoints.set(id, { el: document.getElementById(id) ?? el, value });
             removeSnaps.push(snap.add(value));
         }
     };
@@ -126,6 +172,11 @@ export function startSmoothScroll(): void {
             const progress = (1 - (1 - linear) ** 3).toFixed(3);
             for (const tile of section.tiles) tile.style.setProperty("--scroll-p", progress);
         }
+        // Hands the tiles their content scroll only once the section has come to
+        // rest on its snap point, so nothing can be scrolled mid-animation
+        for (const { el, value } of snapPoints.values()) {
+            el.classList.toggle("settled", Math.abs(scrolled - value) <= SETTLE_TOLERANCE);
+        }
     };
 
     const measure = () => {
@@ -156,8 +207,8 @@ export function startSmoothScroll(): void {
             if (!target) return;
             event.preventDefault();
             const snapPoint = snapPoints.get(href.slice(1));
-            if (snapPoint !== undefined) lenis.scrollTo(snapPoint);
-            else lenis.scrollTo(target, { offset: ANCHOR_OFFSET });
+            if (snapPoint !== undefined) lenis.scrollTo(snapPoint.value, { duration: SNAP_DURATION });
+            else lenis.scrollTo(target, { offset: ANCHOR_OFFSET, duration: SNAP_DURATION });
         });
     });
 }

@@ -1,11 +1,12 @@
-<div id="projRedis" class="grid grid-cols-4 grid-rows-5 gap-4 text-[var(--txt-color)] w-[min(1440px,95%)] h-[85vh] justify-center mx-auto my-25 max-[1050px]:flex max-[1050px]:flex-col">
-    <div class="col-span-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-2 move-rd text-2xl font-bold max-[1050px]:order-1 hover:scale-102 duration-700">
-        <span class="text-4xl max-[1050px]:text-2xl font-semibold font-titles"><a href="https://github.com/BHalacsy/Redis-Clone" target="_blank" rel="noopener" class="link-text">Redis Clone</a></span>
-    </div>
-    <div class="col-span-2 row-span-2 col-start-1 row-start-2 flex items-center justify-center bg-tile-gradient rounded-2xl p-4 move-r max-[1050px]:hidden hover:scale-102 duration-700 overflow-y-hidden">
-        <img src="/media/icons/skills/redisIcon.svg" alt="Redis Logo" class="w-[50%] h-auto">
-    </div>
-    <div class="col-span-2 row-span-2 col-start-1 row-start-4 bg-tile-gradient rounded-2xl p-4 move-ru overflow-y-auto max-[1050px]:order-2 hover:scale-102 duration-700">
+---
+import TileGroup from "../TileGroup.astro";
+---
+<TileGroup id="projRedis" class="my-25">
+    <span slot="title" class="text-4xl max-[1050px]:text-2xl font-semibold font-titles"><a href="https://github.com/BHalacsy/Redis-Clone" target="_blank" rel="noopener" class="link-text">Redis Clone</a></span>
+
+    <img slot="media" src="/media/icons/skills/redisIcon.svg" alt="Redis Logo" class="w-[50%] h-auto">
+
+    <Fragment slot="secondary">
         <span class="text-lg font-medium block mb-1">Tech used</span>
         <p class="text-sm mt-5 font-light text-justify">
             Written in C++ for high performance using STL containers for efficient in-memory data structures
@@ -19,8 +20,9 @@
             Developed and ran on Linux (using WSL) to have access to <a href="https://man7.org/linux/man-pages/man2/socket.2.html" target="_blank" rel="noopener" class="link-text">sockets</a>.
             Later dockerized for mainly for the next <a href="#projPortfolio" class="link-text">project</a>.
         </p>
-    </div>
-    <div class="col-span-2 row-span-5 col-start-3 row-start-1 bg-tile-gradient rounded-2xl p-4 move-l overflow-y-auto max-[1050px]:order-3 hover:scale-102 duration-700">
+    </Fragment>
+
+    <Fragment slot="description">
         <span class="text-2xl font-semibold">Description</span>
         <p class="text-sm mt-5 font-light text-justify">
             <a href="https://redis.io/docs/latest/develop/" target="_blank" rel="noopener" class="link-text">Redis</a> is an open-source,
@@ -63,5 +65,5 @@
         <p class="text-xs mt-5 font-light text-justify">
             For more information check out my GitHub or click the title of this section.
         </p>
-    </div>
-</div>
+    </Fragment>
+</TileGroup>
