@@ -5,13 +5,18 @@ import AboutMe from "../components/sections/AboutMe.astro";
 import ProjectRedis from "../components/sections/ProjectRedis.astro";
 import ProjectPortfolio from "../components/sections/ProjectPortfolio.astro";
 import Footer from "../components/sections/Footer.astro";
+import Menu from "../components/react/Menu";
+import Toybox from "../components/react/Toybox";
 ---
 <Layout>
-    <!-- TODO: <Menu client:load /> — overhead menu island (dark mode, music, volume) -->
+    <Menu client:load />
     <Landing />
     <section id="bodySection" class="flex flex-col bg-linear-to-b from-[var(--bg-color)] to-[var(--accent-color)] text-[var(--txt-color)] min-h-screen">
         <AboutMe />
-        <!-- TODO: <Toybox client:visible /> — chat + canvas island -->
+        <!-- client:visible so the chat and canvas hubs only connect once the
+             section is actually reached; Astro still renders the tiles into the
+             HTML, which is what smoothScroll.ts needs on load -->
+        <Toybox client:visible />
         <ProjectRedis />
         <ProjectPortfolio />
     </section>

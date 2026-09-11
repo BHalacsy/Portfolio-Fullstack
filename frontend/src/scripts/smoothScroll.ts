@@ -25,6 +25,7 @@ interface SnapTarget {
 const SNAP_TARGETS: SnapTarget[] = [
     { id: "landingPage", measureId: "landingTitle", align: "start", offset: ANCHOR_OFFSET },
     { id: "aboutMe", align: "center" },
+    { id: "toybox", align: "center" },
     { id: "projRedis", align: "center" },
     { id: "projPortfolio", align: "center" },
     { id: "footerSection", align: "end" },

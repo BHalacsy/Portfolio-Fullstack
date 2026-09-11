@@ -100,18 +100,30 @@
 .tile-scroll {
     overflow-y: auto;
     overscroll-behavior: contain;
-    /* The gate below swaps overflow-y, which would pop a scrollbar into being
-       and reflow the text under it. A gutter is reserved in both states — an
-       overflow:hidden box is still a scroll container — so nothing shifts when
-       a section settles */
     scrollbar-gutter: stable;
-    /* A scrollbar is painted against the inner border edge, so padding cannot
-       shift it — a transparent border can. The tile gradient still paints
-       underneath (background-clip is border-box), so this only pulls the bar
-       away from the rounded edge. Widen it to inset the bar further */
-    border-right: 0.25rem solid transparent;
 }
 
+
+
+.tile-scroll::-webkit-scrollbar {
+    width: 10px;
+    background: transparent;
+}
+
+.tile-scroll::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 0.5rem 0; /* keeps the ends clear of the tile's rounded corners */
+}
+
+.tile-scroll::-webkit-scrollbar-thumb {
+    background: var(--accent-tinted-color);
+    border-radius: 999px;
+    /* background-clip keeps the border see-through, so the thumb reads as a
+       6px pill floating in a 10px bar */
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    min-height: 2rem;
+}
 /* Scrolling stays open unless smoothScroll.ts opts in by marking <html>, so a
    touch device (Snap ignores touchmove, sections never park exactly) and a
    reduced-motion visitor (the script returns before Lenis starts) both keep

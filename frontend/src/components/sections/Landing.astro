@@ -1,14 +1,13 @@
+---
+import ViewCounter from "../react/ViewCounter";
+---
 <section id="landingPage">
     <!-- id is the landing's snap anchor: scrolling rests on the title, not the section box -->
     <div id="landingTitle" class="text-[var(--accent-color)] text-6xl max-[1050px]:text-4xl font-extrabold text-center mt-28 motion-preset-fade motion-duration-5000 font-titles">
         Welcome to my page!
     </div>
     <div class="text-center mt-10">
-        <!-- TODO: replace with <ViewCounter client:load /> island once built -->
-        <span id="viewCounter" class="text-3xl max-[1050px]:text-2xl text-[var(--txt-color)] font-semibold">You are visitor number:<br>
-            <img src="/media/loadingBlack.svg" alt="loading circle" class="animate-spin w-10 h-10 mx-auto mt-2 dark:hidden">
-            <img src="/media/loadingWhite.svg" alt="loading circle" class="animate-spin w-10 h-10 mx-auto mt-2 hidden dark:block">
-        </span>
+        <ViewCounter client:load />
     </div>
     <div class="relative h-10 flex justify-center">
         <a href="#aboutMe" class="absolute top-10">
@@ -16,6 +15,6 @@
             <img src="/media/darkArrow.svg" alt="arrow down" class="w-28 h-auto max-[1050px]:w-20 motion-preset-oscillate hidden dark:block">
         </a>
     </div>
-    <img src="/media/lightLanding.svg" alt="landing page screen" class="w-screen block dark:hidden">
-    <img src="/media/darkLanding.svg" alt="landing page screen" class="w-screen hidden dark:block">
+    <img src="/media/lightLanding.svg" alt="landing page screen" class="w-full block dark:hidden">
+    <img src="/media/darkLanding.svg" alt="landing page screen" class="w-full hidden dark:block">
 </section>

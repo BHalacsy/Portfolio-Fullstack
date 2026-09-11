@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # cloudflared:
   #   image: cloudflare/cloudflared:latest
@@ -12,20 +10,31 @@ services:
 
   backend:
     build:
-      context: archive/backend
+      context: backend
       dockerfile: Dockerfile
-    ports: 
+    ports:
       - "5127:5127"
+    # The startup reset fills the chat name pool once and then sleeps 24 hours,
+    # so the backend has to wait for a Redis that actually answers, not just a
+    # container that exists.
     depends_on:
-      - redis_server
+      redis_server:
+        condition: service_healthy
     restart: always
     networks:
       - app-network
 
   redis_server:
-    build:
-      context: ./redis_clone
-      dockerfile: Dockerfile
+    image: redis:8-alpine
+    # Published so redis-cli and a locally run `go run .` can reach it too; the
+    # backend container uses the service name over app-network instead.
+    ports:
+      - "127.0.0.1:6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
     restart: always
     networks:
       - app-network
