@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Centrifuge, Subscription } from "centrifuge";
 import {
     BOARD_SIZE,
@@ -11,12 +11,8 @@ import {
 } from "../../scripts/api";
 
 const CHANNEL = "canvas";
-
-const BRUSHES = [
-    { width: 4, icon: 3 },
-    { width: 6, icon: 5 },
-    { width: 10, icon: 8 },
-];
+const FLUSH_INTERVAL_MS = 40;
+const FLUSH_PIXEL_THRESHOLD = 80;
 
 interface Broadcast extends Stroke {
     from: string;
@@ -36,6 +32,8 @@ export default function Canvas({ client, clientId }: Props) {
     const drawingRef = useRef(false);
     const lastPointRef = useRef<Pixel | null>(null);
     const strokeRef = useRef<Map<number, Pixel>>(new Map());
+    const unsentStrokeRef = useRef<Pixel[]>([]);
+    const flushTimerRef = useRef<number | null>(null);
 
     const clientIdRef = useRef(clientId);
     clientIdRef.current = clientId;
@@ -44,7 +42,28 @@ export default function Canvas({ client, clientId }: Props) {
     const pendingRef = useRef<Broadcast[]>([]);
 
     const [color, setColor] = useState("#000000");
-    const [width, setWidth] = useState(BRUSHES[0].width);
+    const strokeColorRef = useRef(color);
+    strokeColorRef.current = color;
+    const [width, setWidth] = useState(6);
+
+    const cursorStyle = useMemo(() => {
+        const r = Math.max(1, Math.round(width / 2));
+        const size = Math.max(32, Math.ceil((r + 4) * 2));
+        const evenSize = size % 2 === 0 ? size : size + 1;
+        const center = evenSize / 2;
+
+        let inner = "";
+        if (r <= 1) {
+            inner = `<circle cx="${center}" cy="${center}" r="1.5" fill="none" stroke="rgba(0, 0, 0, 0.4)" stroke-width="1"/><circle cx="${center}" cy="${center}" r="1" fill="${color}"/>`;
+        } else if (r === 2) {
+            inner = `<circle cx="${center}" cy="${center}" r="${r}" fill="none" stroke="rgba(0, 0, 0, 0.4)" stroke-width="1.8"/><circle cx="${center}" cy="${center}" r="${r}" fill="${color}" fill-opacity="0.35" stroke="${color}" stroke-width="1"/>`;
+        } else {
+            inner = `<circle cx="${center}" cy="${center}" r="${r}" fill="none" stroke="rgba(0, 0, 0, 0.45)" stroke-width="2.5"/><circle cx="${center}" cy="${center}" r="${r}" fill="none" stroke="rgba(255, 255, 255, 0.8)" stroke-width="0.75"/><circle cx="${center}" cy="${center}" r="${r}" fill="${color}" fill-opacity="0.25" stroke="${color}" stroke-width="1.5"/>${r >= 4 ? `<circle cx="${center}" cy="${center}" r="0.75" fill="${color}" stroke="rgba(0, 0, 0, 0.5)" stroke-width="0.5"/>` : ""}`;
+        }
+
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${evenSize}" height="${evenSize}" viewBox="0 0 ${evenSize} ${evenSize}">${inner}</svg>`;
+        return `url("data:image/svg+xml,${encodeURIComponent(svg)}") ${center} ${center}, crosshair`;
+    }, [color, width]);
 
     const paint = (fill: string, pixels: Pixel[]) => {
         const ctx = ctxRef.current;
@@ -92,6 +111,10 @@ export default function Canvas({ client, clientId }: Props) {
 
         return () => {
             cancelled = true;
+            if (flushTimerRef.current !== null) {
+                clearInterval(flushTimerRef.current);
+                flushTimerRef.current = null;
+            }
         };
     }, []);
 
@@ -141,7 +164,28 @@ export default function Canvas({ client, clientId }: Props) {
                 const x = centerX + dx;
                 const y = centerY + dy;
                 if (x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE) continue;
-                strokeRef.current.set(key(x, y), { x, y });
+                const k = key(x, y);
+                if (!strokeRef.current.has(k)) {
+                    const p = { x, y };
+                    strokeRef.current.set(k, p);
+                    unsentStrokeRef.current.push(p);
+                }
+            }
+        }
+    };
+
+    const flushChunk = () => {
+        const sub = subRef.current;
+        const pixels = unsentStrokeRef.current;
+        if (pixels.length === 0) return;
+
+        unsentStrokeRef.current = [];
+
+        if (sub) {
+            for (const chunk of chunkPixels(pixels)) {
+                sub.publish({ color: strokeColorRef.current, pixels: chunk } satisfies Stroke).catch((e) =>
+                    console.error("Stroke sending failed: ", e),
+                );
             }
         }
     };
@@ -188,12 +232,19 @@ export default function Canvas({ client, clientId }: Props) {
         if (!e.isPrimary || e.button !== 0) return;
 
         drawingRef.current = true;
+        strokeColorRef.current = color;
         e.currentTarget.setPointerCapture(e.pointerId);
 
         const radius = Math.round(width / 2);
         const point = at(e);
         lastPointRef.current = point;
         drawDot(point, radius);
+        flushChunk();
+
+        if (flushTimerRef.current !== null) {
+            clearInterval(flushTimerRef.current);
+        }
+        flushTimerRef.current = window.setInterval(flushChunk, FLUSH_INTERVAL_MS);
     };
 
     const drawMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -213,6 +264,10 @@ export default function Canvas({ client, clientId }: Props) {
             }
             lastPointRef.current = curr;
         }
+
+        if (unsentStrokeRef.current.length >= FLUSH_PIXEL_THRESHOLD) {
+            flushChunk();
+        }
     };
 
     const endDraw = () => {
@@ -220,59 +275,66 @@ export default function Canvas({ client, clientId }: Props) {
         drawingRef.current = false;
         lastPointRef.current = null;
 
+        if (flushTimerRef.current !== null) {
+            clearInterval(flushTimerRef.current);
+            flushTimerRef.current = null;
+        }
+
+        flushChunk();
+
         const pixels = [...strokeRef.current.values()];
         strokeRef.current = new Map();
         if (pixels.length === 0) return;
 
-        const sub = subRef.current;
-        if (sub) {
-            for (const chunk of chunkPixels(pixels)) {
-                sub.publish({ color, pixels: chunk } satisfies Stroke).catch((e) =>
-                    console.error("Stroke sending failed: ", e),
-                );
-            }
-        }
-
-        void saveStroke({ color, pixels });
+        void saveStroke({ color: strokeColorRef.current, pixels });
     };
 
     return (
-        <>
-            <div className="flex mb-2">
+        <div className="flex flex-col items-center justify-between w-full h-full">
+            <div className="flex justify-center items-center py-1">
                 <input
                     type="color"
                     aria-label="Brush colour"
                     value={color}
                     onChange={(e) => setColor(e.target.value)}
-                    className="w-10 h-10 mt-4 mx-3 cursor-pointer"
+                    className="glass-button w-10 h-10 mx-2 p-1"
                 />
-                {BRUSHES.map((brush) => (
-                    <button
-                        key={brush.width}
-                        type="button"
-                        aria-label={`Brush size ${brush.width}`}
-                        aria-pressed={width === brush.width}
-                        onClick={() => setWidth(brush.width)}
-                        className={`bg-[var(--fg-tinted-color)] w-10 h-10 mx-3 my-3 p-2 flex items-center justify-center rounded-lg pop-button ${
-                            width === brush.width ? "translate-x-1 translate-y-1 shadow-none" : ""
-                        }`}
-                    >
-                        <svg width="20" height="20">
-                            <circle cx="10" cy="10" r={brush.icon} fill={color} />
-                        </svg>
-                    </button>
-                ))}
+                <div className="flex items-center px-3 h-10 mx-2 rounded-xl bg-white/40 dark:bg-white/10 backdrop-blur-sm border border-white/40 dark:border-white/15 shadow-[4px_4px_0px_0px_#1e293b]">
+                    <input
+                        type="range"
+                        min="2"
+                        max="24"
+                        value={width}
+                        onChange={(e) => setWidth(Number(e.target.value))}
+                        aria-label="Brush size"
+                        style={{ accentColor: color }}
+                        className="w-24 sm:w-28 cursor-pointer"
+                    />
+                </div>
+                <div
+                    className="w-10 h-10 mx-2 flex items-center justify-center rounded-xl bg-white/40 dark:bg-white/10 backdrop-blur-sm border border-white/40 dark:border-white/15 shadow-[4px_4px_0px_0px_#1e293b]"
+                    title={`Brush size: ${width}px`}
+                    aria-label={`Brush size: ${width}px`}
+                >
+                    <svg width="32" height="32" viewBox="0 0 32 32">
+                        <circle cx="16" cy="16" r={Math.max(1, width / 2)} fill={color} />
+                    </svg>
+                </div>
             </div>
-            <canvas
-                ref={canvasRef}
-                width={BOARD_SIZE}
-                height={BOARD_SIZE}
-                className="bg-white touch-none"
-                onPointerDown={startDraw}
-                onPointerMove={drawMove}
-                onPointerUp={endDraw}
-                onPointerCancel={endDraw}
-            />
-        </>
+            <div className="flex-1 flex items-center justify-center w-full min-h-0">
+                <canvas
+                    ref={canvasRef}
+                    width={BOARD_SIZE}
+                    height={BOARD_SIZE}
+                    style={{ cursor: cursorStyle }}
+                    className="bg-white touch-none"
+                    onPointerDown={startDraw}
+                    onPointerMove={drawMove}
+                    onPointerUp={endDraw}
+                    onPointerCancel={endDraw}
+                />
+            </div>
+            <div className="h-[52px] invisible" aria-hidden="true" />
+        </div>
     );
 }

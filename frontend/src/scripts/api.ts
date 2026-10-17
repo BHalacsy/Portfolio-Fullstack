@@ -1,4 +1,7 @@
-export const API_BASE = (import.meta.env.PUBLIC_API_URL ?? "https://api.halacsy.com").replace(/\/+$/, "");
+export const API_BASE = (
+    import.meta.env.PUBLIC_API_URL ??
+    (import.meta.env.DEV ? "http://localhost:5127" : "https://api.halacsy.com")
+).replace(/\/+$/, "");
 
 export const WS_URL =
     import.meta.env.PUBLIC_WS_URL ?? `${API_BASE.replace(/^http/, "ws")}/connection/websocket`;

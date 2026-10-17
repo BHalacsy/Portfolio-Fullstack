@@ -144,26 +144,43 @@ export function startSmoothScroll(): void {
 
     // Group tiles by their section: the nearest ancestor with an id
     // (#aboutMe, #projRedis, #projPortfolio, ...)
-    const sections: Section[] = [];
-    const sectionByEl = new Map<HTMLElement, Section>();
-    const tiles = document.querySelectorAll<HTMLElement>(
-        ".move-l, .move-r, .move-d, .move-u, .move-lu, .move-ld, .move-ru, .move-rd",
-    );
-    for (const tile of tiles) {
-        const container = (tile.closest("[id]") as HTMLElement | null) ?? tile;
-        let section = sectionByEl.get(container);
-        if (!section) {
-            section = { el: container, top: 0, height: 0, tiles: [] };
-            sectionByEl.set(container, section);
-            sections.push(section);
+    let sections: Section[] = [];
+
+    const collectSections = () => {
+        sections = [];
+        const sectionByEl = new Map<HTMLElement, Section>();
+        const tiles = document.querySelectorAll<HTMLElement>(
+            ".move-l, .move-r, .move-d, .move-u, .move-lu, .move-ld, .move-ru, .move-rd",
+        );
+        for (const tile of tiles) {
+            const container = (tile.closest("[id]") as HTMLElement | null) ?? tile;
+            let section = sectionByEl.get(container);
+            if (!section) {
+                section = { el: container, top: 0, height: 0, tiles: [] };
+                sectionByEl.set(container, section);
+                sections.push(section);
+            }
+            section.tiles.push(tile);
         }
-        section.tiles.push(tile);
-    }
+    };
 
     const update = () => {
         const ramp = window.innerHeight * RAMP;
         const scrolled = window.scrollY;
         const viewportBottom = scrolled + window.innerHeight;
+
+        let needsMeasure = false;
+        for (const section of sections) {
+            if (!section.el.isConnected || section.tiles.some((t) => !t.isConnected)) {
+                needsMeasure = true;
+                break;
+            }
+        }
+        if (needsMeasure) {
+            measure();
+            return;
+        }
+
         for (const section of sections) {
             const entering = (viewportBottom - section.top) / ramp;
             const leaving = (section.top + section.height - scrolled) / ramp;
@@ -171,25 +188,40 @@ export function startSmoothScroll(): void {
             // Cubic ease-out: tiles cover most of their travel early and
             // decelerate into place, instead of scrubbing at constant speed
             const progress = (1 - (1 - linear) ** 3).toFixed(3);
+            section.el.style.setProperty("--scroll-p", progress);
             for (const tile of section.tiles) tile.style.setProperty("--scroll-p", progress);
         }
         // Hands the tiles their content scroll only once the section has come to
         // rest on its snap point, so nothing can be scrolled mid-animation
-        for (const { el, value } of snapPoints.values()) {
-            el.classList.toggle("settled", Math.abs(scrolled - value) <= SETTLE_TOLERANCE);
+        for (const [id, point] of snapPoints) {
+            const liveEl = document.getElementById(id) ?? point.el;
+            liveEl.classList.toggle("settled", Math.abs(scrolled - point.value) <= SETTLE_TOLERANCE);
         }
     };
 
     const measure = () => {
+        collectSections();
         for (const section of sections) {
-            section.top = documentTop(section.el);
-            section.height = section.el.offsetHeight;
+            const liveEl = (section.el.id ? document.getElementById(section.el.id) : null) ?? section.el;
+            section.el = liveEl;
+            section.top = documentTop(liveEl);
+            section.height = liveEl.offsetHeight;
         }
         // Snap has ResizeObservers of its own, but they are debounced 500ms —
         // recompute with us so the points are right the moment images land
         registerSnaps();
         update();
     };
+
+    let mutationTimeout: number | null = null;
+    const observer = new MutationObserver(() => {
+        if (mutationTimeout !== null) return;
+        mutationTimeout = window.setTimeout(() => {
+            mutationTimeout = null;
+            measure();
+        }, 50);
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
 
     lenis.on("scroll", update);
     window.addEventListener("resize", measure);

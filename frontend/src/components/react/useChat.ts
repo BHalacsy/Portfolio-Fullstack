@@ -6,6 +6,28 @@ const CHANNEL = "chat";
 
 const USERS_POLL_MS = 15_000;
 
+const SESSION_TOKEN_KEY = "toybox_session_token";
+const USERNAME_KEY = "toybox_chat_username";
+const JOINED_KEY = "toybox_chat_joined";
+
+function getSessionToken(): string {
+    if (typeof window === "undefined") return "";
+    let token = localStorage.getItem(SESSION_TOKEN_KEY);
+    if (!token) {
+        token =
+            typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+                ? crypto.randomUUID()
+                : "tok_" + Math.random().toString(36).slice(2) + Date.now().toString(36);
+        localStorage.setItem(SESSION_TOKEN_KEY, token);
+    }
+    return token;
+}
+
+function getCachedUsername(): string | null {
+    if (typeof window === "undefined") return null;
+    return localStorage.getItem(USERNAME_KEY);
+}
+
 const ROOM_FULL = 1001;
 const PERMISSION_DENIED = 103;
 const BAD_REQUEST = 107;
@@ -44,14 +66,14 @@ export interface Chat {
 
 export function useChat(client: Centrifuge | null, session: number): Chat {
     const [messages, setMessages] = useState<ChatMessage[]>([]);
-    const [username, setUsername] = useState<string | null>(null);
+    const [username, setUsername] = useState<string | null>(getCachedUsername);
     const [users, setUsers] = useState(0);
     const [error, setError] = useState<string | null>(null);
     const [refused, setRefused] = useState(false);
     const subRef = useRef<Subscription | null>(null);
     const nextId = useRef(0);
 
-    const usernameRef = useRef<string | null>(null);
+    const usernameRef = useRef<string | null>(username);
     usernameRef.current = username;
 
     const refreshUsers = useCallback(() => {
@@ -73,7 +95,11 @@ export function useChat(client: Centrifuge | null, session: number): Chat {
         setRefused(false);
         setError(null);
 
-        const sub = client.newSubscription(CHANNEL);
+        const token = getSessionToken();
+        const cached = getCachedUsername();
+        const sub = client.newSubscription(CHANNEL, {
+            data: { token, username: cached },
+        });
         subRef.current = sub;
 
         const append = (ctx: PublicationContext) => {
@@ -82,18 +108,27 @@ export function useChat(client: Centrifuge | null, session: number): Chat {
         };
 
         sub.on("subscribed", (ctx) => {
-            setUsername(ctx.data?.username ?? null);
+            const assigned = ctx.data?.username ?? cached ?? null;
+            setUsername(assigned);
+            if (assigned && typeof window !== "undefined") {
+                localStorage.setItem(USERNAME_KEY, assigned);
+                localStorage.setItem(JOINED_KEY, "true");
+            }
             setError(null);
             refreshUsers();
         });
 
         sub.on("subscribing", () => {
-            setUsername(null);
+            // Keep cached username displayed during reconnection
         });
 
         sub.on("unsubscribed", (ctx) => {
-            setUsername(null);
             if (ctx.code === 0) return;
+            setUsername(null);
+            if (typeof window !== "undefined") {
+                localStorage.removeItem(JOINED_KEY);
+                localStorage.removeItem(USERNAME_KEY);
+            }
             setError(describe(ctx.code, ctx.reason));
             setRefused(true);
         });
@@ -111,9 +146,6 @@ export function useChat(client: Centrifuge | null, session: number): Chat {
             sub.unsubscribe();
             client.removeSubscription(sub);
             subRef.current = null;
-            setUsername(null);
-            setError(null);
-            setRefused(false);
         };
     }, [client, session, refreshUsers]);
 

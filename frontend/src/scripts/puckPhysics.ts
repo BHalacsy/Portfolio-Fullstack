@@ -1,36 +1,13 @@
-/**
- * Puck Physics — Air-hockey-on-ice physics for section tiles.
- *
- * Characteristics:
- * - Available ONLY when the section is locked in its Lenis snap (.settled).
- * - Full 360-degree rotation: tiles spin freely on ice when flicked off-center,
- *   bounced off wall cushions, or colliding with other pucks.
- * - Deterministic physics: zero random variance or autonomous jiggling. Pucks
- *   sit still until dragged or hit, and bounce with true specular reflection.
- * - Draggable and flingable across the entire screen and beyond screen edges.
- * - Ice friction: low deceleration, allowing pucks to glide and spin smoothly.
- * - Cushion rebounds: tiles bounce elastically off the viewport boundary walls,
- *   with wall contact converting tangential velocity into spin.
- * - Puck collisions: tiles bounce elastically off each other, with glancing
- *   blows transferring spin.
- * - Upright righting: as speed drops to rest, tiles smoothly right themselves
- *   to upright 0° so text remains readable.
- * - Scroll exit: smoothly lerps back to (0, 0) and 0° rotation when leaving snap.
- * - Click vs drag: clicking links (GitHub, socials, emails) works naturally.
- */
-
 // ─── Tunables ────────────────────────────────────────────────────────────────
 const ICE_FRICTION          = 0.988;   // per-frame linear velocity multiplier
 const ROT_FRICTION          = 0.990;   // per-frame angular velocity multiplier (low spin friction)
 const WALL_RESTITUTION      = 0.82;    // bounce elasticity off arena/screen walls
 const PUCK_RESTITUTION      = 0.78;    // bounce elasticity between pucks
-const SPRING_K              = 0.0018;  // soft tether pulling puck toward home quadrant
-const FREE_RADIUS           = 35;      // px radius around home where tether force is near zero
 const MAX_SPEED             = 36;      // max linear speed in px/frame (~2100px/s)
-const MAX_ROT_SPEED         = 24;      // max angular speed in deg/frame (~1440 deg/s)
+const MAX_ROT_SPEED         = 3;      // max angular speed in deg/frame (~1440 deg/s)
 const THROW_SCALE           = 1.2;     // release linear velocity multiplier
-const DRAG_SPIN_FACTOR      = 0.003;   // torque-to-spin multiplier during active drag
-const THROW_SPIN_FACTOR     = 0.005;   // torque-to-spin multiplier on release
+const DRAG_SPIN_FACTOR      = 0.0002;   // torque-to-spin multiplier during active drag
+const THROW_SPIN_FACTOR     = 0.00002;   // torque-to-spin multiplier on release
 const WALL_SPIN_FACTOR      = 0.22;    // wall friction torque factor on rebound
 const COLLISION_SPIN_FACTOR = 0.18;    // glancing collision spin transfer
 const RETURN_LERP           = 0.14;    // speed of return when leaving settled snap
@@ -332,17 +309,9 @@ function tick(): void {
         const { pucks } = arena;
         const n = pucks.length;
 
-        // 1. Integration & Soft Home Tether (No random variance)
+        // 1. Integration (No random variance)
         for (const puck of pucks) {
             if (puck.dragging) continue;
-
-            // Soft home tether: lets pucks roam freely, gently coaxes back when far
-            const distFromHome = Math.hypot(puck.pos.x, puck.pos.y);
-            if (distFromHome > FREE_RADIUS) {
-                const pull = (distFromHome - FREE_RADIUS) * SPRING_K;
-                puck.vel.x -= (puck.pos.x / distFromHome) * pull;
-                puck.vel.y -= (puck.pos.y / distFromHome) * pull;
-            }
 
             // Low ice friction
             puck.vel.x *= ICE_FRICTION;
@@ -355,18 +324,6 @@ function tick(): void {
             // Integrate 360° rotation
             puck.rot += puck.rotVel;
             puck.rotVel *= ROT_FRICTION;
-
-            // As puck slows down near rest, gently right itself upright to 0° (mod 360)
-            const speed = Math.hypot(puck.vel.x, puck.vel.y);
-            if (speed < 0.6 && Math.abs(puck.rotVel) < 1.0) {
-                // Shortest angular distance to upright 0° (-180° to +180°)
-                const rotError = ((puck.rot % 360) + 540) % 360 - 180;
-                puck.rotVel -= rotError * 0.03;
-                puck.rotVel *= 0.88;
-            }
-
-            // Rebound off rink walls (viewport boundary cushions)
-            clampPuckToArena(puck, arena);
         }
 
         // 2. Tile-to-tile elastic collisions (Deterministic, zero random variance)

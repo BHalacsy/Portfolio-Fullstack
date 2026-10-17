@@ -95,6 +95,9 @@ func (r *RedisClient) Set(key string, value any, expiration time.Duration) error
 
 // Del deletes one or more keys.
 func (r *RedisClient) Del(keys ...string) error {
+	if len(keys) == 0 {
+		return nil
+	}
 	return r.client.Del(r.ctx, keys...).Err()
 }
 
@@ -110,6 +113,9 @@ func (r *RedisClient) HGet(key, field string) (string, error) {
 
 // HSet sets field-value pairs in a hash.
 func (r *RedisClient) HSet(key string, values ...any) error {
+	if len(values) == 0 {
+		return nil
+	}
 	return r.client.HSet(r.ctx, key, values...).Err()
 }
 
@@ -120,12 +126,28 @@ func (r *RedisClient) HGetAll(key string) (map[string]string, error) {
 
 // SAdd adds one or more members to a set.
 func (r *RedisClient) SAdd(key string, members ...any) error {
+	if len(members) == 0 {
+		return nil
+	}
 	return r.client.SAdd(r.ctx, key, members...).Err()
 }
 
 // SPop removes and returns a random member from a set.
 func (r *RedisClient) SPop(key string) (string, error) {
 	return r.client.SPop(r.ctx, key).Result()
+}
+
+// SCard returns the cardinality (number of members) of the set stored at key.
+func (r *RedisClient) SCard(key string) (int64, error) {
+	return r.client.SCard(r.ctx, key).Result()
+}
+
+// Exists returns the number of given keys that exist.
+func (r *RedisClient) Exists(keys ...string) (int64, error) {
+	if len(keys) == 0 {
+		return 0, nil
+	}
+	return r.client.Exists(r.ctx, keys...).Result()
 }
 
 // Close closes the Redis connection pool.

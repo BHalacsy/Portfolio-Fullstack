@@ -14,6 +14,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5127:5127"
+    environment:
+      - REDIS_ADDR=redis_server:6379
+      - PORT=5127
     # The startup reset fills the chat name pool once and then sleeps 24 hours,
     # so the backend has to wait for a Redis that actually answers, not just a
     # container that exists.

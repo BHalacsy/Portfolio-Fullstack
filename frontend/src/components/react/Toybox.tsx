@@ -9,7 +9,9 @@ const FOLLOW_TOLERANCE = 48;
 
 export default function Toybox() {
     const { client, clientId, state, error } = useCentrifuge();
-    const [session, setSession] = useState(0);
+    const [session, setSession] = useState(() =>
+        typeof window !== "undefined" && localStorage.getItem("toybox_chat_joined") === "true" ? 1 : 0,
+    );
     const { username, users, messages, error: chatError, refused, send } = useChat(client, session);
 
     const [draft, setDraft] = useState("");
@@ -75,7 +77,7 @@ export default function Toybox() {
     return (
         <div
             id="toybox"
-            className="grid grid-cols-2 grid-rows-5 gap-4 w-3/5 h-[85vh] mx-auto my-25 text-[var(--txt-color)] max-[1050px]:flex max-[1050px]:flex-col"
+            className="relative grid grid-cols-2 grid-rows-5 gap-4 w-3/5 h-[85vh] mx-auto my-25 text-[var(--txt-color)] max-[1050px]:flex max-[1050px]:flex-col"
         >
             <div className={`${TILE} row-span-4 h-full p-4 move-r max-[1050px]:order-2 max-[1050px]:h-full`}>
                 <div
@@ -85,21 +87,21 @@ export default function Toybox() {
                         followRef.current =
                             feed.scrollHeight - feed.clientHeight - feed.scrollTop <= FOLLOW_TOLERANCE;
                     }}
-                    className="relative flex flex-col h-[95%] bg-white dark:bg-black rounded-xl p-2 tile-scroll"
+                    className="relative flex flex-col h-[95%] bg-white/40 dark:bg-white/10 backdrop-blur-md border border-white/40 dark:border-white/15 rounded-xl p-3 tile-scroll shadow-inner"
                 >
-                    <div className="flex sticky top-0 z-10 bg-gray-400 text-white w-8 h-8 p-4 items-center justify-center rounded-full">
+                    <div className="flex sticky top-0 z-10 self-start bg-white/60 dark:bg-white/15 backdrop-blur-md border border-white/50 dark:border-white/20 text-[var(--txt-color)] w-8 h-8 p-4 items-center justify-center rounded-full shadow-sm">
                         <span className="text-xs font-light px-1">
                             {users}/{MAX_USERS}
                         </span>
                     </div>
-                    <div className="bg-[var(--fg-tinted-color)] text-[var(--txt-color)] text-xs p-2 mt-2 rounded self-end">
+                    <div className="bg-white/50 dark:bg-white/10 backdrop-blur-sm border border-white/40 dark:border-white/15 text-[var(--txt-color)] text-xs p-2.5 mt-2 rounded-xl self-end shadow-sm">
                         Welcome to the chatroom! Feel free to draw and converse.
                     </div>
                     {messages.map((msg) => (
                         <div
                             key={msg.id}
-                            style={{ background: `var(--${msg.username}-color)` }}
-                            className="text-sm p-2 mt-2 rounded self-end motion-translate-x-in-[-25%] motion-blur-in-[4px] motion-duration-500"
+                            style={{ background: `color-mix(in srgb, var(--${msg.username}-color) 55%, transparent)` }}
+                            className="text-sm px-3 py-2 mt-2 rounded-xl self-end backdrop-blur-sm border border-white/30 dark:border-white/15 shadow-sm motion-translate-x-in-[-25%] motion-blur-in-[4px] motion-duration-500"
                         >
                             [{msg.timestamp}] {msg.username}: {msg.message}
                         </div>
@@ -122,23 +124,16 @@ export default function Toybox() {
                             onKeyDown={(e) => {
                                 if (e.key === "Enter") void submit();
                             }}
-                            className="bg-[var(--fg-color)] px-3 py-1 border border-gray-300 rounded w-[75%] disabled:opacity-50"
+                            className="bg-white/40 dark:bg-white/10 backdrop-blur-sm border border-white/40 dark:border-white/15 px-3 py-1.5 rounded-xl w-[75%] disabled:opacity-50 text-[var(--txt-color)] placeholder:text-[var(--txt-color)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)]"
                         />
                         <div className="flex items-center gap-4 mt-4">
                             <button
                                 type="button"
                                 onClick={() => void submit()}
                                 disabled={!username || state !== "connected"}
-                                className="bg-[var(--bg-color)] text-white px-4 py-1 rounded-lg hover:bg-[var(--accent-color)] pop-button transition disabled:opacity-50"
+                                className="glass-button text-[var(--txt-color)] px-4 py-1.5 disabled:opacity-50"
                             >
                                 Send
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => setSession(0)}
-                                className="text-sm underline hover:text-[var(--accent-color)] transition"
-                            >
-                                Leave
                             </button>
                         </div>
                     </>
@@ -146,9 +141,14 @@ export default function Toybox() {
                     <>
                         <button
                             type="button"
-                            onClick={() => setSession((n) => n + 1)}
+                            onClick={() => {
+                                if (typeof window !== "undefined") {
+                                    localStorage.setItem("toybox_chat_joined", "true");
+                                }
+                                setSession((n) => n + 1);
+                            }}
                             disabled={!client || state !== "connected" || (full && !refused)}
-                            className="bg-[var(--bg-color)] text-white px-4 py-1 rounded-lg hover:bg-[var(--accent-color)] pop-button transition disabled:opacity-50"
+                            className="glass-button text-[var(--txt-color)] px-4 py-1.5 disabled:opacity-50"
                         >
                             {refused ? "Try again" : "Join the chatroom"}
                         </button>
@@ -162,7 +162,7 @@ export default function Toybox() {
             </div>
 
             <div
-                className={`${TILE} col-start-2 row-start-2 row-span-4 flex flex-col items-center justify-center p-4 move-l max-[1050px]:hidden`}
+                className={`${TILE} col-start-2 row-start-2 row-span-4 h-full flex flex-col items-center p-4 move-l max-[1050px]:hidden`}
             >
                 <Canvas client={client} clientId={clientId} />
             </div>

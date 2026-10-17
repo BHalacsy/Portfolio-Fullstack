@@ -2,9 +2,8 @@ package main
 
 import (
 	"log"
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	"os"
+	"time"
 )
 
 func main() {
@@ -13,15 +12,28 @@ func main() {
 		log.Printf("warning: %v", err)
 	} else {
 		defer rdb.Close()
+		if err := ResetAll(rdb); err != nil {
+			log.Printf("initial reset error: %v", err)
+		}
+		StartPeriodicReset(rdb, 24*time.Hour)
 	}
 
-	r := gin.Default()
+	cm, err := NewCentrifugeManager(rdb)
+	if err != nil {
+		log.Printf("warning: failed to start centrifuge manager: %v", err)
+	} else {
+		defer cm.Close()
+	}
 
-	r.GET("/api/health", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"status": "ok"})
-	})
+	r := setupRouter(rdb, cm)
 
-	if err := r.Run(":8080"); err != nil {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "5127"
+	}
+
+	log.Printf("Starting backend server on port %s", port)
+	if err := r.Run(":" + port); err != nil {
 		log.Fatal(err)
 	}
 }

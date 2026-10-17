@@ -12,6 +12,10 @@ frontend/dist/
 frontend/.astro/
 frontend/node_modules/
 
+# Go backend
+backend/backend
+*.test
+
 # logs
 npm-debug.log*
 yarn-debug.log*
