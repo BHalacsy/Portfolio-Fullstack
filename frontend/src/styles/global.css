@@ -136,8 +136,113 @@
     overflow-y: auto;
 }
 
+/* ── Lava-lamp background ────────────────────────────────────────────── */
+.lava-lamp-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: var(--bg-color);
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Make sure all content inside bodySection sits above the lava layer */
+#bodySection > *:not(.lava-lamp-bg) {
+    position: relative;
+    z-index: 1;
+}
+
+/* Lava blobs container:
+   Starts at exactly 5% from the top with overflow:hidden and a mask fade.
+   This guarantees 0%–5% is 100% solid var(--bg-color) to seamlessly match
+   the landing wave, with reduced overall height (50%) */
+.lava-lamp-blobs {
+    position: absolute;
+    top: 5%;
+    left: 0;
+    right: 0;
+    height: 50%;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 85%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 85%, transparent 100%);
+}
+
+.lava-lamp-blobs::before,
+.lava-lamp-blobs::after {
+    content: "";
+    position: absolute;
+    inset: -25%;
+    width: 150%;
+    height: 150%;
+    border-radius: 40%;
+    mix-blend-mode: screen;
+    opacity: 0.85;
+    filter: blur(60px);
+}
+
+.lava-lamp-blobs::before {
+    background:
+        radial-gradient(ellipse 55% 45% at 30% 30%, var(--accent-color) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 55% at 70% 65%, var(--accent-tinted-color) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 50% at 50% 80%, var(--bg-color) 0%, transparent 65%);
+    animation: lava-drift-1 18s ease-in-out infinite alternate;
+}
+
+.lava-lamp-blobs::after {
+    background:
+        radial-gradient(ellipse 45% 60% at 60% 25%, var(--bg-color) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 25% 70%, var(--accent-color) 0%, transparent 70%),
+        radial-gradient(ellipse 35% 50% at 80% 50%, var(--accent-tinted-color) 0%, transparent 60%);
+    animation: lava-drift-2 22s ease-in-out infinite alternate;
+}
+
+@keyframes lava-drift-1 {
+    0%   { translate: 0% 0%;   rotate: 0deg;   scale: 1; }
+    25%  { translate: 6% -4%;  rotate: 25deg;  scale: 1.06; }
+    50%  { translate: -4% 6%;  rotate: -15deg; scale: 0.96; }
+    75%  { translate: 8% 3%;   rotate: 35deg;  scale: 1.1; }
+    100% { translate: -5% -4%; rotate: -10deg; scale: 1.02; }
+}
+
+@keyframes lava-drift-2 {
+    0%   { translate: 0% 0%;   rotate: 0deg;   scale: 1.04; }
+    33%  { translate: -7% 5%;  rotate: -30deg; scale: 0.92; }
+    66%  { translate: 5% -6%;  rotate: 20deg;  scale: 1.12; }
+    100% { translate: -3% 3%;  rotate: -10deg; scale: 0.98; }
+}
+
 .bg-tile-gradient{
-    @apply bg-gradient-to-br from-[var(--fg-color)] via-[var(--fg-color)] to-[var(--fg-tinted-color)];
+    background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--fg-color) 75%, transparent) 0%,
+        color-mix(in srgb, var(--fg-color) 65%, transparent) 50%,
+        color-mix(in srgb, var(--fg-tinted-color) 70%, transparent) 100%
+    );
+    backdrop-filter: blur(14px) saturate(150%);
+    -webkit-backdrop-filter: blur(14px) saturate(150%);
+    border: 1px solid color-mix(in srgb, var(--txt-color) 12%, transparent);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.12),
+                inset 0 1px 1px 0 color-mix(in srgb, white 25%, transparent);
+}
+
+/*
+ * Puck Physics: Air-hockey style draggable tiles
+ * Available only when the section is locked in its Lenis snap (.settled)
+ */
+.settled .puck-tile {
+    cursor: grab;
+    touch-action: none;
+}
+
+.puck-dragging {
+    cursor: grabbing !important;
+    z-index: 50 !important;
+    box-shadow: 0 24px 48px -4px rgba(0, 0, 0, 0.4),
+                inset 0 1px 2px 0 color-mix(in srgb, white 35%, transparent) !important;
+    backdrop-filter: blur(18px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(180%) !important;
+    user-select: none !important;
+    transition: none !important;
 }
 
 .pop-button{
@@ -146,6 +251,12 @@
 
 .link-text{
     @apply text-[var(--accent-color)] hover:text-[var(--bg-color)] transition-all duration-300;
+    -webkit-text-stroke: 0.5px #000000;
+    paint-order: stroke fill;
+}
+
+.dark .link-text{
+    -webkit-text-stroke: 0;
 }
 
 ::-webkit-scrollbar {

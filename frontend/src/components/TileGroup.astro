@@ -48,13 +48,14 @@ const description = `${panel} col-span-2 row-start-1 row-span-5 p-4 tile-scroll 
 ---
 <div
     id={id}
+    data-puck-arena
     class:list={[
-        "grid grid-cols-4 grid-rows-5 gap-4 w-[min(1440px,95%)] h-[85vh] mx-auto justify-center text-[var(--txt-color)] max-[1050px]:flex max-[1050px]:flex-col",
+        "relative grid grid-cols-4 grid-rows-5 gap-4 w-3/5 h-[85vh] mx-auto justify-center text-[var(--txt-color)] max-[1050px]:flex max-[1050px]:flex-col",
         outerClass,
     ]}
 >
-    <div class:list={[TILE, title, titleClass]}><slot name="title" /></div>
-    <div class:list={[TILE, media, mediaClass]}><slot name="media" /></div>
-    <div class:list={[secondaryTile && TILE, secondary, secondaryClass]}><slot name="secondary" /></div>
-    <div class:list={[TILE, description, descriptionClass]}><slot name="description" /></div>
+    <div class:list={[TILE, title, "puck-tile", titleClass]}><slot name="title" /></div>
+    <div class:list={[TILE, media, "puck-tile", mediaClass]}><slot name="media" /></div>
+    <div class:list={[secondaryTile && TILE, secondary, secondaryTile && "puck-tile", secondaryClass]}><slot name="secondary" /></div>
+    <div class:list={[TILE, description, "puck-tile", descriptionClass]}><slot name="description" /></div>
 </div>

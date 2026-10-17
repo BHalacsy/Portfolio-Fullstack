@@ -27,7 +27,9 @@ const { title = "Balint Halacsy" } = Astro.props;
     <slot />
     <script>
         import { startSmoothScroll } from "../scripts/smoothScroll";
+        import { initPuckPhysics } from "../scripts/puckPhysics";
         startSmoothScroll();
+        initPuckPhysics();
     </script>
 </body>
 </html>

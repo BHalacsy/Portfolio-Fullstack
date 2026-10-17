@@ -61,10 +61,11 @@ export function useChat(client: Centrifuge | null, session: number): Chat {
     }, []);
 
     useEffect(() => {
+        if (!client) return;
         refreshUsers();
         const timer = setInterval(refreshUsers, USERS_POLL_MS);
         return () => clearInterval(timer);
-    }, [refreshUsers]);
+    }, [client, refreshUsers]);
 
     useEffect(() => {
         if (!client || session === 0) return;

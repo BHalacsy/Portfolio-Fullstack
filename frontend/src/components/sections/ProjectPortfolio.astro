@@ -4,20 +4,20 @@ import TileGroup from "../TileGroup.astro";
 <TileGroup id="projPortfolio" layout="alternative" class="mt-25 mb-40">
     <span slot="title" class="text-4xl max-[1050px]:text-2xl font-semibold font-titles"><a href="https://github.com/BHalacsy/Portfolio-Fullstack" target="_blank" rel="noopener" class="link-text">Fullstack portfolio</a></span>
 
-    <img slot="media" src="/media/www.svg" alt="WWW" class="w-[50%] h-auto">
+    <img slot="media" src="media/icons/skills/nodejs.svg" alt="NodeJS" class="w-[35%] h-auto">
 
     <Fragment slot="secondary">
         <span class="text-lg font-medium block mb-1">Tech used</span>
         <p class="text-sm mt-5 font-light text-justify">
-            A lot of question arouse when picking the idle stack for my portfolio.
-            I ended up sticking with vanilla <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener" class="link-text">typescript</a> as opposed to using a framework,
-            as I wanted to refresh my knowledge of javascript with the benefit of a strongly typed language.<br>
-            Along with TS for the frontend I opted to use <a href="https://tailwindcss.com/" target="_blank" rel="noopener" class="link-text">tailwind</a> for styling,
+            A lot of question arouse when picking the idle stack for my portfolio and since its initial build I have reconsidered it.
+            Initially using vanilla <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener" class="link-text">typescript</a>, I opted to use two frameworks for the rebuild.
+            <a href="https://astro.build/" target="_blank" rel="noopener" class="link-text">Astro</a> for statically displayed content and for more dynamic content the obvious choice of <a href="https://react.dev/" target="_blank" rel="noopener" class="link-text">React</a>.
+            Along with TS (Astro & React) for the frontend I opted to use <a href="https://tailwindcss.com/" target="_blank" rel="noopener" class="link-text">tailwind</a> for styling,
             as I did not mind the added clutter it adds to my html file if it meant a simplified way of styling. Along with some useful plugins that I will talk about in the description.
         </p>
         <p class="text-sm mt-5 font-light text-justify">
-            For the backend I chose <a href="https://dotnet.microsoft.com/en-us/apps/aspnet" target="_blank" rel="noopener" class="link-text">ASP.NET</a> as I have plenty C# experience. With all the possible backend frameworks I figured using one which I will have no problem coding in will work just fine.
-            Even though I did not utilize the MVC architecture and instead relied on a minimal API style, the option to pivot was always there if I wanted to.<br>
+            For the backend I chose <a href="https://go.dev/" target="_blank" rel="noopener" class="link-text">Golang</a> as I had fallen in love with the language during my first internship.
+            Go allowed me to use <a href="https://gin-gonic.com/" target="_blank" rel="noopener" class="link-text">Gin</a> and rely on a minimal API style for my minimal application.<br>
             The database for the website is my Redis clone containerized alongside the backend of the website using <a href="https://docs.docker.com/compose/" target="_blank" rel="noopener" class="link-text">docker compose</a>, both of which are running on a NAS.
         </p>
     </Fragment>

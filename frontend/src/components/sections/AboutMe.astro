@@ -2,32 +2,38 @@
 import TileGroup from "../TileGroup.astro";
 
 const languages = [
-    { src: "/media/icons/skills/cppIcon.svg", alt: "C++", width: "w-9" },
-    { src: "/media/icons/skills/csIcon.svg", alt: "C#", width: "w-9" },
-    { src: "/media/icons/skills/tsIcon.svg", alt: "Typescript", width: "w-9" },
-    { src: "/media/icons/skills/jsIcon.svg", alt: "JavaScript", width: "w-9" },
-    { src: "/media/icons/skills/pyIcon.svg", alt: "Python", width: "w-10" },
-    { src: "/media/icons/skills/javaIcon.svg", alt: "Java", width: "w-10" },
+    { src: "/media/icons/skills/cppIcon.svg", alt: "C++" },
+    { src: "/media/icons/skills/goIcon.svg", alt: "Golang" },
+    { src: "/media/icons/skills/tsIcon.svg", alt: "Typescript" },
+    { src: "/media/icons/skills/pyIcon.svg", alt: "Python" },
+    { src: "/media/icons/skills/flutter.svg", alt: "Flutter" },
+    { src: "/media/icons/skills/react.svg", alt: "React" },
+    { src: "/media/icons/skills/payload-cms.svg", alt: "Payload CMS" },
+    { src: "/media/icons/skills/tailwindIcon.svg", alt: "Tailwind" },
+    { src: "/media/icons/skills/javaIcon.svg", alt: "Java" },
 ];
 
 const technologies = [
-    { src: "/media/icons/skills/dockerIcon.svg", alt: "Docker", width: "w-10" },
-    { src: "/media/icons/skills/linuxmintIcon.svg", alt: "Linux mint", width: "w-10" },
-    { src: "/media/icons/skills/tailwindIcon.svg", alt: "Tailwind", width: "w-10" },
-    { src: "/media/icons/skills/redisIcon.svg", alt: "Redis", width: "w-10" },
-    { src: "/media/icons/skills/mySQLIcon.svg", alt: "mySQL", width: "w-10" },
-    { src: "/media/icons/skills/actionsIcon.svg", alt: "GithubActions", width: "w-9" },
+    { src: "/media/icons/skills/docker.svg", alt: "Docker" },
+    { src: "/media/icons/skills/linux.svg", alt: "Linux" },
+    { src: "/media/icons/skills/googlecloud.svg", alt: "Google cloud" },
+    { src: "/media/icons/skills/redisIcon.svg", alt: "Redis" },
+    { src: "/media/icons/skills/postgresql.svg", alt: "PostgreSQL" },
+    { src: "/media/icons/skills/mongodb.svg", alt: "MongoDB" },
+    { src: "/media/icons/skills/pi.svg", alt: "Pi agent" },
+    { src: "/media/icons/skills/atlassian.svg", alt: "Atlassian products" },
+    { src: "/media/icons/skills/github-actions.svg", alt: "Github actions" },
 ];
 
 const socials = [
-    { href: "https://github.com/bhalacsy", src: "/media/icons/socials/githubIcon.svg", alt: "github", cell: "", style: "bg-black rounded-xl" },
-    { href: "https://www.linkedin.com/in/balint-halacsy-18b05a2a9", src: "/media/icons/socials/linkedInIcon.svg", alt: "linkedIn", cell: "col-start-3", style: "rounded-xl" },
-    { href: "mailto:balint@halacsy.com", src: "/media/icons/socials/emailIcon.svg", alt: "email", cell: "col-start-2 row-start-2", style: "rounded-xl" },
-    { href: "https://open.spotify.com/user/11137535719?si=10ce0cfe47bf4f07", src: "/media/icons/socials/spotifyIcon.svg", alt: "spotify", cell: "row-start-3", style: "rounded-full" },
-    { href: "https://www.instagram.com/b00tyb01/?hl=en", src: "/media/icons/socials/instagramIcon.svg", alt: "instagram", cell: "col-start-3 row-start-3", style: "rounded-full" },
-    { href: "https://www.youtube.com/@bal-hal", src: "/media/icons/socials/youtubeIcon.svg", alt: "youtube", cell: "col-start-2 row-start-4", style: "rounded-xl" },
-    { href: "https://discord.gg/MemSkmKr", src: "/media/icons/socials/discordIcon.svg", alt: "discord", cell: "row-start-5", style: "rounded-xl" },
-    { href: "https://steamcommunity.com/id/b00tb01/", src: "/media/icons/socials/steamIcon.svg", alt: "steam", cell: "col-start-3 row-start-5", style: "rounded-xl" },
+    { href: "https://github.com/bhalacsy", src: "/media/icons/socials/githubIcon.svg", alt: "GitHub" },
+    { href: "https://www.linkedin.com/in/balint-halacsy-18b05a2a9", src: "/media/icons/socials/linkedInIcon.svg", alt: "LinkedIn" },
+    { href: "mailto:balint@halacsy.com", src: "/media/icons/socials/emailIcon.svg", alt: "Email" },
+    { href: "https://open.spotify.com/user/11137535719?si=10ce0cfe47bf4f07", src: "/media/icons/socials/spotifyIcon.svg", alt: "Spotify" },
+    { href: "https://www.instagram.com/b00tyb01/?hl=en", src: "/media/icons/socials/instagramIcon.svg", alt: "Instagram" },
+    { href: "https://www.youtube.com/@bal-hal", src: "/media/icons/socials/youtubeIcon.svg", alt: "YouTube" },
+    { href: "https://discord.gg/MemSkmKr", src: "/media/icons/socials/discordIcon.svg", alt: "Discord" },
+    { href: "https://steamcommunity.com/id/b00tb01/", src: "/media/icons/socials/steamIcon.svg", alt: "Steam" },
 ];
 ---
 <TileGroup
@@ -43,36 +49,51 @@ const socials = [
     <img slot="media" id="portrait" src="/media/portrait.png" alt="Image of me" class="w-[50%] h-auto rounded-full object-cover">
 
     <Fragment slot="secondary">
-        <div class="bg-tile-gradient rounded-2xl p-2 move-ru max-[1050px]:w-1/2 hover:scale-102 duration-700 tile-scroll">
+        <div class="puck-tile bg-tile-gradient rounded-2xl p-2.5 sm:p-3 move-ru max-[1050px]:w-1/2 hover:scale-102 duration-700 tile-scroll flex flex-col">
             <span class="text-lg max-[500px]:text-md font-medium mb-1 block">Stack</span>
-            <span class="text-md max-[500px]:text-sm block mb-2">Languages:</span>
-            <div class="grid grid-cols-3 grid-rows-2 flex-1 gap-1">
+            <span class="text-sm max-[500px]:text-xs font-medium text-[var(--txt-color)]/80 block mb-1">Languages:</span>
+            <div class="grid grid-cols-3 gap-2 justify-items-center mb-2">
                 {languages.map((icon) => (
-                    <div class="flex items-center justify-center px-2">
-                        <img src={icon.src} alt={icon.alt} class={`${icon.width} h-auto`}>
+                    <div
+                        title={icon.alt}
+                        class="group w-10 h-10 min-[1300px]:w-11 min-[1300px]:h-11 flex items-center justify-center rounded-xl bg-white/40 dark:bg-white/10 hover:bg-white/70 dark:hover:bg-white/20 backdrop-blur-sm border border-white/40 dark:border-white/15 pop-button hover:scale-105 transition-all duration-200 cursor-default"
+                    >
+                        <img src={icon.src} alt={icon.alt} class="w-6 h-6 min-[1300px]:w-7 min-[1300px]:h-7 object-contain transition-transform duration-200 group-hover:scale-110" loading="lazy" />
                     </div>
                 ))}
             </div>
-            <span class="text-md max-[500px]:text-sm block mb-1 mt-1">Technologies:</span>
-            <div class="grid grid-cols-3 grid-rows-2 flex-1 gap-1">
+            <span class="text-sm max-[500px]:text-xs font-medium text-[var(--txt-color)]/80 block mb-1">Technologies:</span>
+            <div class="grid grid-cols-3 gap-2 justify-items-center">
                 {technologies.map((icon) => (
-                    <div class="flex items-center justify-center px-2">
-                        <img src={icon.src} alt={icon.alt} class={`${icon.width} h-auto`}>
+                    <div
+                        title={icon.alt}
+                        class="group w-10 h-10 min-[1300px]:w-11 min-[1300px]:h-11 flex items-center justify-center rounded-xl bg-white/40 dark:bg-white/10 hover:bg-white/70 dark:hover:bg-white/20 backdrop-blur-sm border border-white/40 dark:border-white/15 pop-button hover:scale-105 transition-all duration-200 cursor-default"
+                    >
+                        <img src={icon.src} alt={icon.alt} class="w-6 h-6 min-[1300px]:w-7 min-[1300px]:h-7 object-contain transition-transform duration-200 group-hover:scale-110" loading="lazy" />
                     </div>
                 ))}
             </div>
         </div>
 
-        <div class="bg-tile-gradient min-h-0 rounded-2xl p-2 move-u text-lg max-[500px]:text-md font-medium max-[1050px]:w-1/2 hover:scale-102 duration-700 tile-scroll">
+        <div class="puck-tile bg-tile-gradient min-h-0 rounded-2xl p-2.5 sm:p-3 move-u text-lg max-[500px]:text-md font-medium max-[1050px]:w-1/2 hover:scale-102 duration-700 tile-scroll flex flex-col">
             <span class="text-lg font-medium block mb-2">Socials</span>
-            <div class="grid grid-cols-3 grid-rows-5 flex-1">
-                {socials.map((social) => (
-                    <div class={`${social.cell} flex items-center justify-center h-full`}>
-                        <a href={social.href} target={social.href.startsWith("mailto:") ? undefined : "_blank"} rel="noopener">
-                            <img src={social.src} alt={social.alt} class={`w-11 h-auto ${social.style} pop-button`}>
-                        </a>
-                    </div>
-                ))}
+            <div class="flex-1 flex flex-col justify-center">
+                <div class="grid grid-cols-4 max-[400px]:grid-cols-2 gap-2.5 sm:gap-3 justify-items-center">
+                    {socials.map((social) => (
+                        <div class="flex items-center justify-center">
+                            <a
+                                href={social.href}
+                                target={social.href.startsWith("mailto:") ? undefined : "_blank"}
+                                rel="noopener"
+                                title={social.alt}
+                                aria-label={social.alt}
+                                class="group w-10 h-10 min-[1300px]:w-11 min-[1300px]:h-11 flex items-center justify-center rounded-xl bg-white/40 dark:bg-white/10 hover:bg-white/70 dark:hover:bg-white/20 backdrop-blur-sm border border-white/40 dark:border-white/15 pop-button hover:scale-105 transition-all duration-200"
+                            >
+                                <img src={social.src} alt={social.alt} class="w-6 h-6 min-[1300px]:w-7 min-[1300px]:h-7 object-contain transition-transform duration-200 group-hover:scale-110" loading="lazy" />
+                            </a>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     </Fragment>

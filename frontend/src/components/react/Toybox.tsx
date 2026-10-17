@@ -75,7 +75,7 @@ export default function Toybox() {
     return (
         <div
             id="toybox"
-            className="grid grid-cols-2 grid-rows-5 gap-4 w-[min(1440px,95%)] h-[85vh] mx-auto my-25 text-[var(--txt-color)] max-[1050px]:flex max-[1050px]:flex-col"
+            className="grid grid-cols-2 grid-rows-5 gap-4 w-3/5 h-[85vh] mx-auto my-25 text-[var(--txt-color)] max-[1050px]:flex max-[1050px]:flex-col"
         >
             <div className={`${TILE} row-span-4 h-full p-4 move-r max-[1050px]:order-2 max-[1050px]:h-full`}>
                 <div
