@@ -34,6 +34,7 @@ export default function Canvas({ client, clientId }: Props) {
     const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
     const subRef = useRef<Subscription | null>(null);
     const drawingRef = useRef(false);
+    const lastPointRef = useRef<Pixel | null>(null);
     const strokeRef = useRef<Map<number, Pixel>>(new Map());
 
     const clientIdRef = useRef(clientId);
@@ -123,8 +124,9 @@ export default function Canvas({ client, clientId }: Props) {
         };
     }, [client]);
 
-    const at = (e: React.PointerEvent<HTMLCanvasElement>): Pixel => {
-        const canvas = e.currentTarget;
+    const at = (e: React.PointerEvent<HTMLCanvasElement> | PointerEvent): Pixel => {
+        const canvas = canvasRef.current;
+        if (!canvas) return { x: 0, y: 0 };
         const rect = canvas.getBoundingClientRect();
         return {
             x: Math.round(((e.clientX - rect.left) * canvas.width) / rect.width),
@@ -132,27 +134,7 @@ export default function Canvas({ client, clientId }: Props) {
         };
     };
 
-    const startDraw = (e: React.PointerEvent<HTMLCanvasElement>) => {
-        if (!e.isPrimary || e.button !== 0) return;
-
-        drawingRef.current = true;
-        e.currentTarget.setPointerCapture(e.pointerId);
-        drawMove(e);
-    };
-
-    const drawMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
-        const ctx = ctxRef.current;
-        if (!drawingRef.current || !ctx) return;
-
-        const radius = Math.round(width / 2);
-        const { x: centerX, y: centerY } = at(e);
-
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-        ctx.fillStyle = color;
-        ctx.fill();
-        ctx.closePath();
-
+    const recordCircle = (centerX: number, centerY: number, radius: number) => {
         for (let dx = -radius; dx <= radius; dx++) {
             for (let dy = -radius; dy <= radius; dy++) {
                 if (dx * dx + dy * dy > radius * radius) continue;
@@ -164,9 +146,79 @@ export default function Canvas({ client, clientId }: Props) {
         }
     };
 
+    const drawDot = (point: Pixel, radius: number) => {
+        const ctx = ctxRef.current;
+        if (!ctx) return;
+
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+
+        recordCircle(point.x, point.y, radius);
+    };
+
+    const drawLineSegment = (from: Pixel, to: Pixel, radius: number) => {
+        const ctx = ctxRef.current;
+        if (!ctx) return;
+
+        ctx.beginPath();
+        ctx.moveTo(from.x, from.y);
+        ctx.lineTo(to.x, to.y);
+        ctx.strokeStyle = color;
+        ctx.lineWidth = radius * 2;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        ctx.stroke();
+
+        const dx = to.x - from.x;
+        const dy = to.y - from.y;
+        const dist = Math.hypot(dx, dy);
+        const steps = Math.ceil(dist);
+
+        for (let i = 1; i <= steps; i++) {
+            const t = i / steps;
+            const x = Math.round(from.x + dx * t);
+            const y = Math.round(from.y + dy * t);
+            recordCircle(x, y, radius);
+        }
+    };
+
+    const startDraw = (e: React.PointerEvent<HTMLCanvasElement>) => {
+        if (!e.isPrimary || e.button !== 0) return;
+
+        drawingRef.current = true;
+        e.currentTarget.setPointerCapture(e.pointerId);
+
+        const radius = Math.round(width / 2);
+        const point = at(e);
+        lastPointRef.current = point;
+        drawDot(point, radius);
+    };
+
+    const drawMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
+        if (!drawingRef.current) return;
+
+        const radius = Math.round(width / 2);
+        const native = e.nativeEvent;
+        const events = typeof native.getCoalescedEvents === "function" ? native.getCoalescedEvents() : [native];
+        const eventList = events.length > 0 ? events : [native];
+
+        for (const ev of eventList) {
+            const curr = at(ev);
+            if (lastPointRef.current) {
+                drawLineSegment(lastPointRef.current, curr, radius);
+            } else {
+                drawDot(curr, radius);
+            }
+            lastPointRef.current = curr;
+        }
+    };
+
     const endDraw = () => {
         if (!drawingRef.current) return;
         drawingRef.current = false;
+        lastPointRef.current = null;
 
         const pixels = [...strokeRef.current.values()];
         strokeRef.current = new Map();
