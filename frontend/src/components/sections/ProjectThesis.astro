@@ -1,0 +1,75 @@
+---
+import TileGroup from "../TileGroup.astro";
+---
+<TileGroup id="studies" class="my-25">
+    <span slot="title" class="text-4xl max-[1050px]:text-2xl font-semibold font-titles">
+        <a href="https://www.cs.vu.nl/~wanf/theses/halacsy-bscthesis.pdf" target="_blank" rel="noopener" class="link-text">Studies & Thesis</a>
+    </span>
+
+    <img
+        slot="media"
+        src="/media/icons/companies/vu.jpg"
+        alt="VrijeUniversiteit"
+        class="w-[25%] h-auto transition-transform duration-300 hover:scale-105 rounded-2xl mr-1"
+    />
+
+    <img
+        slot="media"
+        src="/media/icons/companies/elte.png"
+        alt="ELTE"
+        class="w-[25%] h-auto transition-transform duration-300 hover:scale-105 rounded-2xl ml-1"
+    />
+
+    <Fragment slot="secondary">
+        <span class="text-lg block mb-1">BSc Thesis & Academic Background</span>
+        <p class="text-sm mt-3 font-light text-justify">
+            Smart contracts are immutable, deterministic programs deployed to blockchains like <a href="https://ethereum.org/" target="_blank" rel="noopener" class="link-text">Ethereum</a>.
+            "Liquidity Attack Analysis on Smart Contracts" investigated abstracting <a href="https://soliditylang.org/" target="_blank" rel="noopener" class="link-text">Solidity</a> contract logic into <a href="https://en.wikipedia.org/wiki/Extended_finite-state_machine" target="_blank" rel="noopener" class="link-text">Extended Finite State Machines (EFSM)</a>
+            and evaluating non-blocking supervisory control with <a href="https://supremica.org/" target="_blank" rel="noopener" class="link-text">Supremica</a>. My work tested and extended this abstraction to isolate real-world liquidity attacks and prove that corrected pull-payment models remain non-blocking.
+            See below for the full narrative of my studies from Amsterdam to Budapest.
+        </p>
+        <div class="mt-3 flex flex-col gap-1.5 text-xs">
+            <a
+                    href="https://www.cs.vu.nl/~wanf/theses/halacsy-bscthesis.pdf"
+                    target="_blank"
+                    rel="noopener"
+                    class="link-text inline-flex items-center gap-1 font-medium"
+            >
+                <span>Read Full Thesis (PDF) &rarr;</span>
+            </a>
+            <a
+                    href="https://github.com/BHalacsy/Solidity_to_EFSM/tree/thesis-analysis"
+                    target="_blank"
+                    rel="noopener"
+                    class="link-text inline-flex items-center gap-1 font-medium"
+            >
+                <span>View GitHub Repository &rarr;</span>
+            </a>
+        </div>
+    </Fragment>
+
+    <Fragment slot="description">
+        <span class="text-2xl font-semibold">BSc at VU Amsterdam & MSc at ELTE</span>
+        <p class="text-sm mt-5 font-light text-justify">
+            Pursuing my Bachelor of Science in Computer Science at <a href="https://vu.nl/nl" target="_blank" rel="noopener" class="link-text">Vrije Universiteit Amsterdam</a> was a deeply formative chapter in my academic journey.
+            Living in the Netherlands and studying in an international environment gave me both personal independence and a rigorous grounding in computer systems, <a href="https://en.wikipedia.org/wiki/Automata_theory" target="_blank" rel="noopener" class="link-text">automata theory</a>, and teamwork.
+            Courses in computer networks, machine learning, and operating systems reinforced my desire to build dependable, low-level software where correctness and system-level efficiency are paramount.
+        </p>
+        <p class="text-sm mt-5 font-light text-justify">
+            My time at the VU culminated in my Bachelor's thesis, <a href="https://www.cs.vu.nl/~wanf/theses/halacsy-bscthesis.pdf" target="_blank" rel="noopener" class="link-text font-medium">"Liquidity Attack Analysis on Smart Contracts"</a>.
+            Smart contracts deployed on <a href="https://ethereum.org/" target="_blank" rel="noopener" class="link-text">Ethereum</a> are immutable: once on-chain, their bytecode cannot be patched.
+            Flaws like <a href="https://swcregistry.io/docs/SWC-113" target="_blank" rel="noopener" class="link-text">SWC-113 (DoS with Failed Call)</a> or desynchronized state guards can lead to catastrophic liquidity freezes, permanently locking user capital—as infamously demonstrated by the $34 million <a href="https://rekt.news/aku-dreams-rekt/" target="_blank" rel="noopener" class="link-text">AkuAuction</a> exploit.
+        </p>
+        <p class="text-sm mt-5 font-light text-justify">
+            Under the supervision of the VU formal methods research team, I investigated whether <a href="https://en.wikipedia.org/wiki/Extended_finite-state_machine" target="_blank" rel="noopener" class="link-text">Extended Finite State Machine (EFSM)</a> abstraction combined with <a href="https://en.wikipedia.org/wiki/Supervisory_control_theory" target="_blank" rel="noopener" class="link-text">supervisory control theory</a> could detect these deadlocks preemptively before deployment.
+            Extending prior Python-based translation pipelines, I mapped <a href="https://soliditylang.org/" target="_blank" rel="noopener" class="link-text">Solidity</a> control flows into formal EFSM representations and analyzed them with the supervisory control tool <a href="https://supremica.org/" target="_blank" rel="noopener" class="link-text">Supremica</a>.
+            The tool verified vulnerable benchmarks (like <a href="https://ethernaut.openzeppelin.com/level/9" target="_blank" rel="noopener" class="link-text">Ethernaut King</a> and simplified AkuAuction models) as blocking, synthesizing event traces that pointed directly to the offending lines of code.
+            I then converted corrected implementations—such as <a href="https://consensys.github.io/smart-contract-best-practices/development-recommendations/general/external-calls/#favor-pull-over-push-for-external-calls" target="_blank" rel="noopener" class="link-text">pull-over-push patterns</a>—and mathematically verified them as non-blocking, proving that funds could always reach safe terminal states.
+        </p>
+        <p class="text-sm mt-5 font-light text-justify">
+            After defending my thesis and completing my degree at VU Amsterdam, I decided to return to Hungary to continue my studies at the graduate level.
+            I was admitted into <a href="https://www.elte.hu/en/" target="_blank" rel="noopener" class="link-text">ELTE</a> (Eötvös Loránd University) in Budapest for an MSc in Computer Science, specializing in <a href="https://www.inf.elte.hu/en/msc-computer-science" target="_blank" rel="noopener" class="link-text">Software and Service Architecture</a>.
+            This specialization focuses on scalable distributed architectures, enterprise service design, cloud infrastructure, and modern software engineering patterns—providing the ideal theoretical counterpart to my industry work in quantitative risk systems.
+        </p>
+    </Fragment>
+</TileGroup>

@@ -1,0 +1,44 @@
+---
+import TileGroup from "../TileGroup.astro";
+---
+<TileGroup id="expMorganStanley" class="my-25">
+    <span slot="title" class="text-4xl max-[1050px]:text-2xl font-semibold font-titles">
+        <a href="https://www.morganstanley.com" target="_blank" rel="noopener" class="link-text">Morgan Stanley</a>
+    </span>
+
+    <img
+            slot="media"
+            src="/media/icons/companies/morganstanley.jpg"
+            alt="MorganStanley"
+            class="w-[50%] h-auto transition-transform duration-300 hover:scale-105 rounded-2xl"
+    />
+
+    <Fragment slot="secondary">
+        <span class="text-xl font-bold block mb-3">Role & Experience (CURRENTLY DOING)</span>
+        <span class="text-lg block mb-1">XVA Technology Intern</span>
+        <p class="text-sm mb-3 font-light text-justify">
+            Working on Morgan Stanley's C++ PEServer, a market generation system with it's own internal pricing engine for estimating value adjustments of counterparties as part of the <a href="https://en.wikipedia.org/wiki/X-value_adjustment" target="_blank" rel="noopener" class="link-text">X-Value Adjustment (XVA)</a> technology team.
+            So far mainly focusing on the Market Generation Service (MGS) and its performance critical environment.
+        </p>
+    </Fragment>
+
+    <Fragment slot="description">
+        <span class="text-2xl font-semibold">Morgan Stanley Internship</span>
+        <p class="text-sm mt-5 font-light text-justify">
+            After graduating with my Bachelor's degree from Amsterdam, I moved back to Hungary to advance my education and take on exciting new technical challenges.
+            I enrolled in the Computer Science Master's program at <a href="https://www.elte.hu/en/" target="_blank" rel="noopener" class="link-text">ELTE</a> (Eötvös Loránd University) in Budapest with a focus on <a href="https://www.inf.elte.hu/en/msc-computer-science" target="_blank" rel="noopener" class="link-text">Software and Service architecture</a>.
+            Before beginning my studies, I landed an internship at <a href="https://www.morganstanley.com" target="_blank" rel="noopener" class="link-text">Morgan Stanley</a> as an XVA Technology Intern.
+            Morgan Stanley's Budapest office is one of the firm's primary global technology and quantitative analytics hubs, driving core pricing engines and risk infrastructure for trading desks worldwide.
+        </p>
+        <p class="text-sm mt-5 font-light text-justify">
+            The <a href="https://en.wikipedia.org/wiki/X-value_adjustment" target="_blank" rel="noopener" class="link-text">XVA (X-Value Adjustment)</a> domain lies at the intersection of quantitative finance and cutting-edge software engineering.
+            When financial institutions enter into bilateral derivative transactions, they must account for various valuation adjustments to reflect counterparty credit risk (<a href="https://en.wikipedia.org/wiki/Credit_valuation_adjustment" target="_blank" rel="noopener" class="link-text">CVA</a>), funding costs (<a href="https://en.wikipedia.org/wiki/Funding_valuation_adjustment" target="_blank" rel="noopener" class="link-text">FVA</a>), and many more.
+            Evaluating these adjustments across vast global trade portfolios involves continuous high-dimensional <a href="https://en.wikipedia.org/wiki/Monte_Carlo_method_in_finance" target="_blank" rel="noopener" class="link-text">Monte Carlo simulations</a> for market generation and heavy mathematical computation,
+            placing rigorous demands on software performance, memory efficiency, and numeric precision on massive distributed systems.
+        </p>
+        <p class="text-sm mt-5 font-light text-justify">
+            Within the team, I develop in modern <a href="https://en.cppreference.com/w/cpp" target="_blank" rel="noopener" class="link-text">C++</a>, contributing to the Pricing Engine server.
+            Working on an institutional-grade enterprise C++ codebase offers incredible exposure to professional software engineering at scale: writing clean, cache-friendly, and multi-threaded code, adhering to rigorous design patterns, and executing extensive testing frameworks.
+        </p>
+    </Fragment>
+</TileGroup>

@@ -1,12 +1,12 @@
 services:
-  # cloudflared:
-  #   image: cloudflare/cloudflared:latest
-  #   command: tunnel run
-  #   environment:
-  #     - TUNNEL_TOKEN=Your tunnel token goes here
-  #   restart: always
-  #   networks:
-  #     - app-network
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    restart: always
+    networks:
+      - app-network
 
   backend:
     build:
@@ -17,9 +17,6 @@ services:
     environment:
       - REDIS_ADDR=redis_server:6379
       - PORT=5127
-    # The startup reset fills the chat name pool once and then sleeps 24 hours,
-    # so the backend has to wait for a Redis that actually answers, not just a
-    # container that exists.
     depends_on:
       redis_server:
         condition: service_healthy
@@ -29,8 +26,6 @@ services:
 
   redis_server:
     image: redis:8-alpine
-    # Published so redis-cli and a locally run `go run .` can reach it too; the
-    # backend container uses the service name over app-network instead.
     ports:
       - "127.0.0.1:6379:6379"
     healthcheck:

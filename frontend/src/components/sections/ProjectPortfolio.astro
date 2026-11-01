@@ -1,17 +1,18 @@
 ---
 import TileGroup from "../TileGroup.astro";
 ---
-<TileGroup id="projPortfolio" layout="alternative" class="mt-25 mb-40">
+<TileGroup id="projPortfolio" class="mt-25 mb-40">
     <span slot="title" class="text-4xl max-[1050px]:text-2xl font-semibold font-titles"><a href="https://github.com/BHalacsy/Portfolio-Fullstack" target="_blank" rel="noopener" class="link-text">Fullstack portfolio</a></span>
 
-    <img slot="media" src="media/icons/skills/nodejs.svg" alt="NodeJS" class="w-[35%] h-auto">
+    <img slot="media" src="media/icons/skills/nodejs.svg" alt="NodeJS" class="w-[35%] h-auto transition-transform duration-300 hover:scale-105">
 
     <Fragment slot="secondary">
         <span class="text-lg font-medium block mb-1">Tech used</span>
         <p class="text-sm mt-5 font-light text-justify">
             A lot of question arouse when picking the idle stack for my portfolio and since its initial build I have reconsidered it.
-            Initially using vanilla <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener" class="link-text">typescript</a>, I opted to use two frameworks for the rebuild.
-            <a href="https://astro.build/" target="_blank" rel="noopener" class="link-text">Astro</a> for statically displayed content and for more dynamic content the obvious choice of <a href="https://react.dev/" target="_blank" rel="noopener" class="link-text">React</a>.
+            Initially using vanilla <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener" class="link-text">typescript</a>,
+            I opted to use two frameworks for the rebuild. <a href="https://astro.build/" target="_blank" rel="noopener" class="link-text">Astro</a> for statically displayed content and for more dynamic
+            content the obvious choice of <a href="https://react.dev/" target="_blank" rel="noopener" class="link-text">React</a>.
             Along with TS (Astro & React) for the frontend I opted to use <a href="https://tailwindcss.com/" target="_blank" rel="noopener" class="link-text">tailwind</a> for styling,
             as I did not mind the added clutter it adds to my html file if it meant a simplified way of styling. Along with some useful plugins that I will talk about in the description.
         </p>
@@ -37,12 +38,12 @@ import TileGroup from "../TileGroup.astro";
         <p class="text-sm mt-5 font-light text-justify">
             Once my stack and features were chosen I began really understanding how API endpoints work and focused solely at first on the backend with a very minimal frontend structure.
             As someone who aspires to become a backend developer, I was eager to begin with that so my development started from back to front.
-            ASP.NET's minimal api made it a breeze to set up the various endpoints needed to communicate with my db, once that communication was established it was time for some frontend development.
+            <a href="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis" target="_blank" rel="noopener" class="link-text">ASP.NET's minimal API</a> (later rebuilt in Go) made it a breeze to set up the various endpoints needed to communicate with my db, once that communication was established it was time for some frontend development.
         </p>
         <p class="text-sm mt-5 font-light text-justify">
             I initially considered using a framework like <a href="https://react.dev/" target="_blank" rel="noopener" class="link-text">React</a> but opted not to as I figured a project with this "relatively" small scale was not necessary,
             I would later come to regret this decision as it would have familiarized myself with a widely used web framework.
-            No matter, using vanilla TS was sufficient and forced me to utilize more traditional frontend techniques which is always a good skill to have.
+            No matter, using vanilla <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener" class="link-text">TypeScript</a> was sufficient and forced me to utilize more traditional frontend techniques which is always a good skill to have.
         </p>
         <p class="text-sm mt-5 font-light text-justify">
             The very first feature and easiest was the view counter as it only increments a single number in our db on an API call.
@@ -51,7 +52,7 @@ import TileGroup from "../TileGroup.astro";
         </p>
         <p class="text-sm mt-5 font-light text-justify">
             As for frontend design choices I always consider a relatively clean and smooth look.
-            Tailwind simplified the styling process to a great extent and is definitely a tool I will utilize in the future provided I work with HTML again.
+            <a href="https://tailwindcss.com/" target="_blank" rel="noopener" class="link-text">Tailwind</a> simplified the styling process to a great extent and is definitely a tool I will utilize in the future provided I work with HTML again.
             I knew I wanted a single page design with various sections, these sections initially were all one single tile,
             but I had made the decision to tile each div in the sections to get this almost mosaic layout.
         </p>
@@ -59,15 +60,15 @@ import TileGroup from "../TileGroup.astro";
             Frontend plugs also came in handy as I never had experience animating elements on HTML,
             decided to use <a href="https://rombo.co/tailwind/" target="_blank" rel="noopener" class="link-text">Rombo</a> which is a sleek and easy to use plugin just for that.
             Having these springy, blurry and sleek animations was nice, but always ran when the page had loaded which defeated their purpose, as the user would never see them.
-            I always knew about the Intersect Observer API but setting it up seemed like a challenge,
+            I always knew about the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API" target="_blank" rel="noopener" class="link-text">Intersection Observer API</a> but setting it up seemed like a challenge,
             therefore I utilized an existing <a href="https://github.com/heidkaemper/tailwindcss-intersect" target="_blank" rel="noopener" class="link-text">tailwind-intersect</a> plugin
             which did the very same task but much easier to implement.
             Along with some subtle animations on hover and a simple overhead menu with dark mode and casual music options, I reckon this website turned out alright.
         </p>
         <p class="text-sm mt-5 font-light text-justify">
-            Deployment also came with its own challenges. I knew I could run the websites backend using a NAS that our family has and on it, I ran the backend, the Redis clone and a cloudflare tunnel, so
+            Deployment also came with its own challenges. I knew I could run the websites backend using a NAS that our family has and on it, I ran the backend, the Redis clone and a <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/" target="_blank" rel="noopener" class="link-text">Cloudflare Tunnel</a>, so
             I wouldn't need to forward any ports and keep a high level of security for our local network. My main subdomain is used to connect the user to this page, while an api.halacsy.com domain is made to route to the NAS for api calls.
-            All of these built together and managed on a docker compose file for quick build up and tear down of the website.
+            All of these built together and managed on a <a href="https://docs.docker.com/compose/" target="_blank" rel="noopener" class="link-text">Docker Compose</a> file for quick build up and tear down of the website.
         </p>
         <p class="text-xs mt-5 font-light text-justify">
             For more information check out my GitHub or click the title of this section.

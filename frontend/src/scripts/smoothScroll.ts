@@ -10,8 +10,8 @@ const SNAP_DELAY = 700;
 const SETTLE_TOLERANCE = 2;
 
 interface SnapTarget {
-    id: string; // what anchors link to, and the key resting positions are stored under
-    measureId?: string; // element the position is measured from, when it is not #id itself
+    id: string;
+    measureId?: string;
     align: "start" | "center" | "end";
     offset?: number;
 }
@@ -25,6 +25,9 @@ interface SnapTarget {
 const SNAP_TARGETS: SnapTarget[] = [
     { id: "landingPage", measureId: "landingTitle", align: "start", offset: ANCHOR_OFFSET },
     { id: "aboutMe", align: "center" },
+    { id: "expMorganStanley", align: "center" },
+    { id: "expAgurotech", align: "center" },
+    { id: "studies", align: "center" },
     { id: "toybox", align: "center" },
     { id: "projRedis", align: "center" },
     { id: "projPortfolio", align: "center" },

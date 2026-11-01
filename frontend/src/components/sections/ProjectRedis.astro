@@ -1,24 +1,24 @@
 ---
 import TileGroup from "../TileGroup.astro";
 ---
-<TileGroup id="projRedis" class="my-25">
+<TileGroup id="projRedis" layout="alternative"  class="my-25">
     <span slot="title" class="text-4xl max-[1050px]:text-2xl font-semibold font-titles"><a href="https://github.com/BHalacsy/Redis-Clone" target="_blank" rel="noopener" class="link-text">Redis Clone</a></span>
 
-    <img slot="media" src="/media/icons/skills/redisIcon.svg" alt="Redis Logo" class="w-[50%] h-auto">
+    <img slot="media" src="/media/icons/skills/redisIcon.svg" alt="Redis Logo" class="w-[50%] h-auto transition-transform duration-300 hover:scale-105">
 
     <Fragment slot="secondary">
         <span class="text-lg font-medium block mb-1">Tech used</span>
         <p class="text-sm mt-5 font-light text-justify">
-            Written in C++ for high performance using STL containers for efficient in-memory data structures
+            Written in <a href="https://en.cppreference.com/w/cpp" target="_blank" rel="noopener" class="link-text">C++</a> for high performance using <a href="https://en.cppreference.com/w/cpp/container" target="_blank" rel="noopener" class="link-text">STL containers</a> for efficient in-memory data structures
             without the headache of low level memory management.
-            With existing libraries such as <a href="https://www.boost.org/" target="_blank" rel="noopener" class="link-text">Boost.Asio</a>
-            for asynchronous networking and <a href="https://github.com/uxlfoundation/oneTBB" target="_blank" rel="noopener" class="link-text">TBB</a> for fine-grain locking.
+            With existing libraries such as <a href="https://www.boost.org/" target="_blank" rel="noopener" class="link-text">Boost.Asio</a> for
+            asynchronous networking and <a href="https://github.com/uxlfoundation/oneTBB" target="_blank" rel="noopener" class="link-text">TBB</a> for fine-grain locking.
         </p>
         <p class="text-sm mt-5 font-light text-justify">
             Utilized <a href="https://github.com/catchorg/Catch2" target="_blank" rel="noopener" class="link-text">Catch2</a> for unit testing commands and expected behaviour.
             Alongside <a href="https://docs.github.com/en/actions" target="_blank" rel="noopener" class="link-text">GitHub Actions</a> for CI.
-            Developed and ran on Linux (using WSL) to have access to <a href="https://man7.org/linux/man-pages/man2/socket.2.html" target="_blank" rel="noopener" class="link-text">sockets</a>.
-            Later dockerized for mainly for the next <a href="#projPortfolio" class="link-text">project</a>.
+            Developed and ran on Linux (using <a href="https://learn.microsoft.com/en-us/windows/wsl/" target="_blank" rel="noopener" class="link-text">WSL</a>) to have access to <a href="https://man7.org/linux/man-pages/man2/socket.2.html" target="_blank" rel="noopener" class="link-text">sockets</a>.
+            Later <a href="https://www.docker.com/" target="_blank" rel="noopener" class="link-text">dockerized</a> mainly for the next <a href="#projPortfolio" class="link-text">project</a>.
         </p>
     </Fragment>
 
@@ -27,36 +27,36 @@ import TileGroup from "../TileGroup.astro";
         <p class="text-sm mt-5 font-light text-justify">
             <a href="https://redis.io/docs/latest/develop/" target="_blank" rel="noopener" class="link-text">Redis</a> is an open-source,
             in-memory key value store database known for its high performance and low latency which supports advanced data types such as sets, lists, hashes and more.
-            Using for a variety of things but typically as a cache for large scale databases alongside real-time analytics and pub/sub messaging.
+            Using for a variety of things but typically as a cache for large scale databases alongside real-time analytics and <a href="https://redis.io/docs/latest/develop/interact/pubsub/" target="_blank" rel="noopener" class="link-text">pub/sub messaging</a>.
             For more check out this <a href="https://www.youtube.com/watch?v=G1rOthIU-uo" target="_blank" rel="noopener" class="link-text">brief summary</a> by Fireship
         </p>
         <p class="text-sm mt-5 font-light text-justify">
             I knew that for my very first independent project I wanted to make some existing piece of software and understand its inner workings.
-            Initially I considered following one of code crafters' challenges since they provide a bit more hand holding and have automated tests indicating if you complete a subsection of the challenger,
+            Initially I considered following one of <a href="https://codecrafters.io/" target="_blank" rel="noopener" class="link-text">CodeCrafters</a>' challenges since they provide a bit more hand holding and have automated tests indicating if you complete a subsection of the challenger,
             however seeing how much it would cost for a subscription, I have opted to instead have no hand holding and do the tests myself.
         </p>
         <p class="text-sm mt-5 font-light text-justify">
-            I began by deciding what language to write the clone in. C++ seemed like an ideal choice as I have had plenty of experience using it, and it is closely related to C in which the original Redis is written in.
+            I began by deciding what language to write the clone in. <a href="https://en.cppreference.com/w/cpp" target="_blank" rel="noopener" class="link-text">C++</a> seemed like an ideal choice as I have had plenty of experience using it, and it is closely related to <a href="https://en.wikipedia.org/wiki/C_(programming_language)" target="_blank" rel="noopener" class="link-text">C</a> in which the original Redis is written in.
             Once that was done I made sure to set up a GitHub Actions workflow to run any existing tests automatically on pushes to the repo.
-            Having experience with computer networks came in handy since I had to use linux's sockets, encode and parse commands using RESP and have done multithreaded programming multiple times.
+            Having experience with computer networks came in handy since I had to use linux's sockets, encode and parse commands using <a href="https://redis.io/docs/latest/develop/reference/protocol-spec/" target="_blank" rel="noopener" class="link-text">RESP</a> and have done multithreaded programming multiple times.
             I began by converting existing code (server and client) done in python to C++ which proved to be more of a challenge than I had thought, but once echo message was set up, it was time to get our hands dirty.
         </p>
         <p class="text-sm mt-5 font-light text-justify">
-            Following this I wanted to follow Redis' RESProtocol for communication as it proved all the utility I had wanted for my clone.
+            Following this I wanted to follow Redis' <a href="https://redis.io/docs/latest/develop/reference/protocol-spec/" target="_blank" rel="noopener" class="link-text">RESP protocol</a> for communication as it proved all the utility I had wanted for my clone.
             Initially only allowed to store strings with the basic commands (SET, GET, DEL, EXISTS) I added the first feature of the clone, key expiration.
             I expanded by implementing advanced data structure and their respective commands.
             This had set up the core functionality of the Redis clone, however we were far from done.
         </p>
         <p class="text-sm mt-5 font-light text-justify">
-            Having had worked with multithreading I decided that a thread pool would be fitting for our application to allow concurrent access to the database, this came with its own challenge of handling
-            race condition in case multiple threads try to access the same piece of memory. The easy fix for this was to thread lock the kv store in memory when a thread tries to access it, however this
+            Having had worked with multithreading I decided that a <a href="https://en.wikipedia.org/wiki/Thread_pool" target="_blank" rel="noopener" class="link-text">thread pool</a> would be fitting for our application to allow concurrent access to the database, this came with its own challenge of handling
+            <a href="https://en.wikipedia.org/wiki/Race_condition" target="_blank" rel="noopener" class="link-text">race conditions</a> in case multiple threads try to access the same piece of memory. The easy fix for this was to thread lock the kv store in memory when a thread tries to access it, however this
             greatly impacted performance and made accessing the database incredibly slow. I solved this by using TBB's fine-grain locking in which we only lock the currently accessed portion of the kv store
             as opposed to the entire db.
         </p>
         <p class="text-sm mt-5 font-light text-justify">
             Another feature I knew I wanted to implement was snapshotting as this allowed for the kv store to remain persistent.
-            To do this I utilized Boost's serialization which made serializing the kv store much easier as I was using custom data types for managing kv pairs.
-            Other features included Pub/Sub messaging, Pipelining, Transaction support for command queueing and LRU (Least Recently Used) key eviction for memory management.
+            To do this I utilized <a href="https://www.boost.org/doc/libs/release/libs/serialization/" target="_blank" rel="noopener" class="link-text">Boost.Serialization</a> which made serializing the kv store much easier as I was using custom data types for managing kv pairs.
+            Other features included <a href="https://redis.io/docs/latest/develop/interact/pubsub/" target="_blank" rel="noopener" class="link-text">Pub/Sub messaging</a>, <a href="https://redis.io/docs/latest/develop/use/pipelining/" target="_blank" rel="noopener" class="link-text">Pipelining</a>, Transaction support for command queueing and <a href="https://redis.io/docs/latest/develop/reference/eviction/" target="_blank" rel="noopener" class="link-text">LRU (Least Recently Used) key eviction</a> for memory management.
         </p>
         <p class="text-sm mt-5 font-light text-justify">
             Having all these features I had a pretty deep understanding of Redis core functionality, however I always want to make software which has some sort of real world use.
