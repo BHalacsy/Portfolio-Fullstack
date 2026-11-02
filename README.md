@@ -1,20 +1,21 @@
 # Fullstack Portfolio
 
 This is my personal portfolio project hosted at [balint.halacsy.com](https://balint.halacsy.com).  
-It showcases a custom fullstack setup with a **TypeScript + Tailwind frontend**,  
-an **ASP.NET C# backend**, and a [**custom Redis clone**](https://github.com/BHalacsy/Redis-Clone).  
+It showcases a custom fullstack setup with a **Astro/React frontend**,  
+an **Golang (Gin) backend**, and a [**custom Redis clone**](https://github.com/BHalacsy/Redis-Clone).  
 Everything is containerized with **Docker Compose** and deployed on a NAS through **Cloudflare Tunnels**.
 
 ## Tech stack
 
 ### Frontend
-- **HTML + Vanilla TypeScript**
+- **HTML + Astro & React**
 - **TailwindCSS** (with [Rombo](https://rombo.co/tailwind/) and [tailwind-intersect](https://github.com/heidkaemper/tailwindcss-intersect) plugins)
 - Built into static assets served by domain hoster IONOS.
 
 ### Backend
-- **ASP.NET Minimal API**
+- **Gin framework**
 - Provides endpoints for portfolio features (e.g. chat, page views, etc.)
+- Centrifuge websockets for real-time event
 - Connects to the custom Redis clone for data storage
 
 ### Database
@@ -36,8 +37,9 @@ Everything is containerized with **Docker Compose** and deployed on a NAS throug
 ## Repo structure
 ```
 .
-├── frontend/       # HTML with Tailwind (index.html) + TypeScript (src) + assets (public)
-├── backend/        # ASP.NET minimal API (backend.csproj) + Dockerfile for compose.
+├── archive/        # Old version of the same website in TS + .NET
+├── frontend/       # Astro (index.astro) + assets (public)
+├── backend/        # Gin (main.go) + Dockerfile for compose.
 ├── docker-compose.yml # Used for deployment with cloudflared service
 └── README.md
 ```
@@ -59,7 +61,7 @@ npm run tailwind
 2. Backend (default port 5127)
 ```
 cd backend
-dotnet run
+go run .
 ```
 
 3. Database (default port 6379)
